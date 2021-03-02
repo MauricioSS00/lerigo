@@ -10,7 +10,6 @@ import { TabViewModule } from 'primeng/tabview';
 import { CardModule } from 'primeng/card';
 import { CarouselModule } from 'primeng/carousel';
 
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomePageComponent } from './home/home-page/home-page.component';
@@ -26,9 +25,8 @@ import { NavbarModule } from './core/navbar/navbar.module';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     FormsModule,
-    HomeModule,
+
     NavbarModule,
     MenubarModule,
     MenuModule,
@@ -36,8 +34,10 @@ import { NavbarModule } from './core/navbar/navbar.module';
     ButtonModule,
     TabViewModule,
     CardModule,
-    CarouselModule
+    CarouselModule,
 
+    HomeModule,
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

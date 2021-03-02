@@ -7,12 +7,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomePageComponent implements OnInit {
 
-  cars = ['assets/imgs/logo.png', 'assets/imgs/logo.png', 'assets/imgs/logo.png', 'assets/imgs/logo.png', 'assets/imgs/logo.png', 'assets/imgs/logo.png'];
+  cars = [
+    './assets/imgs/logo.png',
+    './assets/imgs/logo.png',
+    './assets/imgs/logo.png',
+    './assets/imgs/logo.png',
+    './assets/imgs/logo.png',
+    './assets/imgs/logo.png'
+  ];
   responsiveOptions = [];
   pessoa = { nome: '', email: '', msg: '' };
 
   constructor(
- 
+
   ) {
     this.responsiveOptions = [
       {
