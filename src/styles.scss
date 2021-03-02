@@ -1,1 +1,39 @@
 /* You can add global styles to this file, and also import other style files */
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300&family=Staatliches&display=swap");
+@media (min-width: 1170px) {
+    .container {
+        width: 1170px;
+        margin: 0 auto;
+    }
+}
+
+@media screen and (max-width: 991px) {
+    .mic {
+        display: none;
+    }
+}
+
+.button {
+    background: #289ea0 !important;
+}
+
+.button2 {
+    color: #289ea0 !important;
+}
+h1,
+h2,
+h3 {
+    font-family: "Staatliches", cursive;
+}
+
+* {
+    font-family: "Roboto Condensed", cursive;
+}
+
+.p-carousel .p-carousel-indicators .p-carousel-indicator.p-highlight button {
+    background-color: #289ea0;
+}
+
+.pi:before {
+    color: #289ea0;
+}

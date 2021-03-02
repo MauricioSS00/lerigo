@@ -1,0 +1,138 @@
+<div class="container">
+    <div class="p-grid">
+        <div class="p-col-12 p-lg-8">
+            <img alt="Card" src="assets/imgs/logoHome.png" class="home"><br>
+            <a href='home#saibaMais'><button class="button" pButton label="Saiba mais">
+                </button></a>
+        </div>
+        <div class="p-col-12 p-lg-4 mic">
+            <img [style]="{'width': '15rem'}" src="assets/imgs/microfone.jpg">
+        </div>
+    </div>
+    <!-- Bloco 2 -->
+    <div class="p-grid">
+        <div class="p-col-12">
+            <div class="top"></div>
+            <h1>EVENTOS</h1>
+            <p-card>
+                <ng-template pTemplate="header">
+                    <p>Fique por dentro dos eventos que irão acontecer.</p>
+                </ng-template>
+                <p-carousel [value]="cars" [numVisible]="2" [numScroll]="1" [responsiveOptions]="responsiveOptions">
+                    <ng-template let-car pTemplate="item">
+                        <div class="p-mb-3">
+                            <img [src]="car" class="product-image" />
+                        </div>
+                    </ng-template>
+                </p-carousel>
+            </p-card>
+        </div>
+    </div>
+    <!-- Bloco 4 -->
+    <div id="saibaMais">
+        <div class="top"></div>
+        <h1>LÉRIGO</h1>
+        <div class="p-grid">
+            <div class="p-col-12 p-lg-6">
+                <div>
+                    <p>Precisa de um artista? Quer divulgar seu evento? Quer encontrar um produtor para fazer seu
+                        evento? Este é o lugar certo!</p>
+                    <p>Não deixe para depois, crie seu perfil no lérigo e ajudaremos você a ter Sucesso no seu
+                        evento.</p>
+                    <h3>Cadastro Fácil</h3>
+                    <form>
+                        <div class="p-grid">
+                            <div class="p-col-12 p-fluid">
+                                <input pInputText type="text" name="nome" [(ngModel)]="pessoa.nome" #nome="ngModel"
+                                    placeholder="Nome:" required minlength="5" />
+                            </div>
+                        </div>
+                        <div class="p-grid">
+                            <div class="p-col-12 p-fluid">
+                                <input pInputText type="text" name="email" [(ngModel)]="pessoa.email" #email="ngModel"
+                                    placeholder="E-mail:" required minlength="5" />
+                            </div>
+                        </div>
+                        <div class="p-grid">
+                            <div class="p-col-12 p-fluid">
+                                <input pInputText type="text" name="msg" [(ngModel)]="pessoa.msg" #msg="ngModel"
+                                    placeholder="Mensagem:" required minlength="5" />
+                            </div>
+                        </div>
+                        <div>
+                            <button class="button" pButton type="submit" label="Cadastrar já"
+                                icon="pi pi-chevron-circle-right" iconPos="right"></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="p-col-12 p-lg-6">
+                <video style="width: 100%;" controls="controls" autoplay="autoplay">
+                    <source
+                        src="https://firebasestorage.googleapis.com/v0/b/appfilmes-90d94.appspot.com/o/video.mp4?alt=media&token=2a26c14c-3a4a-4d5c-8e72-8aa6f169b0f9"
+                        type="video/mp4" />
+                    <!--Suportado em IE9, Chrome 6 e Safari 5 -->
+                    O seu navegador não suporta a tag vídeo
+                </video>
+            </div>
+        </div>
+    </div>
+    <!-- bloco 4 -->
+    <div class="p-grid" style="padding: 5rem 0;">
+        <div class="p-col-12 p-lg-4">
+            <img src="assets/imgs/logo.png" class="center">
+            <p>
+                Uma autêntica e inovadora plataforma de produção cultural.<br>
+                Feita nos mínimos detalhes ficando o fácil acesso por produtores, artistas e agentes culturais.
+            </p>
+            <div class="p-col-12" style="text-align: center;">
+                <a href="https://www.instagram.com/"><i class="fab fa-instagram button2"
+                        [style]="{'font-size': '1.5rem'}"></i></a>
+                <a href="https://www.facebook.com/"><i class="pi pi-facebook button2"
+                        [style]="{'font-size': '1.5rem', 'padding-left': '20pt'}"></i></a>
+                <a href="https://www.tiktok.com/"><i class="fab fa-tiktok button2"
+                        [style]="{'font-size': '1.5rem', 'padding-left': '20pt'}"></i></a>
+                <a href="https://www.youtube.com/"><i class="pi pi-youtube button2"
+                        [style]="{'font-size': '1.5rem', 'padding-left': '20pt'}"></i></a>
+            </div>
+        </div>
+        <div class="p-col-12 p-lg-4" style="padding: 25pt">
+            <h3>ENTRE EM CONTATO</h3>
+            <div class="p-text-normal">
+                <i class="fab fa-whatsapp button2"></i> (99) 99999-9999
+            </div>
+            <br>
+            <div class="p-text-normal">
+                <i class="pi pi-envelope button2"></i> email@email.com
+            </div>
+            <div style="margin-top: 20pt">
+                <button class="button" pButton type="submit" label="Envie uma mensagem"
+                    icon="pi pi-chevron-circle-right" iconPos="right"></button>
+            </div>
+
+        </div>
+        <div class="p-col-12 p-lg-4" style="padding: 25pt">
+            <h3>NOSSOS SERVIÇOS</h3>
+            <p>Produção de Eventos</p>
+            <p>Material de Divulgação</p>
+            <p>Curadoria</p>
+            <p>Consultoria</p>
+        </div>
+    </div>
+
+    <!-- Rodapé -->
+    <div class="p-grid">
+        <div class="p-col p-text-center" style="background-color: dimgray;">
+            <p style="color:white">@2021 Layout criado por <a href="http://angelafaoro.com/"
+                    style="color: #289ea0">angelafaoro.com</a></p>
+            <p style="color:white">@2021 Front-End Desenvolvido por <a
+                    href="https://www.linkedin.com/in/dev-gabriel-soares/" style="color: #289ea0">Gabriel
+                    Soares</a>
+            </p>
+            <p style="color:white">@2021 Back-End Desenvolvido por <a href="https://www.linkedin.com/in/mauricio-00-/"
+                    style="color: #289ea0">Mauricio
+                    Souza</a>
+            </p>
+        </div>
+    </div>
+</div>
