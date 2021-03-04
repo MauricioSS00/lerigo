@@ -40,28 +40,39 @@
           <p>Não deixe para depois, crie seu perfil no lérigo e ajudaremos você a ter Sucesso no seu
             evento.</p>
           <h3>Cadastro Fácil</h3>
-          <form>
+          <form #formUserCad="ngForm" autocomplete="off" (ngSubmit)="gravar(formUserCad)">
             <div class="p-grid">
               <div class="p-col-12 p-fluid">
                 <input pInputText type="text" name="nome" [(ngModel)]="pessoa.nome" #nome="ngModel" placeholder="Nome:"
                   required minlength="5" />
+                <small id="username-help" class="p-error" *ngIf="nome.hasError('required') && nome.dirty">
+                  *Campo obrigatório</small>
+                <small id="username-help" class="p-error" *ngIf="nome.hasError('minlength')">
+                  Informe seu nome completo!</small>
+                <!-- <p-message severity="error" text="Field is required" *ngIf="nome.hasError('required') && nome.dirty"></p-message> -->
               </div>
             </div>
             <div class="p-grid">
               <div class="p-col-12 p-fluid">
                 <input pInputText type="text" name="email" [(ngModel)]="pessoa.email" #email="ngModel"
-                  placeholder="E-mail:" required minlength="5" />
+                  placeholder="E-mail:" required email />
+                <small id="username-help" class="p-error" *ngIf="email.hasError('required') && email.dirty">
+                  *Campo obrigatório</small>
+                <small id="username-help" class="p-error" *ngIf="email.hasError('email')">
+                  Informe um e-mail válido!</small>
               </div>
             </div>
             <div class="p-grid">
               <div class="p-col-12 p-fluid">
-                <input pInputText type="text" name="msg" [(ngModel)]="pessoa.msg" #msg="ngModel" placeholder="Mensagem:"
-                  required minlength="5" />
+                <input pInputText type="password" name="senha" [(ngModel)]="pessoa.senha" #senha="ngModel"
+                  placeholder="Senha:" required />
+                <small id="username-help" class="p-error" *ngIf="senha.hasError('required') && senha.dirty">
+                  *Campo obrigatório</small>
               </div>
             </div>
             <div>
               <button class="button" pButton type="submit" label="Cadastrar já" icon="pi pi-chevron-circle-right"
-                iconPos="right"></button>
+                iconPos="right" [disabled]="formUserCad.invalid"></button>
             </div>
           </form>
         </div>

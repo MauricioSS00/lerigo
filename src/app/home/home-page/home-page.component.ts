@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-home-page',
@@ -16,10 +18,11 @@ export class HomePageComponent implements OnInit {
     './assets/imgs/logo.png'
   ];
   responsiveOptions = [];
-  pessoa = { nome: '', email: '', msg: '' };
+  pessoa = { nome: '', email: '', senha: '' };
+  value4: string;
 
   constructor(
-
+    private router: Router,
   ) {
     this.responsiveOptions = [
       {
@@ -43,5 +46,9 @@ export class HomePageComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  gravar(ngForm: NgForm) {
+    console.log(this.pessoa);
+    this.router.navigate(['usuario-cad']);
+  }
 
 }
