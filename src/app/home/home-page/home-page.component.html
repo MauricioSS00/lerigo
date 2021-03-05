@@ -43,7 +43,7 @@
           <form #formUserCad="ngForm" autocomplete="off" (ngSubmit)="gravar(formUserCad)">
             <div class="p-grid">
               <div class="p-col-12 p-fluid">
-                <input pInputText type="text" name="nome" [(ngModel)]="pessoa.nome" #nome="ngModel" placeholder="Nome:"
+                <input pInputText type="text" name="nome" [(ngModel)]="pessoa.nome" #nome="ngModel" placeholder="Nome"
                   required minlength="5" />
                 <small id="username-help" class="p-error" *ngIf="nome.hasError('required') && nome.dirty">
                   *Campo obrigatório</small>
@@ -55,7 +55,7 @@
             <div class="p-grid">
               <div class="p-col-12 p-fluid">
                 <input pInputText type="text" name="email" [(ngModel)]="pessoa.email" #email="ngModel"
-                  placeholder="E-mail:" required email />
+                  placeholder="E-mail" required email />
                 <small id="username-help" class="p-error" *ngIf="email.hasError('required') && email.dirty">
                   *Campo obrigatório</small>
                 <small id="username-help" class="p-error" *ngIf="email.hasError('email')">
@@ -65,7 +65,7 @@
             <div class="p-grid">
               <div class="p-col-12 p-fluid">
                 <input pInputText type="password" name="senha" [(ngModel)]="pessoa.senha" #senha="ngModel"
-                  placeholder="Senha:" required />
+                  placeholder="Senha" required />
                 <small id="username-help" class="p-error" *ngIf="senha.hasError('required') && senha.dirty">
                   *Campo obrigatório</small>
               </div>
