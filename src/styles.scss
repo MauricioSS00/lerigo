@@ -20,6 +20,17 @@
 .button2 {
     color: #289ea0 !important;
 }
+.p-selectbutton .p-button.p-highlight {
+    background: #289ea0;
+    border-color: #289ea0;
+    color: #ffffff;
+}
+
+.p-selectbutton .p-button.p-highlight:hover.p-highlight {
+    background: #289ea0;
+    border-color: #289ea0;
+    color: #ffffff;
+}
 h1,
 h2,
 h3 {

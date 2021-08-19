@@ -1,0 +1,227 @@
+<div class="container">
+    <h2>ESPAÇO - {{edicao? 'Ediçao' : 'Cadastro'}}</h2>
+    <form #formEspacoCad="ngForm" autocomplete="off" (ngSubmit)="gravar(formEspacoCad)">
+        <div class="form">
+            <div class="cad">
+                <div class="p-grid">
+                    <div class="p-col-12 p-lg-6 p-fluid">
+                        <div class="p-field">
+                            <label>Nome Fantasia</label>
+                            <input pInputText type="text" name="nome" [(ngModel)]="espaco.nome" #nome="ngModel"
+                                class="ng-required ng-dirty" required minlength="6" />
+                            <small class="p-error" *ngIf="nome.hasError('required') && nome.dirty">
+                                *Campo obrigatório</small>
+                            <small class="p-error" *ngIf="nome.hasError('minlength')">
+                                Informe o nome por completo!</small>
+                        </div>
+                    </div>
+                    <div class="p-col-12 p-lg-6 p-fluid">
+                        <div class="p-field">
+                            <label>Razão Social</label>
+                            <input pInputText type="text" name="razao" [(ngModel)]="espaco.razao" #razao="ngModel"
+                                class="ng-required ng-dirty" required minlength="6" />
+                            <small class="p-error" *ngIf="razao.hasError('required') && razao.dirty">
+                                *Campo obrigatório</small>
+                            <small class="p-error" *ngIf="razao.hasError('minlength')">
+                                Informe a razao completa!</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-grid">
+                    <div class="p-col-12 p-lg-4 p-fluid">
+                        <div class="p-field">
+                            <label>CNPJ</label>
+                            <p-inputMask mask="99.999.999/9999-99" name="cnpj" [(ngModel)]="espaco.CNPJ" #cnpj="ngModel"
+                                class="ng-required ng-dirty" required></p-inputMask>
+                            <small class="p-error" *ngIf="cnpj.hasError('required') && cnpj.dirty">
+                                *Campo obrigatório</small>
+                        </div>
+                    </div>
+                    <div class="p-col-12 p-lg-4 p-fluid">
+                        <div class="p-field">
+                            <label>Telefone</label>
+                            <p-inputMask mask="(99)9999-9999" name="fone" [(ngModel)]="espaco.fone" #fone="ngModel">
+                            </p-inputMask>
+                        </div>
+                    </div>
+                    <div class="p-col-12 p-lg-4 p-fluid">
+                        <div class="p-field">
+                            <label>Celular</label>
+                            <p-inputMask mask="(99)99999-9999" name="celular" [(ngModel)]="espaco.celular"
+                                #celular="ngModel" class="ng-required ng-dirty" required></p-inputMask>
+                            <small class="p-error" *ngIf="celular.hasError('required') && celular.dirty">
+                                *Campo obrigatório</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-grid">
+                    <div class="p-col-12 p-lg-6 p-fluid">
+                        <div class="p-field">
+                            <label>E-mail</label>
+                            <input pInputText type="text" name="email" [(ngModel)]="espaco.email" #email="ngModel"
+                                class="ng-required ng-dirty" required email />
+                            <small class="p-error" *ngIf="email.hasError('required') && email.dirty">
+                                *Campo obrigatório</small>
+                            <small class="p-error" *ngIf="email.invalid && email.dirty">
+                                Informe um endereço de e-mial valido!</small>
+                        </div>
+                    </div>
+                    <div class="p-col-12 p-lg-6 p-fluid">
+                        <div class="p-field">
+                            <label>Contato</label>
+                            <input pInputText type="text" name="contato" [(ngModel)]="espaco.contato"
+                                #contato="ngModel" />
+                        </div>
+                    </div>
+                </div>
+                <div class="p-grid">
+                    <div class="p-col-12 p-lg-3 p-fluid">
+                        <div class="p-field">
+                            <label>Site</label>
+                            <input pInputText type="text" name="site" [(ngModel)]="espaco.site" #site="ngModel" />
+                        </div>
+                    </div>
+                    <div class="p-col-12 p-lg-3 p-fluid">
+                        <div class="p-field">
+                            <label>Facebook</label>
+                            <input pInputText type="text" name="facebook" [(ngModel)]="espaco.facebook"
+                                #facebook="ngModel" />
+                        </div>
+                    </div>
+                    <div class="p-col-12 p-lg-3 p-fluid">
+                        <div class="p-field">
+                            <label>Instagram</label>
+                            <input pInputText type="text" name="instagram" [(ngModel)]="espaco.instagram"
+                                #instagram="ngModel" />
+                        </div>
+                    </div>
+                    <div class="p-col-12 p-lg-3 p-fluid">
+                        <div class="p-field">
+                            <label>Twitter</label>
+                            <input pInputText type="text" name="twitter" [(ngModel)]="espaco.twitter"
+                                #twitter="ngModel" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="endereco">
+                <div class="p-grid">
+                    <div class="p-col-8 p-lg-3 p-fluid">
+                        <div class="p-field">
+                            <label>CEP</label>
+                            <p-inputMask mask="99999-999" name="cep" [(ngModel)]="endereco.cep" #cep="ngModel">
+                            </p-inputMask>
+                        </div>
+                    </div>
+                    <div class="p-col-8 p-lg-1 p-fluid">
+                        <div class="p-field">
+                            <button pButton type="button" icon="pi pi-check" iconPos="left" (click)="buscaCep()"></button>
+                        </div>
+                    </div>
+                    <div class="p-col-12 p-lg-8 p-fluid">
+                        <div class="p-field">
+                            <label>Logradouro</label>
+                            <input pInputText type="text" name="logradouro" [(ngModel)]="endereco.logradouro"
+                                #logradouro="ngModel" />
+                        </div>
+                    </div>
+                </div>
+                <div class="p-grid">
+                    <div class="p-col-12 p-lg-4 p-fluid">
+                        <div class="p-field">
+                            <label>Bairro</label>
+                            <input pInputText type="text" name="bairro" [(ngModel)]="endereco.bairro"
+                                #bairro="ngModel" />
+                        </div>
+                    </div>
+                    <div class="p-col-12 p-lg-4 p-fluid">
+                        <div class="p-field">
+                            <label>UF</label>
+                            <p-dropdown [options]="uf" name="uf" [(ngModel)]="endereco.uf" optionLabel="uf"
+                                [filter]="true" filterBy="uf" [showClear]="true" placeholder="Selecione a UF">
+                            </p-dropdown>
+                        </div>
+                    </div>
+                    <div class="p-col-12 p-lg-4 p-fluid">
+                        <div class="p-field">
+                            <label>Cidade</label>
+                            <p-dropdown [options]="cities" name="cidade" [(ngModel)]="endereco.cidade"
+                                optionLabel="name" [filter]="true" filterBy="name" [showClear]="true"
+                                placeholder="Select a Country">
+                            </p-dropdown>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-grid">
+                    <div class="p-col-12 p-lg-2 p-fluid">
+                        <div class="p-field">
+                            <label>Numero</label>
+                            <input pInputText type="number" name="numero" [(ngModel)]="endereco.numero"
+                                #numero="ngModel" />
+                        </div>
+                    </div>
+                    <div class="p-col-12 p-lg-10 p-fluid">
+                        <div class="p-field">
+                            <label>Complemento</label>
+                            <input pInputText type="text" name="complemento" [(ngModel)]="endereco.complemento"
+                                #complemento="ngModel" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="other">
+                <div class="p-grid">
+                    <div class="p-col-12 p-lg-4 p-fluid">
+                        <div class="p-field">
+                            <label>Acessível</label>
+                            <p-selectButton [options]="stateOptions" [(ngModel)]="espaco.acess" name="acess"
+                                optionLabel="label" optionValue="value"></p-selectButton>
+                        </div>
+                    </div>
+                    <div class="p-col-12 p-lg-4 p-fluid">
+                        <div class="p-field">
+                            <label>Contém Estacionamento</label>
+                            <p-selectButton [options]="stateOptions" [(ngModel)]="espaco.estac" name="estac"
+                                optionLabel="label" optionValue="value"></p-selectButton>
+                        </div>
+                    </div>
+                    <div class="p-col-12 p-lg-4 p-fluid">
+                        <div class="p-field">
+                            <label>Lotação Maxíma</label>
+                            <input pInputText type="number" name="lotMax" [(ngModel)]="espaco.lotMax"
+                                #lotMax="ngModel" />
+                        </div>
+                    </div>
+                </div>
+                <div class="p-grid">
+                    <div class="p-col-12 p-fluid">
+                        <div class="p-field">
+                            <label>Descrição</label>
+                            <textarea pInputTextarea name="descricao" [(ngModel)]="espaco.descricao"
+                                #descricao="ngModel"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-col-12 p-fluid">
+                    <label>Logo</label>
+                    <p-fileUpload name="logo" (onUpload)="onUpload($event)" multiple="multiple" accept="image/*"
+                        maxFileSize="1000000">
+                        <ng-template pTemplate="content">
+                            <ul *ngIf="uploadedFiles.length">
+                                <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
+                            </ul>
+                        </ng-template>
+                    </p-fileUpload>
+                </div>
+
+            </div>
+
+
+            <div>
+                <button class="button" pButton type="submit" label="Gravar" [disabled]="formEspacoCad.invalid"></button>
+                <button pButton class="p-button-danger" style="margin-left: 5pt;" label="cancelar"></button>
+            </div>
+        </div>
+    </form>
+</div>

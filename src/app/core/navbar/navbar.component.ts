@@ -25,6 +25,7 @@ export class NavbarComponent implements OnInit {
       },
       {
         label: 'ESPAÇOS',
+        routerLink: ['espaco-list']
       },
       {
         label: 'ARTISTAS',

@@ -14,13 +14,15 @@ import { AppComponent } from './app.component';
 import { HomeModule } from './home/home.module';
 import { NavbarComponent } from './core/navbar/navbar.component';
 import { NavbarModule } from './core/navbar/navbar.module';
-import { UsuarioCadComponent } from './usuario/usuario-cad/usuario-cad.component';
 import { UsuarioModule } from './usuario/usuario.module';
+import { ArtistaModule } from './atista/artista.module';
+import { EspacoModule } from './espaco/espaco.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -36,6 +38,8 @@ import { UsuarioModule } from './usuario/usuario.module';
 
     HomeModule,
     UsuarioModule,
+    ArtistaModule,
+    EspacoModule,
     AppRoutingModule,
   ],
   providers: [],
