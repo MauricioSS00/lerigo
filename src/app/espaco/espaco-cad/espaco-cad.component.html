@@ -39,22 +39,39 @@
                     </div>
                     <div class="p-col-12 p-lg-4 p-fluid">
                         <div class="p-field">
-                            <label>Telefone</label>
-                            <p-inputMask mask="(99)9999-9999" name="fone" [(ngModel)]="espaco.fone" #fone="ngModel">
-                            </p-inputMask>
+                            <label>Início das Atividades</label>
+                            <p-calendar [monthNavigator]="true" [yearNavigator]="true" yearRange="1888:2050"
+                                name="abertura" [(ngModel)]="espaco.abertura" #abertura="ngModel"
+                                class="ng-required ng-dirty" required></p-calendar>
                         </div>
                     </div>
-                    <div class="p-col-12 p-lg-4 p-fluid">
+                    <div class="p-col-6 p-lg-4 p-fluid">
                         <div class="p-field">
-                            <label>Celular</label>
-                            <p-inputMask mask="(99)99999-9999" name="celular" [(ngModel)]="espaco.celular"
-                                #celular="ngModel" class="ng-required ng-dirty" required></p-inputMask>
-                            <small class="p-error" *ngIf="celular.hasError('required') && celular.dirty">
+                            <label>Telefone</label>
+                            <p-inputMask class="ng-required ng-dirty" mask="(99)9999-9999" name="fone"
+                                [(ngModel)]="espaco.fone" #fone="ngModel" required>
+                            </p-inputMask>
+                            <small class="p-error" *ngIf="fone.hasError('required') && fone.dirty">
                                 *Campo obrigatório</small>
                         </div>
                     </div>
                 </div>
                 <div class="p-grid">
+                    <div class="p-col-16 p-lg-3 p-fluid">
+                        <div class="p-field">
+                            <label>Celular</label>
+                            <p-inputMask mask="(99)99999-9999" name="celular" [(ngModel)]="espaco.celular"
+                                #celular="ngModel"></p-inputMask>
+                        </div>
+                    </div>
+                    <div class="p-col-6 p-lg-3 p-fluid">
+                        <div class="p-field">
+                            <label>WhatsApp</label>
+                            <p-inputMask mask="(99)99999-9999" name="space_whats" [(ngModel)]="espaco.space_whats"
+                                #space_whats="ngModel">
+                            </p-inputMask>
+                        </div>
+                    </div>
                     <div class="p-col-12 p-lg-6 p-fluid">
                         <div class="p-field">
                             <label>E-mail</label>
@@ -66,41 +83,36 @@
                                 Informe um endereço de e-mial valido!</small>
                         </div>
                     </div>
-                    <div class="p-col-12 p-lg-6 p-fluid">
-                        <div class="p-field">
-                            <label>Contato</label>
-                            <input pInputText type="text" name="contato" [(ngModel)]="espaco.contato"
-                                #contato="ngModel" />
-                        </div>
-                    </div>
                 </div>
                 <div class="p-grid">
-                    <div class="p-col-12 p-lg-3 p-fluid">
+                    <div class="p-col-12 p-lg-4 p-fluid">
                         <div class="p-field">
                             <label>Site</label>
                             <input pInputText type="text" name="site" [(ngModel)]="espaco.site" #site="ngModel" />
                         </div>
-                    </div>
-                    <div class="p-col-12 p-lg-3 p-fluid">
                         <div class="p-field">
                             <label>Facebook</label>
                             <input pInputText type="text" name="facebook" [(ngModel)]="espaco.facebook"
                                 #facebook="ngModel" />
                         </div>
                     </div>
-                    <div class="p-col-12 p-lg-3 p-fluid">
+                    <div class="p-col-12 p-lg-4 p-fluid">
                         <div class="p-field">
                             <label>Instagram</label>
                             <input pInputText type="text" name="instagram" [(ngModel)]="espaco.instagram"
                                 #instagram="ngModel" />
                         </div>
-                    </div>
-                    <div class="p-col-12 p-lg-3 p-fluid">
                         <div class="p-field">
                             <label>Twitter</label>
                             <input pInputText type="text" name="twitter" [(ngModel)]="espaco.twitter"
                                 #twitter="ngModel" />
                         </div>
+                    </div>
+                    <div class="p-col-12 p-lg-4">
+                        <label>Logo</label>
+                        <p-fileUpload mode="basic" name="demo[]" accept="image/*"
+                            maxFileSize="1000000" (onUpload)="onBasicUpload($event)">
+                        </p-fileUpload>
                     </div>
                 </div>
             </div>
@@ -114,69 +126,59 @@
                             </p-inputMask>
                         </div>
                     </div>
-                    <div class="p-col-8 p-lg-1 p-fluid">
-                        <div class="p-field">
-                            <button pButton type="button" icon="pi pi-check" iconPos="left" (click)="buscaCep()"></button>
+                    <div class="p-col-4 p-lg-2 p-fluid">
+                        <div class="p-field" style="margin-top: 20.5pt;">
+                            <button class="button" pButton type="button" icon="pi pi-search" iconPos="left"
+                                (click)="buscaCep()" label="Buscar Endereço"></button>
                         </div>
                     </div>
-                    <div class="p-col-12 p-lg-8 p-fluid">
-                        <div class="p-field">
-                            <label>Logradouro</label>
-                            <input pInputText type="text" name="logradouro" [(ngModel)]="endereco.logradouro"
-                                #logradouro="ngModel" />
-                        </div>
-                    </div>
-                </div>
-                <div class="p-grid">
-                    <div class="p-col-12 p-lg-4 p-fluid">
-                        <div class="p-field">
-                            <label>Bairro</label>
-                            <input pInputText type="text" name="bairro" [(ngModel)]="endereco.bairro"
-                                #bairro="ngModel" />
-                        </div>
-                    </div>
-                    <div class="p-col-12 p-lg-4 p-fluid">
+                    <div class="p-col-6 p-lg-3 p-fluid">
                         <div class="p-field">
                             <label>UF</label>
-                            <p-dropdown [options]="uf" name="uf" [(ngModel)]="endereco.uf" optionLabel="uf"
-                                [filter]="true" filterBy="uf" [showClear]="true" placeholder="Selecione a UF">
+                            <p-dropdown [options]="uf" name="uf" [(ngModel)]="endereco.uf" optionLabel="name"
+                                optionValue="code" [filter]="true" [showClear]="true" placeholder="Selecione a UF">
                             </p-dropdown>
                         </div>
                     </div>
-                    <div class="p-col-12 p-lg-4 p-fluid">
+                    <div class="p-col-6 p-lg-4 p-fluid">
                         <div class="p-field">
                             <label>Cidade</label>
-                            <p-dropdown [options]="cities" name="cidade" [(ngModel)]="endereco.cidade"
-                                optionLabel="name" [filter]="true" filterBy="name" [showClear]="true"
+                            <p-dropdown [options]="cities" name="cidade" [(ngModel)]="endereco.localidade"
+                                optionLabel="name" optionValue="code" [filter]="true" filterBy="name" [showClear]="true"
                                 placeholder="Select a Country">
                             </p-dropdown>
                         </div>
                     </div>
                 </div>
                 <div class="p-grid">
-                    <div class="p-col-12 p-lg-2 p-fluid">
+                    <div class="p-col-12 p-lg-6 p-fluid">
+                        <div class="p-field">
+                            <label>Logradouro</label>
+                            <input pInputText type="text" name="logradouro" [(ngModel)]="endereco.logradouro"
+                                #logradouro="ngModel" />
+                        </div>
+                    </div>
+                    <div class="p-col-6 p-lg-2 p-fluid">
                         <div class="p-field">
                             <label>Numero</label>
                             <input pInputText type="number" name="numero" [(ngModel)]="endereco.numero"
                                 #numero="ngModel" />
                         </div>
                     </div>
-                    <div class="p-col-12 p-lg-10 p-fluid">
+                    <div class="p-col-6 p-lg-4 p-fluid">
+                        <div class="p-field">
+                            <label>Bairro</label>
+                            <input pInputText type="text" name="bairro" [(ngModel)]="endereco.bairro"
+                                #bairro="ngModel" />
+                        </div>
+                    </div>
+                </div>
+                <div class="p-grid">
+                    <div class="p-col-12 p-lg-8 p-fluid">
                         <div class="p-field">
                             <label>Complemento</label>
                             <input pInputText type="text" name="complemento" [(ngModel)]="endereco.complemento"
                                 #complemento="ngModel" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="other">
-                <div class="p-grid">
-                    <div class="p-col-12 p-lg-4 p-fluid">
-                        <div class="p-field">
-                            <label>Acessível</label>
-                            <p-selectButton [options]="stateOptions" [(ngModel)]="espaco.acess" name="acess"
-                                optionLabel="label" optionValue="value"></p-selectButton>
                         </div>
                     </div>
                     <div class="p-col-12 p-lg-4 p-fluid">
@@ -186,11 +188,35 @@
                                 optionLabel="label" optionValue="value"></p-selectButton>
                         </div>
                     </div>
-                    <div class="p-col-12 p-lg-4 p-fluid">
+                </div>
+                <div class="p-grid">
+                    <div class="p-col-6 p-lg-3 p-fluid">
+                        <div class="p-field">
+                            <label>Acessível</label>
+                            <p-selectButton [options]="stateOptions" [(ngModel)]="espaco.acess" name="acess"
+                                optionLabel="label" optionValue="value"></p-selectButton>
+                        </div>
+                    </div>
+                    <div class="p-col-6 p-lg-3 p-fluid">
                         <div class="p-field">
                             <label>Lotação Maxíma</label>
                             <input pInputText type="number" name="lotMax" [(ngModel)]="espaco.lotMax"
                                 #lotMax="ngModel" />
+                        </div>
+                    </div>
+                    <div class="p-col-6 p-lg-3 p-fluid">
+                        <div class="p-field">
+                            <label>Tipo</label>
+                            <p-dropdown [options]="tipo" name="tipo" [(ngModel)]="espaco.tipo" optionLabel="name"
+                                optionValue="code" placeholder="Selecione um Tipo"></p-dropdown>
+                        </div>
+                    </div>
+                    <div class="p-col-6 p-lg-3 p-fluid">
+                        <div class="p-field">
+                            <label>Programação</label>
+                            <p-dropdown [options]="programacao" name="programacao" [(ngModel)]="espaco.programacao"
+                                optionLabel="name" optionValue="code" placeholder="Selecione a Programação">
+                            </p-dropdown>
                         </div>
                     </div>
                 </div>
@@ -203,25 +229,85 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="p-grid">
                 <div class="p-col-12 p-fluid">
-                    <label>Logo</label>
-                    <p-fileUpload name="logo" (onUpload)="onUpload($event)" multiple="multiple" accept="image/*"
-                        maxFileSize="1000000">
-                        <ng-template pTemplate="content">
-                            <ul *ngIf="uploadedFiles.length">
-                                <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
-                            </ul>
+                    <h4>Horário de Funcionamento</h4>
+                    <p-table [value]="horario" dataKey="id">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Dia</th>
+                                <th>Início - Turno 1</th>
+                                <th>Fim - Turno 1</th>
+                                <th>Início - Turno 2</th>
+                                <th>Fim - Turno 2</th>
+                            </tr>
                         </ng-template>
-                    </p-fileUpload>
+                        <ng-template pTemplate="body" let-turno>
+                            <tr>
+                                <td>{{turno.dia}}</td>
+                                <td pEditableColumn>
+                                    <p-cellEditor>
+                                        <ng-template pTemplate="input">
+                                            <p-inputMask mask="99:99" name="ini1" [(ngModel)]="turno.ini1">
+                                            </p-inputMask>
+                                        </ng-template>
+                                        <ng-template pTemplate="output">
+                                            {{turno.ini1}}
+                                        </ng-template>
+                                    </p-cellEditor>
+                                </td>
+                                <td pEditableColumn>
+                                    <p-cellEditor>
+                                        <ng-template pTemplate="input">
+                                            <p-inputMask mask="99:99" name="fim1" [(ngModel)]="turno.fim1">
+                                            </p-inputMask>
+                                        </ng-template>
+                                        <ng-template pTemplate="output">
+                                            {{turno.fim1}}
+                                        </ng-template>
+                                    </p-cellEditor>
+                                </td>
+                                <td pEditableColumn>
+                                    <p-cellEditor>
+                                        <ng-template pTemplate="input">
+                                            <p-inputMask mask="99:99" name="ini2" [(ngModel)]="turno.ini2">
+                                            </p-inputMask>
+                                        </ng-template>
+                                        <ng-template pTemplate="output">
+                                            {{turno.ini2}}
+                                        </ng-template>
+                                    </p-cellEditor>
+                                </td>
+                                <td pEditableColumn>
+                                    <p-cellEditor>
+                                        <ng-template pTemplate="input">
+                                            <p-inputMask mask="99:99" name="fim2" [(ngModel)]="turno.fim2">
+                                            </p-inputMask>
+                                        </ng-template>
+                                        <ng-template pTemplate="output">
+                                            {{turno.fim2}}
+                                        </ng-template>
+                                    </p-cellEditor>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
                 </div>
-
+            </div>
+            <div class="p-grid">
+                <div class="p-col-12 p-fluid">
+                    <h4>Fotos do Local</h4>
+                    <p-fileUpload name="myfile[]" url="./upload.php" multiple="multiple"></p-fileUpload>
+                </div>
             </div>
 
-
             <div>
-                <button class="button" pButton type="submit" label="Gravar" [disabled]="formEspacoCad.invalid"></button>
+                <button class="button" pButton type="submit" label="Gravar"></button>
+                <!-- [disabled]="formEspacoCad.invalid" -->
                 <button pButton class="p-button-danger" style="margin-left: 5pt;" label="cancelar"></button>
             </div>
         </div>
     </form>
 </div>
+<p-toast></p-toast>

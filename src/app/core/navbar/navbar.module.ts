@@ -5,6 +5,8 @@ import { MenubarModule } from 'primeng/menubar';
 import { MenuModule } from 'primeng/menu';
 import { InputTextModule } from 'primeng/inputtext';
 import {TabViewModule} from 'primeng/tabview';
+import {OverlayPanelModule} from 'primeng/overlaypanel';
+import {ToastModule} from 'primeng/toast';
 
 
 @NgModule({
@@ -14,7 +16,9 @@ import {TabViewModule} from 'primeng/tabview';
     MenubarModule,
     MenuModule,
     InputTextModule,
-    TabViewModule
+    TabViewModule,
+    OverlayPanelModule,
+    ToastModule
 
   ]
 })

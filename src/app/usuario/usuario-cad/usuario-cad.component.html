@@ -1,3 +1,218 @@
 <div class="container">
-    <h3>PERFIL DE USUÁRIo</h3>
+    <h2>PERFIL DE USUÁRIo</h2>
+    <form #formEspacoCad="ngForm" autocomplete="off" (ngSubmit)="gravar(formEspacoCad)">
+        <div class="form">
+            <div class="cad">
+                <div class="p-grid">
+                    <div class="p-col-12 p-lg-6 p-fluid">
+                        <div class="p-field">
+                            <label>Nome Completo</label>
+                            <input pInputText type="text" name="user_nome_civ" [(ngModel)]="user.user_nome_civ" #user_nome_civ="ngModel"
+                                class="ng-required ng-dirty" required minlength="7" />
+                            <small class="p-error" *ngIf="user_nome_civ.hasError('required') && user_nome_civ.dirty">
+                                *Campo obrigatório</small>
+                            <small class="p-error" *ngIf="user_nome_civ.hasError('minlength')">
+                                Informe o user_nome_civ por Completo!</small>
+                        </div>
+                    </div>
+                    <div class="p-col-12 p-lg-6 p-fluid">
+                        <div class="p-field">
+                            <label>Nome Fantasia</label>
+                            <input pInputText type="text" name="user_soc_nome" [(ngModel)]="user.user_soc_nome"
+                                #user_soc_nome="ngModel" />
+                        </div>
+                    </div>
+                </div>
+                <div class="p-grid">
+                    <div class="p-col-6 p-lg-2 p-fluid">
+                        <div class="p-field" style="margin-top: 15pt;">
+                            <p-checkbox name="estrangeiro" [(ngModel)]="user.estrangeiro" [binary]="true"
+                                label="Estrangeiro" (onChange)="mudarObr()"></p-checkbox>
+                        </div>
+                    </div>
+                    <div class="p-col-6 p-lg-2 p-fluid">
+                        <div class="p-field">
+                            <label id="labelRadio">Tipo de Pessoa</label><br>
+                            <p-radioButton class="radio" name="groupname" label="Física" value="cpf"
+                                [(ngModel)]="user.tipoP" (onClick)="tipoDocumento()">
+                            </p-radioButton>
+                            <p-radioButton name="groupname" label="Juridica" value="cnpj" [(ngModel)]="user.tipoP"
+                                (onClick)="tipoDocumento()">
+                            </p-radioButton>
+                        </div>
+                    </div>
+                    <div class="p-col-6 p-lg-4 p-fluid">
+                        <div class="p-field">
+                            <label>{{user.tipoP =='cnpj'? 'CNPJ' : 'CPF' }}</label>
+                            <p-inputMask [mask]="maskDoc" name="doc" [(ngModel)]="user.doc" #doc="ngModel"
+                                (onComplete)="validaDoc()" class="ng-required ng-dirty" [required]="fieldObr">
+                            </p-inputMask>
+                            <small class="p-error" *ngIf="doc.hasError('required') && doc.dirty">
+                                *Campo obrigatório</small>
+                        </div>
+                    </div>
+                    <div class="p-col-6 p-lg-4 p-fluid" *ngIf="user.tipoP == 'cpf'">
+                        <div class="p-field">
+                            <label>Gênero</label>
+                            <p-dropdown [options]="genero" [(ngModel)]="user.genero" optionLabel="name"
+                                optionValue="code" name="genero" placeholder="Selecione..." class="ng-required ng-dirty"
+                                required></p-dropdown>
+                        </div>
+                    </div>
+                    <div class="p-col-6 p-lg-4 p-fluid" *ngIf="user.tipoP == 'cnpj'">
+                        <div class="p-field">
+                            <label>Inscricao Estadual</label>
+                            <input pInputText type="text" name="inscEstadual" [(ngModel)]="user.inscEstadual"
+                                #inscEstadual="ngModel" class="ng-required ng-dirty" [required]="user.estrangeiro" />
+                            <small class="p-error" *ngIf="inscEstadual.hasError('required') && inscEstadual.dirty">
+                                *Campo obrigatório</small>
+                        </div>
+                    </div>
+                </div>
+                <div id="estrangeiro" *ngIf="user.estrangeiro">
+                    <div class="p-grid">
+                        <div class="p-col-12 p-lg-4 p-fluid">
+                            <div class="p-field">
+                                <label>RG/Passaporte</label>
+                                <input pInputText type="text" name="user_pic_id" [(ngModel)]="user.user_pic_id"
+                                    #user_pic_id="ngModel" class="ng-required ng-dirty" [required]="user.estrangeiro" />
+                                <small class="p-error" *ngIf="user_pic_id.hasError('required') && user_pic_id.dirty">
+                                    *Campo obrigatório</small>
+                            </div>
+                        </div>
+                        <div class="p-col-6 p-lg-4 p-fluid">
+                            <div class="p-field">
+                                <label>Órgão Expedidor</label>
+                                <input pInputText type="text" name="user_id_doc" [(ngModel)]="user.user_id_doc"
+                                    #user_id_doc="ngModel" class="ng-required ng-dirty" [required]="user.estrangeiro" />
+                                <small class="p-error" *ngIf="user_id_doc.hasError('required') && user_id_doc.dirty">
+                                    *Campo obrigatório</small>
+                            </div>
+                        </div>
+                        <div class="p-col-6 p-lg-4 p-fluid">
+                            <div class="p-field">
+                                <label>UF/País Emissor Passaporte</label>
+                                <input pInputText type="text" name="user_id_state" [(ngModel)]="user.user_id_state"
+                                    #user_id_state="ngModel" class="ng-required ng-dirty"
+                                    [required]="user.estrangeiro" />
+                                <small class="p-error"
+                                    *ngIf="user_id_state.hasError('required') && user_id_state.dirty">
+                                    *Campo obrigatório</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-grid">
+                    <div class="p-col-6 p-lg-3 p-fluid">
+                        <div class="p-field">
+                            <label>Data de Nascimento</label>
+                            <p-calendar [monthNavigator]="true" [yearNavigator]="true" yearRange="1888:2050"
+                                name="dtNasc" [(ngModel)]="user.dtNasc" #dtNasc="ngModel" class="ng-required ng-dirty"
+                                required></p-calendar>
+                            <small class="p-error" *ngIf="dtNasc.hasError('required') && dtNasc.dirty">
+                                *Campo obrigatório</small>
+                        </div>
+                    </div>
+                    <div class="p-col-6 p-lg-3 p-fluid">
+                        <div class="p-field">
+                            <label>Telefone</label>
+                            <p-inputMask mask="(99)9999-9999" name="fone" [(ngModel)]="user.fone" #fone="ngModel">
+                            </p-inputMask>
+                        </div>
+                    </div>
+                    <div class="p-col-6 p-lg-3 p-fluid">
+                        <div class="p-field">
+                            <label>Celular</label>
+                            <p-inputMask mask="(99)99999-9999" name="celular" [(ngModel)]="user.celular"
+                                #celular="ngModel" class="ng-required ng-dirty" required></p-inputMask>
+                            <small class="p-error" *ngIf="celular.hasError('required') && celular.dirty">
+                                *Campo obrigatório</small>
+                        </div>
+                    </div>
+                    <div class="p-col-6 p-lg-3 p-fluid">
+                        <div class="p-field">
+                            <label>WhatsApp</label>
+                            <p-inputMask mask="(99)9999-9999" name="user_whats" [(ngModel)]="user.user_whats"
+                                #user_whats="ngModel">
+                            </p-inputMask>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="endereco">
+                <div class="p-grid">
+                    <div class="p-col-8 p-lg-3 p-fluid">
+                        <div class="p-field">
+                            <label>CEP</label>
+                            <p-inputMask mask="99999-999" name="cep" [(ngModel)]="endereco.cep" #cep="ngModel">
+                            </p-inputMask>
+                        </div>
+                    </div>
+                    <div class="p-col-4 p-lg-2 p-fluid">
+                        <div class="p-field" style="margin-top: 20.5pt;">
+                            <button class="button" pButton type="button" icon="pi pi-check" iconPos="left"
+                                (click)="buscaCep()" label="Buscar Endereço"></button>
+                        </div>
+                    </div>
+                    <div class="p-col-6 p-lg-3 p-fluid">
+                        <div class="p-field">
+                            <label>UF</label>
+                            <p-dropdown [options]="uf" name="uf" [(ngModel)]="endereco.uf" [filter]="true"
+                                [showClear]="true" optionLabel="name" optionValue="code" placeholder="Selecione...">
+                            </p-dropdown>
+                        </div>
+                    </div>
+                    <div class="p-col-6 p-lg-4 p-fluid">
+                        <div class="p-field">
+                            <label>Cidade</label>
+                            <p-dropdown [options]="cidades" name="cidade" [(ngModel)]="endereco.localidade"
+                                optionLabel="name" optionValue="code" [filter]="true" filterBy="name" [showClear]="true"
+                                placeholder="Selecione...">
+                            </p-dropdown>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-grid">
+                    <div class="p-col-12 p-lg-6 p-fluid">
+                        <div class="p-field">
+                            <label>Logradouro</label>
+                            <input pInputText type="text" name="logradouro" [(ngModel)]="endereco.logradouro"
+                                #logradouro="ngModel" />
+                        </div>
+                    </div>
+                    <div class="p-col-6 p-lg-4 p-fluid">
+                        <div class="p-field">
+                            <label>Bairro</label>
+                            <input pInputText type="text" name="bairro" [(ngModel)]="endereco.bairro"
+                                #bairro="ngModel" />
+                        </div>
+                    </div>
+                    <div class="p-col-6 p-lg-2 p-fluid">
+                        <div class="p-field">
+                            <label>Numero</label>
+                            <input pInputText type="number" name="numero" [(ngModel)]="endereco.numero"
+                                #numero="ngModel" />
+                        </div>
+                    </div>
+                </div>
+                <div class="p-grid">
+                    <div class="p-col-12 p-lg-12 p-fluid">
+                        <div class="p-field">
+                            <label>Complemento</label>
+                            <input pInputText type="text" name="complemento" [(ngModel)]="endereco.complemento"
+                                #complemento="ngModel" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <button class="button" pButton type="submit" [disabled]="formEspacoCad.invalid" label="Gravar"></button>
+                <!-- [disabled]="formEspacoCad.invalid" -->
+                <!-- <button pButton class="p-button-danger" style="margin-left: 5pt;" label="cancelar"></button> -->
+            </div>
+        </div>
+    </form>
 </div>
+<p-toast></p-toast>

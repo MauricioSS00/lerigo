@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 
 @Component({
@@ -10,7 +11,9 @@ export class NavbarComponent implements OnInit {
 
   items: MenuItem[];
 
-  constructor() { }
+  constructor(
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
 
@@ -44,5 +47,7 @@ export class NavbarComponent implements OnInit {
       },
     ];
   }
-
+  minhaArea() {
+    this.router.navigate(['usuario-area']);
+  }
 }

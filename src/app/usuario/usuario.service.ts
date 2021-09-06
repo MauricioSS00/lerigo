@@ -4,8 +4,10 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class EspacoService {
+export class UsuarioService {
 
+  usuario = [];
+  usuarios = [];
   constructor(private http: HttpClient) { }
 
   httpOptions = {
@@ -21,5 +23,13 @@ export class EspacoService {
         .then(data => {
           return data;
         });
+  }
+
+  gravar(user){
+    this.usuario = user;
+  }
+
+  listarUser () {
+    return this.usuario;
   }
 }
