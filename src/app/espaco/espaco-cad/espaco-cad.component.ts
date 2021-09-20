@@ -15,7 +15,7 @@ export class EspacoCadComponent implements OnInit {
 
   edicao: boolean = false;
   stateOptions: any[];
-  espaco: any = [];
+  espaco: any = {};
   endereco: any = [];
   tipo: any;
   programacao: any;
@@ -73,7 +73,7 @@ export class EspacoCadComponent implements OnInit {
   gravar(ngForm: NgForm) {
     this.espaco.endereco = this.endereco;
     this.espaco.horario = this.horario;
-    console.log(this.espaco);
+    this.espacoService.gravarEspaco(this.espaco);
 
   }
   onUpload(event) {

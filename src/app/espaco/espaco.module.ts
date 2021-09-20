@@ -20,6 +20,9 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { ToastModule } from 'primeng/toast';
 import { CalendarModule } from 'primeng/calendar';
 import { TableModule } from 'primeng/table';
+import {CardModule} from 'primeng/card';
+import {GalleriaModule} from 'primeng/galleria';
+
 
 @NgModule({
   declarations: [
@@ -44,7 +47,9 @@ import { TableModule } from 'primeng/table';
     ButtonModule,
     ToastModule,
     CalendarModule,
-    TableModule
+    TableModule,
+    CardModule,
+    GalleriaModule
   ]
 
 })

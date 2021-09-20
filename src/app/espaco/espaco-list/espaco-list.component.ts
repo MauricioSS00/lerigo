@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { EspacoService } from '../espaco.service';
 
 @Component({
   selector: 'app-espaco-list',
@@ -8,16 +9,31 @@ import { Router } from '@angular/router';
 })
 export class EspacoListComponent implements OnInit {
 
+  espacos: any = [];
+  responsiveOptions: any[] = [
+    {
+      breakpoint: '1024px',
+      numVisible: 5
+    },
+    {
+      breakpoint: '768px',
+      numVisible: 3
+    },
+    {
+      breakpoint: '560px',
+      numVisible: 1
+    }
+  ];
+
   constructor(
-    private router: Router
+    public espacoService: EspacoService
   ) { }
 
   ngOnInit(): void {
-
+    this.carregarEspacos();
   }
 
-  new() {
-    this.router.navigate(['espaco-cad']);
+  carregarEspacos() {
+    this.espacos = this.espacoService.listarEspacos();
   }
-
 }
