@@ -5,9 +5,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
-import { EspacoListComponent } from './espaco-list/espaco-list.component';
-import { EspacoCadComponent } from './espaco-cad/espaco-cad.component';
-import { EspacoRoutingModule } from './espaco-routing.module';
 
 import { InputTextModule } from 'primeng/inputtext';
 import { InputMaskModule } from 'primeng/inputmask';
@@ -20,8 +17,11 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { ToastModule } from 'primeng/toast';
 import { CalendarModule } from 'primeng/calendar';
 import { TableModule } from 'primeng/table';
-import {CardModule} from 'primeng/card';
-import {GalleriaModule} from 'primeng/galleria';
+
+import { EspacoListComponent } from './espaco-list/espaco-list.component';
+import { EspacoCadComponent } from './espaco-cad/espaco-cad.component';
+import { EspacoRoutingModule } from './espaco-routing.module';
+import { ShareModule } from '../share/share.module';
 
 
 @NgModule({
@@ -48,8 +48,8 @@ import {GalleriaModule} from 'primeng/galleria';
     ToastModule,
     CalendarModule,
     TableModule,
-    CardModule,
-    GalleriaModule
+    
+    ShareModule
   ]
 
 })

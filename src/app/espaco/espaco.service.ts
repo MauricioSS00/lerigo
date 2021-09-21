@@ -28,7 +28,7 @@ export class EspacoService {
       "lotMax": 250,
       "tipo": "Bar",
       "programacao": 1,
-      "descricao": "Bar com musica ao vivo",
+      "descricao": "Lorem ipsum habitasse eleifend suspendisse felis sed donec urna per taciti, ultrices elementum auctor posuere ligula lectus vel risus faucibus imperdiet felis, sociosqu purus rhoncus quam sapien tristique est aliquam lacinia. lobortis cras convallis tempus mollis habitasse quam ac proin fusce, a ligula luctus ligula aenean dolor massa mollis netus aptent, tempor eleifend volutpat sociosqu etiam purus ligula nulla. eget tincidunt mattis nam dapibus",
       "endereco": {
         "cep": "89509-036",
         "logradouro": "Rua Pedro Fernandes de Oliveira",
@@ -42,6 +42,7 @@ export class EspacoService {
         "siafi": "8057",
         "numero": 123
       },
+      // "imagem" : "assets/imgs/event1.png",
       "images": [
         {
           "previewImageSrc": "assets/imgs/event1.png",

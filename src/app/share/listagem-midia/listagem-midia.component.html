@@ -1,0 +1,35 @@
+<div class="p-col-12 p-lg-12 p-fluid">
+    <p-card *ngFor="let obj of objeto" class="card">
+        <div class="top"></div>
+        <div class="p-grid">
+            <div class="p-col-12 p-lg-5 p-fluid">
+                <h1>{{obj.nome}}</h1>
+                <h3 style="margin-top: -10pt;">{{obj.tipo}}</h3>
+                <p style="margin-top: -5pt;" class="pi pi-map-marker"> {{obj.endereco.logradouro}}, {{obj.endereco.numero}} -
+                    {{obj.endereco.bairro}} - {{obj.endereco.localidade}}, {{obj.endereco.uf}}</p>
+                <p style="margin-top: 0%;">{{obj.descricao}}</p>
+            </div>
+            <div class="p-col-12 p-lg-7 p-fluid" *ngIf="obj.images">
+                <p-galleria [value]="obj.images" [responsiveOptions]="responsiveOptions" [numVisible]="5">
+                    <ng-template pTemplate="item" let-item>
+                        <img [src]="item.previewImageSrc" style="max-height: 250pt; display: block;" />
+                    </ng-template>
+                    <ng-template pTemplate="thumbnail" let-item>
+                        <div class="p-grid p-nogutter">
+                            <img [src]="item.thumbnailImageSrc"
+                                style="max-height: 100pt; display: block; padding: 0, 5pt;" />
+                        </div>
+                    </ng-template>
+                </p-galleria>
+            </div>
+            <div class="p-col-12 p-lg-7 p-fluid" *ngIf="obj.imagem">
+                <div class="p-d-flex p-jc-center">
+                    <img [src]="obj.imagem" style="max-height: 300pt; display: block;" />
+                </div>
+            </div>
+            <div>
+                <button class="button" pButton label="Entre em contato"></button>
+            </div>
+        </div>
+    </p-card>
+</div>
