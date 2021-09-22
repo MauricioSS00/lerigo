@@ -32,6 +32,7 @@ export class NavbarComponent implements OnInit {
       },
       {
         label: 'ARTISTAS',
+        routerLink: ['artista-list']
       },
       {
         label: 'PRODUTOR',
