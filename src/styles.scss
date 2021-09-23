@@ -2,6 +2,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300&family=Staatliches&display=swap");
 @media (min-width: 1170px) {
     .container {
+        margin-top: 10%;
         width: 1170px;
         margin: 0 auto;
     }
@@ -45,3 +46,12 @@ h3 {
     background-color: #9df8fa;
 }
 
+.menu {
+    .p-menubar {
+        padding: 0.5rem;
+        background: #ffffff;
+        color: #495057;
+        border: 1px solid #ffffff;
+        border-radius: 3px;
+    }
+}

@@ -15,6 +15,10 @@ import { NavbarModule } from './core/navbar/navbar.module';
 import { UsuarioModule } from './usuario/usuario.module';
 import { ArtistaModule } from './artista/artista.module';
 import { EspacoModule } from './espaco/espaco.module';
+import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
+import { ProdutorModule } from './produtor/produtor.module';
+import { EventoModule } from './evento/evento.module';
 
 
 
@@ -30,10 +34,14 @@ import { EspacoModule } from './espaco/espaco.module';
     NavbarModule,
     MenubarModule,
     MenuModule,
+    InputTextModule,
+    ButtonModule,
     HomeModule,
     UsuarioModule,
     ArtistaModule,
     EspacoModule,
+    ProdutorModule,
+    EventoModule,
     AppRoutingModule,
   ],
   providers: [{provide: LOCALE_ID, useValue: 'pt-BR'}],
