@@ -6,7 +6,11 @@ const routes: Routes = [
     {
         path: 'artista-cad',
         component: ArtistaCadComponent,
-    }
+    },
+    {
+        path: 'artista-list',
+        component: ArtistaCadComponent,
+    },
 ];
 
 @NgModule({

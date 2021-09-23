@@ -1,19 +1,7 @@
-<!-- <ng-template pTemplate="start">
-    <img src="./assets/imgs/logo.png" height="40" class="p-mr-2 mic">
-</ng-template> -->
-
-<div class="content-section implementation container" style="margin-bottom: 1rem;">
-    <div class="card">
-        <p-menubar [model]="items">
-            <ng-template pTemplate="end">
-                <span class="p-input-icon-right">
-                    <i class="pi pi-search" style="padding: 2pt;"></i>
-                    <input type="text" color="write" pInputText style="margin-right: 5pt;">
-                </span>
-                <button pButton type="text" class="p-button-outlined p-button-rounded p-button-secondary"
-                    icon="pi pi-user" (click)="minhaArea()">
-                </button>
-            </ng-template>
-        </p-menubar>
-    </div>
+<div class="content-section implementation container" styleClass="menu">
+    <p-menubar [model]="items">
+        <input type="text" pInputText placeholder="Buscar">
+        <button style="margin-left: 4pt;" pButton class="p-button-outlined p-button-rounded p-button-secondary"
+            icon="pi pi-user" (click)="minhaArea()"></button>
+    </p-menubar>
 </div>

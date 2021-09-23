@@ -7,6 +7,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import {TabViewModule} from 'primeng/tabview';
 import {OverlayPanelModule} from 'primeng/overlaypanel';
 import {ToastModule} from 'primeng/toast';
+import { ButtonModule } from 'primeng/button';
 
 
 @NgModule({
@@ -18,8 +19,9 @@ import {ToastModule} from 'primeng/toast';
     InputTextModule,
     TabViewModule,
     OverlayPanelModule,
-    ToastModule
-
+    ToastModule,
+    ButtonModule,
+    
   ]
 })
 export class NavbarModule { }
