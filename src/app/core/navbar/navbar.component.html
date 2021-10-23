@@ -2,6 +2,8 @@
     <p-menubar [model]="items">
         <input type="text" pInputText placeholder="Buscar">
         <button style="margin-left: 4pt;" pButton class="p-button-outlined p-button-rounded p-button-secondary"
-            icon="pi pi-user" (click)="minhaArea()"></button>
+            icon="pi pi-user" (click)="menu.toggle($event)"></button>
+        <p-tieredMenu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'" #menu [model]="menuUser"
+            [popup]="true"></p-tieredMenu>
     </p-menubar>
 </div>

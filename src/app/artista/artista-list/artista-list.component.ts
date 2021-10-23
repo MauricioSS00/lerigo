@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ArtistaListComponent implements OnInit {
 
+  artistas: any = [];
   constructor() { }
 
   ngOnInit(): void {

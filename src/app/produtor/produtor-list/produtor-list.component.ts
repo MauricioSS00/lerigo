@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProdutorListComponent implements OnInit {
 
+  produtores: any = [];
   constructor() { }
 
   ngOnInit(): void {

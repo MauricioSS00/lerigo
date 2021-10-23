@@ -1,0 +1,21 @@
+<div class="container">
+    <div>
+        <h1>NOSSA EQUIPE</h1>
+    </div>
+    <div>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-4 p-fluid" *ngFor="let eq of equipe">
+                <img [src]="eq.img" alt="Teste" (click)="op.show($event)" id="img" #img style="max-width: 100%;"/>
+                <div style="margin: 0 auto;">
+                    <h3>{{eq.nome}}</h3>
+                    <p>{{eq.funcao}}</p>
+                    <p-overlayPanel #op appendTo="img">
+                        <ng-template pTemplate>
+                            Content
+                        </ng-template>
+                    </p-overlayPanel>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

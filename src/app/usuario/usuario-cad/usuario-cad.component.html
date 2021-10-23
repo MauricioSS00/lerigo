@@ -7,8 +7,8 @@
                     <div class="p-col-12 p-lg-6 p-fluid">
                         <div class="p-field">
                             <label>Nome Completo</label>
-                            <input pInputText type="text" name="user_nome_civ" [(ngModel)]="user.user_nome_civ" #user_nome_civ="ngModel"
-                                class="ng-required ng-dirty" required minlength="7" />
+                            <input pInputText type="text" name="user_nome_civ" [(ngModel)]="user.user_nome_civ"
+                                #user_nome_civ="ngModel" class="ng-required ng-dirty" required minlength="7" />
                             <small class="p-error" *ngIf="user_nome_civ.hasError('required') && user_nome_civ.dirty">
                                 *Campo obrigatório</small>
                             <small class="p-error" *ngIf="user_nome_civ.hasError('minlength')">
@@ -207,8 +207,19 @@
                 </div>
             </div>
 
-            <div>
-                <button class="button" pButton type="submit" [disabled]="formEspacoCad.invalid" label="Gravar"></button>
+            <div class="p-grid">
+                <div class="p-col-4 p-lg-2 p-fluid">
+                    <button class="button" pButton type="submit" [disabled]="formEspacoCad.invalid"
+                        label="Gravar"></button>
+                </div>
+                <div class="p-col-4 p-lg-2 p-fluid">
+                    <button pButton type="button" label="Sou Artista" icon="fas fa-palette" iconPos="left"
+                        class="p-button-text p-button-text" (click)="displayArtista=true"></button>
+                </div>
+                <div class="p-col-4 p-lg-2 p-fluid">
+                    <button pButton type="button" label="Sou Produtor" icon="fas fa-user-tie" iconPos="left"
+                        class="p-button-text p-button-text" (click)="displayProdutor=true"></button>
+                </div>
                 <!-- [disabled]="formEspacoCad.invalid" -->
                 <!-- <button pButton class="p-button-danger" style="margin-left: 5pt;" label="cancelar"></button> -->
             </div>
@@ -216,3 +227,117 @@
     </form>
 </div>
 <p-toast></p-toast>
+<!-- Dados de Artista -->
+<p-dialog [(visible)]="displayArtista" [modal]="true" [style]="{width: '80vw'}" [maximizable]="true" [draggable]="false"
+    [resizable]="false">
+    <ng-template pTemplate="body">
+        <div class="p-grid">
+            <div class="p-sm-12 p-md-4 p-fluid">
+                <label>Instagram</label>
+                <input pInputText type="text" name="instagram" [(ngModel)]="artista.instagram" #instagram="ngModel" />
+            </div>
+            <div class="p-sm-12 p-md-4 p-fluid">
+                <label>Facebook</label>
+                <input pInputText type="text" name="facebook" [(ngModel)]="artista.facebook" #facebook="ngModel" />
+            </div>
+            <div class="p-sm-12 p-md-4 p-fluid">
+                <label>Twitter</label>
+                <input pInputText type="text" name="twitter" [(ngModel)]="artista.twitter" #twitter="ngModel" />
+            </div>
+            <div class="p-sm-12 p-md-4 p-fluid">
+                <label>Site</label>
+                <input pInputText type="text" name="site" [(ngModel)]="artista.site" #site="ngModel" />
+            </div>
+            <div class="p-sm-12 p-md-4 p-fluid">
+                <label>Spotify</label>
+                <input pInputText type="text" name="spotify" [(ngModel)]="artista.spotify" #spotify="ngModel" />
+            </div>
+            <div class="p-sm-12 p-md-4 p-fluid">
+                <label>Amazon Music</label>
+                <input pInputText type="text" name="amzMusic" [(ngModel)]="artista.amzMusic" #amzMusic="ngModel" />
+            </div>
+            <div class="p-sm-12 p-md-4 p-fluid">
+                <label>Apple Music</label>
+                <input pInputText type="text" name="apple" [(ngModel)]="artista.apple" #apple="ngModel" />
+            </div>
+            <div class="p-sm-12 p-md-4 p-fluid">
+                <label>Deezer</label>
+                <input pInputText type="text" name="deezer" [(ngModel)]="artista.deezer" #deezer="ngModel" />
+            </div>
+            <div class="p-sm-12 p-md-4 p-fluid">
+                <label>Soundcloud</label>
+                <input pInputText type="text" name="soundcloud" [(ngModel)]="artista.soundcloud"
+                    #soundcloud="ngModel" />
+            </div>
+        </div>
+        <div class="p-grid">
+            <div class="p-sm-12 p-md-6 p-fluid">
+                <label>Gênero Musical</label>
+                <p-dropdown [options]="generoArte" [(ngModel)]="artista.genero" optionLabel="name" optionValue="code"
+                    name="genero" placeholder="Selecione" class="ng-required ng-dirty" appendTo="body" required>
+                </p-dropdown>
+            </div>
+            <div class="p-sm-12 p-md-6 p-fluid">
+                <label>Tipo</label>
+                <p-dropdown [options]="tpArte" [(ngModel)]="artista.tipo" optionLabel="name" optionValue="code"
+                    name="tpArte" placeholder="Selecione" class="ng-required ng-dirty" appendTo="body" required>
+                </p-dropdown>
+            </div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col-12 p-fluid">
+                <label>Breve descrição</label>
+                <textarea pInputTextarea name="descricao" [(ngModel)]="artista.descricao" #descricao="ngModel"
+                    class="ng-required ng-dirty" maxlength="200" required></textarea>
+            </div>
+        </div>
+        <div class="p-col-12">
+            <label>Fotos</label>
+            <p-fileUpload name="artista.imgs[]" multiple="multiple"></p-fileUpload>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-save" (click)="gravarArtista()" label="Gravar" styleClass="p-button-text">
+        </p-button>
+    </ng-template>
+</p-dialog>
+
+<!-- Dados de Produtor -->
+<p-dialog [(visible)]="displayProdutor" [modal]="true" [style]="{width: '80vw'}" [maximizable]="true"
+    [draggable]="false" [resizable]="false">
+    <ng-template pTemplate="body">
+        <div class="p-grid">
+            <div class="p-sm-12 p-md-4 p-fluid">
+                <label>Instagram</label>
+                <input pInputText type="text" name="instagram" [(ngModel)]="produtor.instagram" #instagram="ngModel" />
+            </div>
+            <div class="p-sm-12 p-md-4 p-fluid">
+                <label>Facebook</label>
+                <input pInputText type="text" name="facebook" [(ngModel)]="produtor.facebook" #facebook="ngModel" />
+            </div>
+            <div class="p-sm-12 p-md-4 p-fluid">
+                <label>Twitter</label>
+                <input pInputText type="text" name="twitter" [(ngModel)]="produtor.twitter" #twitter="ngModel" />
+            </div>
+            <div class="p-sm-12 p-fluid">
+                <label>Site</label>
+                <input pInputText type="text" name="site" [(ngModel)]="produtor.site" #site="ngModel" />
+            </div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col-12 p-fluid">
+                <label>Breve descrição</label>
+                <textarea pInputTextarea name="descricao" [(ngModel)]="produtor.descricao" #descricao="ngModel"
+                    class="ng-required ng-dirty" maxlength="200" required></textarea>
+            </div>
+        </div>
+        <div class="p-col-12">
+            <label>Fotos de Produções</label>
+            <p-fileUpload name="artista.imgs[]" multiple="multiple"></p-fileUpload>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-save" (click)="gravarProdutor()" label="Gravar" styleClass="p-button-text">
+        </p-button>
+    </ng-template>
+</p-dialog>

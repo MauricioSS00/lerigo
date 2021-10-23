@@ -16,6 +16,8 @@ import {RadioButtonModule} from 'primeng/radiobutton';
 import {CheckboxModule} from 'primeng/checkbox';
 import { ToastModule } from 'primeng/toast';
 import {TabViewModule} from 'primeng/tabview';
+import {DialogModule} from 'primeng/dialog';
+import { FileUploadModule } from 'primeng/fileupload';
 
 
 
@@ -39,6 +41,9 @@ import {TabViewModule} from 'primeng/tabview';
     RadioButtonModule,
     CheckboxModule,
     ToastModule,
+    DialogModule,
+    FileUploadModule,
+
 
     TabViewModule
   ]

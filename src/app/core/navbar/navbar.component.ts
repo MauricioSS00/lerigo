@@ -10,6 +10,7 @@ import { MenuItem } from 'primeng/api';
 export class NavbarComponent implements OnInit {
 
   items: MenuItem[];
+  menuUser: MenuItem[];
 
   constructor(
     private router: Router
@@ -24,7 +25,7 @@ export class NavbarComponent implements OnInit {
       },
       {
         label: 'EVENTOS',
-        routerLink: ['evento']
+        routerLink: ['evento-list']
       },
       {
         label: 'ESPAÇOS',
@@ -32,23 +33,43 @@ export class NavbarComponent implements OnInit {
       },
       {
         label: 'ARTISTAS',
-        routerLink: ['artista-list']
+        routerLink: ['artistas']
       },
       {
         label: 'PRODUTOR',
+        routerLink: ['produtores']
       },
       {
         label: 'QUEM SOMOS',
+        routerLink: ['about']
       },
       {
         label: 'BLOG',
+        routerLink: ['blog-list']
       },
       {
         label: 'CONTATO',
+        routerLink: ['contato']
+      }
+    ];
+
+    this.menuUser = [
+      {
+        label: 'Minha Área',
+        routerLink: ['usuario-area'],
+        icon: 'far fa-user'
       },
+      {
+        separator: true
+      },
+      {
+        label: 'Quit',
+        icon: 'pi pi-fw pi-power-off',
+        command: () => this.minhaArea()
+      }
     ];
   }
   minhaArea() {
-    this.router.navigate(['usuario-area']);
+    console.log("Pediu para sair");
   }
 }

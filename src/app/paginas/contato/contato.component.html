@@ -1,0 +1,47 @@
+<div class="container">
+    <div class="p-grid">
+        <div class="p-col-12 p-lg-6 p-fluid" style="margin: auto;">
+            <h3>ENTRE EM CONTATO</h3>
+            <div class="p-field">
+                <input pInputText type="text" name="nome" [(ngModel)]="contatoForm.nome" #nome="ngModel"
+                    class="ng-required ng-dirty" placeholder="Como você gostaria de ser chamado" required
+                    minlength="6" />
+                <small class="p-error" *ngIf="nome.hasError('required') && nome.dirty">
+                    *Campo obrigatório</small>
+                <small class="p-error" *ngIf="nome.hasError('minlength')">
+                    Informe o nome completo!</small>
+            </div>
+
+            <div class="p-field">
+                <input pInputText type="text" name="email" [(ngModel)]="contatoForm.email" #email="ngModel"
+                    class="ng-required ng-dirty" placeholder="Seu melhor e-mail" required email />
+                <small class="p-error" *ngIf="email.hasError('required') && email.dirty">
+                    *Campo obrigatório</small>
+                <small class="p-error" *ngIf="email.hasError('email')">
+                    Informe um e-mail válido!</small>
+            </div>
+
+            <div class="p-field">
+                <textarea pInputTextarea [(ngModel)]="contatoForm.mensagem" placeholder="Mensagem" [rows]="5"
+                    [cols]="30"></textarea>
+            </div>
+            <div>
+                <button class="button" pButton type="submit" label="Entrar em Contato" icon="fas fa-chevron-circle-right"
+                iconPos="right" style="width: 30%;"></button>
+            </div>
+        </div>
+        <div class="p-col-12 p-lg-6 p-fluid" style="margin: auto 0; padding: 0 20pt;">
+            <h3>LÉRIGO</h3>
+            <h4 style="margin: 0 0 5pt 0;">Frase de efeito</h4>
+            <div class="p-text-normal" style="padding: 1%;">
+                <i class="pi pi-map-marker button2"></i> R Irmão Tomaz, 377 - Bom Jesus - Caçador - SC
+            </div>
+            <div class="p-text-normal" style="padding: 1%;">
+                <i class="fab fa-whatsapp button2"></i> (99) 99999-9999
+            </div>
+            <div class="p-text-normal" style="padding: 1%;">
+                <i class="pi pi-envelope button2"></i> email@email.com.br
+            </div>
+        </div>
+    </div>
+</div>

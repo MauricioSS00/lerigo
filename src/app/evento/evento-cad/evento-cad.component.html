@@ -1,1 +1,130 @@
-<p>evento-cad works!</p>
+<div class="container">
+    <h1>Novo Evento</h1>
+    <form #formEvtCad="ngForm" autocomplete="off" (ngSubmit)="gravar(formEvtCad)">
+        <div class="form p-grid">
+            <div class="p-col-12 p-fluid">
+                <label>Nome Completo</label>
+                <input pInputText type="text" name="nome" [(ngModel)]="evento.nome" #nome="ngModel"
+                    class="ng-required ng-dirty" required minlength="7" />
+                <small class="p-error" *ngIf="nome.hasError('required') && nome.dirty">
+                    *Campo obrigatório</small>
+                <small class="p-error" *ngIf="nome.hasError('minlength')">
+                    Informe o user_nome_civ por Completo!</small>
+            </div>
+            <div class="p-col-12 p-lg-4 p-fluid">
+                <label>Instagram</label>
+                <input pInputText type="text" name="instagram" [(ngModel)]="evento.instagram" #instagram="ngModel" />
+            </div>
+            <div class="p-col-12 p-lg-4 p-fluid">
+                <label>Facebook</label>
+                <input pInputText type="text" name="facebook" [(ngModel)]="evento.facebook" #facebook="ngModel" />
+            </div>
+            <div class="p-col-12 p-lg-4 p-fluid">
+                <label>Site</label>
+                <input pInputText type="text" name="site" [(ngModel)]="evento.site" #site="ngModel" />
+            </div>
+            <div class="p-col-12 p-lg-6 p-fluid">
+                <label>Espaço</label>
+                <p-autoComplete name="espaco" [(ngModel)]="evento.espaco" [suggestions]="espacos" [dropdown]="true">
+                </p-autoComplete>
+            </div>
+            <div class="p-col-12 p-lg-6 p-fluid">
+                <label>Classificação</label>
+                <p-dropdown [options]="classificacoes" name="classificacao" [(ngModel)]="evento.classificacao"
+                    optionLabel="nome" placeholder="selecione">
+                    <ng-template let-cla pTemplate="item">
+                        <div class="item-drop">
+                            <div class="p-grid">
+                                <div class="p-col-1">
+                                    <img [src]="cla.logo" style="max-width: 20px; margin: auto;" />
+                                </div>
+                                <div class="p-col-8 p-fluid" style="margin: auto 0;">
+                                    <div style="font-weight: bold;">{{cla.nome}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </p-dropdown>
+            </div>
+            <div class="p-col-12 p-lg-6 p-fluid">
+                <label>Data do Evento</label>
+                <p-calendar name="data" [(ngModel)]="evento.data"></p-calendar>
+            </div>
+            <div class="p-col-6 p-lg-3 p-fluid">
+                <label>Horário Inicial</label>
+                <p-inputMask name="hrIni" [(ngModel)]="evento.hrIni" mask="99:99"></p-inputMask>
+            </div>
+            <div class="p-col-6 p-lg-3 p-fluid">
+                <label>Horário Final</label>
+                <p-inputMask name="hrFim" [(ngModel)]="evento.hrFim" mask="99:99"></p-inputMask>
+            </div>
+            <div class="p-col-12 p-lg-6 p-fluid">
+                <label>Imagem de perfil</label>
+                <p-fileUpload mode="basic" name="imgPerfil" accept="image/*" maxFileSize="1000000">
+                </p-fileUpload>
+            </div>
+            <div class="p-col-12 p-lg-6 p-fluid">
+                <label>Tipo</label>
+                <p-dropdown [options]="tipos" name="tipo" [(ngModel)]="evento.tipo" optionLabel="nome"
+                    placeholder="Selecione"></p-dropdown>
+            </div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col-10 p-fluid">
+                <label>Artistas</label>
+                <p-autoComplete name="artistaTmp" [suggestions]="artistas" [(ngModel)]="artistaTmp" [dropdown]="true"
+                    (completeMethod)="buscarArtista($event)" field="label">
+                </p-autoComplete>
+            </div>
+            <div class="p-col-2 p-fluid" style="margin: auto 0 0 0;">
+                <label>&nbsp;</label>
+                <button class="button" pButton icon="pi pi-plus" [disabled]="!artistaTmp"
+                    (click)="addArtista()"></button>
+            </div>
+            <div class="p-col-12 p-fluid">
+                <p-table [value]="evento.artistas">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th style="width: 70%;">Nome</th>
+                            <th style="width: 20%;">Tipo</th>
+                            <th style="width: 10%;">Ação</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-art>
+                        <tr>
+                            <td style="width: 70%;">{{art?.label}}</td>
+                            <td style="width: 20%;">{{art?.tipo}}</td>
+                            <td style="width: 10%;">
+                                <button pButton pRipple type="button" icon="pi pi-trash"
+                                    class="p-button-rounded p-button-danger" (click)="removerArt(art)"></button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col-12 p-fluid">
+                <label>Breve resumo do evento</label>
+                <textarea pInputTextarea name="resumo" [(ngModel)]="evento.resumo" maxlength="200"></textarea>
+            </div>
+            <div class="p-col-12 p-fluid">
+                <label>Descrição do evento</label>
+                <textarea pInputTextarea name="descricao" [(ngModel)]="evento.descricao" maxlength="200"></textarea>
+            </div>
+            <div class="p-col-12 p-fluid">
+                <label>Fotos do evento</label>
+                <p-fileUpload mode="basic" name="fotos" accept="image/*" maxFileSize="1000000">
+                </p-fileUpload>
+            </div>
+        </div>
+
+
+
+
+
+        <div>
+            <button class="button" pButton label="Gravar" icon="pi pi-save" iconPos="left"></button>
+        </div>
+    </form>
+</div>

@@ -23,7 +23,16 @@ export class UsuarioCadComponent implements OnInit {
   tipoPessoa: any;
   selectedValue = ['Física', 'Juridica'];
   maskDoc = '';
+  tpArte: any = [];
+  generoArte: any = [];
+  artista: any = [];
+  produtor: any = [];
+
+
   fieldObr = true;
+  displayArtista = false;
+  displayProdutor = false;
+
   constructor(
     private messageService: MessageService,
     private userService: UsuarioService,
@@ -49,7 +58,34 @@ export class UsuarioCadComponent implements OnInit {
       { name: 'DR', code: 'DR' },
       { name: 'RS', code: 'RS' },
       { name: 'AC', code: 'AC' }
-    ]
+    ];
+    this.tpArte = [
+      { name: 'autoral', code: 'autoral' },
+      { name: 'instrumental', code: 'autoral' },
+      { name: 'intérprete', code: 'autoral' },
+      { name: 'cover', code: 'autoral' }
+
+    ];
+    this.generoArte = [
+      { name: 'axé', code: 'axé' },
+      { name: 'blues', code: 'blues' },
+      { name: 'country', code: 'country' },
+      { name: 'eletrônica', code: 'eletrônica' },
+      { name: 'forró', code: 'forró' },
+      { name: 'funk', code: 'funk' },
+      { name: 'gospel', code: 'gospel' },
+      { name: 'hip hop', code: 'hip hop' },
+      { name: 'jazz', code: 'jazz' },
+      { name: 'mpb', code: 'mpb' },
+      { name: 'música clássica', code: 'música clássica' },
+      { name: 'pagode', code: 'pagode' },
+      { name: 'pop', code: 'pop' },
+      { name: 'rap', code: 'rap' },
+      { name: 'reggae', code: 'reggae' },
+      { name: 'rock', code: 'rock' },
+      { name: 'samba', code: 'samba' },
+      { name: 'sertanejo', code: 'sertanejo' }
+    ];
   }
 
   ngOnInit(): void {
@@ -109,4 +145,13 @@ export class UsuarioCadComponent implements OnInit {
       });
   }
 
+  //Ações de artista
+  gravarArtista() {
+    this.displayArtista = false;
+  }
+
+  //Ações de produtor
+  gravarProdutor() {
+    this.displayProdutor = false;
+  }
 }
