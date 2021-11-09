@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import { ValidacaoService } from 'src/app/core/validacao.service';
+import { ValidacaoService } from 'src/app/shared/validacao.service';
 
 @Component({
   selector: 'app-usuario-area',

@@ -108,7 +108,7 @@
                             <label>Data de Nascimento</label>
                             <p-calendar [monthNavigator]="true" [yearNavigator]="true" yearRange="1888:2050"
                                 name="dtNasc" [(ngModel)]="user.dtNasc" #dtNasc="ngModel" class="ng-required ng-dirty"
-                                required></p-calendar>
+                                dateFormat="dd/mm/yy" required></p-calendar>
                             <small class="p-error" *ngIf="dtNasc.hasError('required') && dtNasc.dirty">
                                 *Campo obrigatório</small>
                         </div>

@@ -15,16 +15,16 @@ import { ButtonModule } from 'primeng/button';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeModule } from './home/home.module';
+import { HomeModule } from './components/home/home.module';
 import { NavbarComponent } from './core/navbar/navbar.component';
 import { NavbarModule } from './core/navbar/navbar.module';
-import { UsuarioModule } from './usuario/usuario.module';
-import { ArtistaModule } from './artista/artista.module';
-import { EspacoModule } from './espaco/espaco.module';
-import { PaginasModule } from './paginas/paginas.module';
-import { BlogModule } from './blog/blog.module';
-import { ProdutorModule } from './produtor/produtor.module';
-import { EventoModule } from './evento/evento.module';
+import { UsuarioModule } from './components/usuario/usuario.module';
+import { ArtistaModule } from './components/artista/artista.module';
+import { EspacoModule } from './components/espaco/espaco.module';
+import { PaginasModule } from './components/paginas/paginas.module';
+import { BlogModule } from './components/blog/blog.module';
+import { ProdutorModule } from './components/produtor/produtor.module';
+import { EventoModule } from './components/evento/evento.module';
 
 registerLocaleData(ptBr);
 @NgModule({

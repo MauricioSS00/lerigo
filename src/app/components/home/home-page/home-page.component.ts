@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Route, Router } from '@angular/router';
-import { UsuarioService } from 'src/app/usuario/usuario.service';
+import { UsuarioService } from 'src/app/components/usuario/usuario.service';
 
 @Component({
   selector: 'app-home-page',

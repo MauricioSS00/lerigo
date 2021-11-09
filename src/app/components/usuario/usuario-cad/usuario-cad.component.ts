@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
 import { UsuarioService } from '../usuario.service';
-import { ValidacaoService } from 'src/app/core/validacao.service';
+import { ValidacaoService } from 'src/app/shared/validacao.service';
 
 import { MessageService } from 'primeng/api';
 
@@ -96,8 +96,12 @@ export class UsuarioCadComponent implements OnInit {
 
   gravar(ngForm: NgForm) {
     this.user.endereco = this.endereco;
-    console.log(this.user);
-
+    this.userService.gravar(this.user)
+      .then( res => {
+        console.log(res);
+      })
+      //TODO
+      .catch(error => console.log(error));
   }
 
   tipoDocumento() {

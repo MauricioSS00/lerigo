@@ -21,7 +21,7 @@ import { TableModule } from 'primeng/table';
 import { EspacoListComponent } from './espaco-list/espaco-list.component';
 import { EspacoCadComponent } from './espaco-cad/espaco-cad.component';
 import { EspacoRoutingModule } from './espaco-routing.module';
-import { ShareModule } from '../share/share.module';
+import { ShareModule } from '../../shared/share.module';
 
 
 @NgModule({

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { ArtistaRoutingModule } from './artista-routing.module';
 import { ArtistaListComponent } from './artista-list/artista-list.component';
-import { ShareModule } from '../share/share.module';
+import { ShareModule } from '../../shared/share.module';
 
 
 
