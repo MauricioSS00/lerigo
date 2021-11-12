@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
+import { FileUpload } from 'primeng/fileupload';
+
 @Component({
   selector: 'app-evento-cad',
   templateUrl: './evento-cad.component.html',
@@ -8,7 +10,7 @@ import { NgForm } from '@angular/forms';
 })
 export class EventoCadComponent implements OnInit {
 
-  evento: any = [];
+  evento: any = {};
   espacos: any = [];
   artistas: any = [];
   artistaTmp: any;
@@ -43,21 +45,33 @@ export class EventoCadComponent implements OnInit {
   }
 
   removerArt(att) {
-    this.arttSelecionado = this.arttSelecionado.filter( art => {
+    this.arttSelecionado = this.arttSelecionado.filter(art => {
       return art.value != att.value ?? art;
     });
     this.evento.artistas = this.arttSelecionado;
   }
 
   gravar(form: NgForm) {
-
+console.log(this.evento)
   }
 
-  //buscar dados
   buscarArtista(event) {
     this.artistas = [
       { label: 'Gabriel', tipo: 'Autoral', value: 10 },
       { label: 'Gabriel II', tipo: 'Cover', value: 11 }
     ]
+  }
+
+  async uploadHandler(imagem: any, uploader: FileUpload, campo: string) {
+    this.evento[campo] = await this.blobToBase64(imagem.files[0]);
+    uploader.clear();
+  }
+
+  blobToBase64(blob: any) {
+    return new Promise((resolve, _) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.readAsDataURL(blob);
+    });
   }
 }

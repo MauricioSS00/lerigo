@@ -60,7 +60,9 @@
             </div>
             <div class="p-col-12 p-lg-6 p-fluid">
                 <label>Imagem de perfil</label>
-                <p-fileUpload mode="basic" name="imgPerfil" accept="image/*" maxFileSize="1000000">
+                <p-fileUpload [customUpload]="true" [auto]="true"
+                    (uploadHandler)="uploadHandler($event, uploadPerfil, 'imagemPerfil')" mode="basic" name="imgPerfil"
+                    accept="image/*" maxFileSize="1000000" #uploadPerfil>
                 </p-fileUpload>
             </div>
             <div class="p-col-12 p-lg-6 p-fluid">
@@ -114,15 +116,12 @@
             </div>
             <div class="p-col-12 p-fluid">
                 <label>Fotos do evento</label>
-                <p-fileUpload mode="basic" name="fotos" accept="image/*" maxFileSize="1000000">
+                <p-fileUpload [customUpload]="true" [auto]="true"
+                    (uploadHandler)="uploadHandler($event, uploadPerfil, 'fotoEvento')" mode="basic" name="fotos"
+                    accept="image/*" maxFileSize="1000000">
                 </p-fileUpload>
             </div>
         </div>
-
-
-
-
-
         <div>
             <button class="button" pButton label="Gravar" icon="pi pi-save" iconPos="left"></button>
         </div>
