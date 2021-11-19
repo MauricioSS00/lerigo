@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
 import { FileUpload } from 'primeng/fileupload';
+import { EventoService } from '../evento.service';
 
 @Component({
   selector: 'app-evento-cad',
@@ -10,7 +11,7 @@ import { FileUpload } from 'primeng/fileupload';
 })
 export class EventoCadComponent implements OnInit {
 
-  evento: any = {};
+  evento: any = [];
   espacos: any = [];
   artistas: any = [];
   artistaTmp: any;
@@ -18,7 +19,11 @@ export class EventoCadComponent implements OnInit {
   classificacoes: any = [];
   tipos: any = [];
 
-  constructor() {
+  igmsEvento = [];
+
+  constructor(
+    private eventoService: EventoService
+  ) {
     this.classificacoes = [
       { nome: 'LIVRE PARA TODOS OS PÚBLICOS', code: 'livre', logo: 'assets/imgs/classificacao/l.png' },
       { nome: 'NÃO RECOMENDADO PARA MENORES DE 10 ANOS', code: '10', logo: 'assets/imgs/classificacao/10.png' },
@@ -52,7 +57,12 @@ export class EventoCadComponent implements OnInit {
   }
 
   gravar(form: NgForm) {
-console.log(this.evento)
+    this.evento.id = '';
+    this.evento.fotosEvento = this.igmsEvento;
+
+    this.eventoService.gravar(this.evento)
+      .then(resp => console.log(resp))
+      .catch(error => console.log(error));
   }
 
   buscarArtista(event) {
@@ -62,8 +72,17 @@ console.log(this.evento)
     ]
   }
 
-  async uploadHandler(imagem: any, uploader: FileUpload, campo: string) {
-    this.evento[campo] = await this.blobToBase64(imagem.files[0]);
+  async uploadHandlerImgsEvt(imagens: any, uploader: FileUpload) {
+    console.log(imagens.files);
+    for (const img of imagens.files) {
+      console.log(img);
+      this.igmsEvento.push(await this.blobToBase64(img));
+      uploader.clear();
+    }
+  }
+
+  async uploadHandlerPerfil(foto: any, uploader: FileUpload) {
+    this.evento.imagemPerfil = await this.blobToBase64(foto.files[0]);
     uploader.clear();
   }
 

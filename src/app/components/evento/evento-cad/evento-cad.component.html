@@ -58,27 +58,30 @@
                 <label>Horário Final</label>
                 <p-inputMask name="hrFim" [(ngModel)]="evento.hrFim" mask="99:99"></p-inputMask>
             </div>
-            <div class="p-col-12 p-lg-6 p-fluid">
+            <div class="p-col-12 p-lg-2 p-fluid">
                 <label>Imagem de perfil</label>
-                <p-fileUpload [customUpload]="true" [auto]="true"
-                    (uploadHandler)="uploadHandler($event, uploadPerfil, 'imagemPerfil')" mode="basic" name="imgPerfil"
-                    accept="image/*" maxFileSize="1000000" #uploadPerfil>
+                <p-fileUpload [customUpload]="true" [auto]="true" mode="basic" name="imgPerfil"
+                    (uploadHandler)="uploadHandlerPerfil($event, uploadPerfil)" chooseLabel="adicionar" accept="image/*"
+                    maxFileSize="1000000" #uploadPerfil>
                 </p-fileUpload>
+                <div *ngIf="evento.imagemPerfil" id="imgPerfil">
+                    <img [src]="evento.imagemPerfil" style="max-width: 10vh;">
+                </div>
             </div>
-            <div class="p-col-12 p-lg-6 p-fluid">
+            <div class="p-col-12 p-lg-10 p-fluid">
                 <label>Tipo</label>
                 <p-dropdown [options]="tipos" name="tipo" [(ngModel)]="evento.tipo" optionLabel="nome"
                     placeholder="Selecione"></p-dropdown>
             </div>
         </div>
         <div class="p-grid">
-            <div class="p-col-10 p-fluid">
+            <div class="p-col-11 p-fluid">
                 <label>Artistas</label>
                 <p-autoComplete name="artistaTmp" [suggestions]="artistas" [(ngModel)]="artistaTmp" [dropdown]="true"
                     (completeMethod)="buscarArtista($event)" field="label">
                 </p-autoComplete>
             </div>
-            <div class="p-col-2 p-fluid" style="margin: auto 0 0 0;">
+            <div class="p-col-1 p-fluid" style="margin: auto 0 0 0;">
                 <label>&nbsp;</label>
                 <button class="button" pButton icon="pi pi-plus" [disabled]="!artistaTmp"
                     (click)="addArtista()"></button>
@@ -116,9 +119,9 @@
             </div>
             <div class="p-col-12 p-fluid">
                 <label>Fotos do evento</label>
-                <p-fileUpload [customUpload]="true" [auto]="true"
-                    (uploadHandler)="uploadHandler($event, uploadPerfil, 'fotoEvento')" mode="basic" name="fotos"
-                    accept="image/*" maxFileSize="1000000">
+                <p-fileUpload [customUpload]="true" accept="image/*" multiple="multiple"
+                    (uploadHandler)="uploadHandlerImgsEvt($event, uploadPerfil)" name="fotos" maxFileSize="1000000"
+                    chooseLabel="Adicionar" cancelLabel="Cancelar">
                 </p-fileUpload>
             </div>
         </div>
