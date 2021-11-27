@@ -72,6 +72,13 @@ export class EventoCadComponent implements OnInit {
     ]
   }
 
+  buscarEspacos(event) {
+    this.espacos = [
+      { label: 'Parque Central', value: 10 },
+      { label: 'Mega Pizza',  value: 11 }
+    ]
+  }
+
   async uploadHandlerImgsEvt(imagens: any, uploader: FileUpload) {
     console.log(imagens.files);
     for (const img of imagens.files) {

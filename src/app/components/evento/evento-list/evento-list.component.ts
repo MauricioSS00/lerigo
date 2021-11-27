@@ -1,18 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
 
 import { EventoService } from '../evento.service';
 
 @Component({
   selector: 'app-evento-list',
   templateUrl: './evento-list.component.html',
-  styleUrls: ['./evento-list.component.scss']
+  styleUrls: ['./evento-list.component.scss'],
+  providers: [MessageService]
 })
 export class EventoListComponent implements OnInit {
 
+  eventos: any = [];
+
   constructor(
     private router: Router,
-    private eventoService: EventoService
+    private eventoService: EventoService,
+    private messageService: MessageService,
   ) { }
 
   ngOnInit(): void {
@@ -23,8 +28,14 @@ export class EventoListComponent implements OnInit {
     this.router.navigate(["evento-cad"]);
   }
 
-  listarEventos(){
-    this.eventoService.listarEventos();
+  async listarEventos(){
+    await this.eventoService.listarEventos()
+      .then(ev => {
+        this.eventos = ev;
+      })
+      .catch(() => {
+        this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Não foi possível carragar os eventos!' });
+      });
   }
 
 }

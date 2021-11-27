@@ -25,7 +25,8 @@
             </div>
             <div class="p-col-12 p-lg-6 p-fluid">
                 <label>Espaço</label>
-                <p-autoComplete name="espaco" [(ngModel)]="evento.espaco" [suggestions]="espacos" [dropdown]="true">
+                <p-autoComplete name="espaco" [(ngModel)]="evento.espaco" [suggestions]="espacos" [dropdown]="true"
+                    (completeMethod)="buscarEspacos($event)" field="label">
                 </p-autoComplete>
             </div>
             <div class="p-col-12 p-lg-6 p-fluid">

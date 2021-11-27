@@ -1,19 +1,18 @@
 <div class="container">
     <div class="p-col-12 p-lg-12 p-fluid">
-        <p-card class="card">
+        <p-card class="card" *ngFor="let evt of eventos">
             <div class="p-grid">
                 <div class="p-col-12 p-lg-4 p-fluid">
                     <div class="p-d-flex p-jc-center">
-                        <img src="https://i.pinimg.com/originals/d6/1c/1d/d61c1d8bb37f7225c5fa56c28ba99276.jpg"
-                            alt="teste" style="max-width: 100%; max-height: 350px;">
+                        <img [src]="evt.imagem_perfil" style="max-width: 100%; max-height: 350px;">
                     </div>
                 </div>
                 <div class="p-col-12 p-lg-8 p-fluid">
                     <div class="top"></div>
-                    <h1 style="margin-bottom: -10px;">Aqui vai o Titulo</h1>
-                    <h3 style="font-weight: bold; margin-bottom: -10px;">Data</h3>
-                    <h3 style="font-weight: bold;">Caçador</h3>
-                    Aqui vai a descricão
+                    <h1 style="margin-bottom: -10px;">{{evt.nome}}</h1>
+                    <h3 style="font-weight: bold; margin-bottom: -10px;">{{evt.data | date:'dd/MM/yyyy'}}</h3>
+                    <h3 style="font-weight: bold;">{{evt.resumo}}</h3>
+                    {{evt.descricao}}
                 </div>
                 <div>
                     <button class="button" pButton label="Entre em contato"></button>

@@ -105,7 +105,6 @@ export class UsuarioCadComponent implements OnInit {
   }
 
   tipoDocumento() {
-    console.log(this.user.tipoP);
     this.maskDoc = this.user.tipoP == 'cnpj' ? '99.999.999/9999-99' : '999.999.999-99';
   }
 

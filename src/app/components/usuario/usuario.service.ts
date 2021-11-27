@@ -9,7 +9,6 @@ export class UsuarioService {
 
   urlUsuario = `${environment.urlApi}usuario`;
   usuario = [];
-  usuarios = [];
   constructor(private http: HttpClient) { }
 
   httpOptions = {
@@ -28,13 +27,14 @@ export class UsuarioService {
   }
 
   gravar(user): Promise<any> {
-    console.log(Object.assign(user));
+    user = Object.assign({}, user); 
     return this.http.post<any>(this.urlUsuario, user)
       .toPromise();
   }
 
   cadRapido(user) {
-    this.usuario = user;
+    return this.http.post<any>(`${this.urlUsuario}_rapido`, Object.assign({}, user))
+    .toPromise();
   }
 
   listarUser() {

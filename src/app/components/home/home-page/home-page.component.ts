@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Route, Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
 import { UsuarioService } from 'src/app/components/usuario/usuario.service';
 
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
-  styleUrls: ['./home-page.component.scss']
+  styleUrls: ['./home-page.component.scss'],
+  providers: [MessageService]
 })
 export class HomePageComponent implements OnInit {
 
@@ -24,7 +26,8 @@ export class HomePageComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private usuarioService: UsuarioService
+    private usuarioService: UsuarioService,
+    public msgService: MessageService
   ) {
     this.responsiveOptions = [
       {
@@ -49,9 +52,15 @@ export class HomePageComponent implements OnInit {
   }
 
   gravar(ngForm: NgForm) {
-    console.log(this.user);
-    this.usuarioService.gravar(this.user);
-    this.router.navigate(['usuario-cad']);
+    this.usuarioService.cadRapido(this.user)
+      .then(rs => {
+        this.user.id = rs;
+        this.usuarioService.usuario = this.user;
+        this.router.navigate(['usuario-cad']);
+      })
+      .catch(er => {
+        this.msgService.add({ severity: 'error', summary: 'Erro', detail: 'Não foi possível efetuar seu cadastro, tente novamente mais tarde!' });
+      });
   }
 
 }
