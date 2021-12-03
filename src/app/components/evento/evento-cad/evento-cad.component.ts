@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
 
 import { FileUpload } from 'primeng/fileupload';
 import { EventoService } from '../evento.service';
@@ -7,7 +9,9 @@ import { EventoService } from '../evento.service';
 @Component({
   selector: 'app-evento-cad',
   templateUrl: './evento-cad.component.html',
-  styleUrls: ['./evento-cad.component.scss']
+  styleUrls: ['./evento-cad.component.scss'],
+  providers: [MessageService]
+
 })
 export class EventoCadComponent implements OnInit {
 
@@ -22,7 +26,10 @@ export class EventoCadComponent implements OnInit {
   igmsEvento = [];
 
   constructor(
-    private eventoService: EventoService
+    private eventoService: EventoService,
+    private router: Router,
+    private messageService: MessageService,
+
   ) {
     this.classificacoes = [
       { nome: 'LIVRE PARA TODOS OS PÚBLICOS', code: 'livre', logo: 'assets/imgs/classificacao/l.png' },
@@ -56,12 +63,15 @@ export class EventoCadComponent implements OnInit {
     this.evento.artistas = this.arttSelecionado;
   }
 
-  gravar(form: NgForm) {
+  gravar() {
     this.evento.id = '';
     this.evento.fotosEvento = this.igmsEvento;
 
     this.eventoService.gravar(this.evento)
-      .then(resp => console.log(resp))
+      .then(resp => {
+        this.messageService.add({ severity: 'sucess', summary: 'sucess', detail: 'Evento Cadastrodo' });
+        this.router.navigate(["evento-list"]);
+      })
       .catch(error => console.log(error));
   }
 

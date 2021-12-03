@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { AppGlobals } from 'src/app/core/navbar/appGlobals';
 import { ValidacaoService } from 'src/app/shared/validacao.service';
 
 @Component({
@@ -15,16 +16,24 @@ export class UsuarioAreaComponent implements OnInit {
   disabledConta = true;
   maskDoc = '';
   fieldObr = true;
+  displayProdutor = false;
+  displayArtista = false;
+  endereco: any = [];
+  cidades: any;
+  uf: any;
+  selectedValue = ['Física', 'Juridica'];
 
   constructor(
     private validacaoService: ValidacaoService,
     private messageService: MessageService,
-    private router: Router
-
+    private router: Router,
+    public appGlobals: AppGlobals
 
   ) { }
 
   ngOnInit(): void {
+    this.uf = this.appGlobals.getEstados();
+    this.user.tipoP = 'cpf'
   }
 
   changeConta() {
@@ -43,7 +52,6 @@ export class UsuarioAreaComponent implements OnInit {
   }
 
   tipoDocumento() {
-    console.log(this.user.tipoP);
     this.maskDoc = this.user.tipoP == 'cnpj' ? '99.999.999/9999-99' : '999.999.999-99';
   }
 
@@ -77,6 +85,36 @@ export class UsuarioAreaComponent implements OnInit {
       this.router.navigate(['usuario-cad']);
     } else if (tipo === 'produtor') {
       this.router.navigate(['usuario-cad']);
+    }
+  }
+
+  async buscaCep() {
+    this.appGlobals.getCEP(this.endereco.cep)
+      .then(data => {
+        if (!data.erro) {
+          console.log(data);
+          this.endereco = data;
+          this.mudouUF(); 
+        } else {
+          this.messageService.add({ severity: 'warn', summary: 'Erro', detail: 'CEP não encontrato, verique os dados novamente!' });
+        }
+      }
+      )
+      .catch(error => {
+        this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Falha ao buscar o CEP informado!' });
+        console.log("Erro:", error)
+      });
+  }
+  async mudouUF() {
+    if (this.endereco.uf && this.endereco.uf != "") {
+      await this.appGlobals.getCidades(this.endereco.uf)
+        .then(value => {
+          this.cidades = value.map(v => {
+            return { name: v.nome, code: v.nome };
+          })
+        });
+    } else {
+      this.endereco.localidade = "";
     }
   }
 }

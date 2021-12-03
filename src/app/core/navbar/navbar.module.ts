@@ -9,6 +9,8 @@ import {OverlayPanelModule} from 'primeng/overlaypanel';
 import {ToastModule} from 'primeng/toast';
 import { ButtonModule } from 'primeng/button';
 
+import { ShareModule } from 'src/app/shared/share.module';
+
 
 
 @NgModule({

@@ -17,7 +17,6 @@ import { ListagemMidiaComponent } from './listagem-midia/listagem-midia.componen
     CardModule,
     GalleriaModule,
     ButtonModule,
-
   ], 
   exports: [ListagemMidiaComponent]
 })

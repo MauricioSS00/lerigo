@@ -1,6 +1,6 @@
 <div class="container">
     <h1>Novo Evento</h1>
-    <form #formEvtCad="ngForm" autocomplete="off" (ngSubmit)="gravar(formEvtCad)">
+    <form #formEvtCad="ngForm" autocomplete="off">
         <div class="form p-grid">
             <div class="p-col-12 p-fluid">
                 <label>Nome Completo</label>
@@ -127,7 +127,7 @@
             </div>
         </div>
         <div>
-            <button class="button" pButton label="Gravar" icon="pi pi-save" iconPos="left"></button>
+            <button class="button" pButton label="Gravar" icon="pi pi-save" iconPos="left" (click)="gravar()"></button>
         </div>
     </form>
 </div>

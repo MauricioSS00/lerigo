@@ -3,7 +3,37 @@
         <input type="text" pInputText placeholder="Buscar">
         <button style="margin-left: 4pt;" pButton class="p-button-outlined p-button-rounded p-button-secondary"
             icon="pi pi-user" (click)="menu.toggle($event)"></button>
-        <p-tieredMenu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'" #menu [model]="menuUser"
-            [popup]="true"></p-tieredMenu>
+        <p-tieredMenu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'" #menu
+            [model]="appGlobals.logado ? menuUser : menuLogar" [popup]="true"></p-tieredMenu>
     </p-menubar>
 </div>
+
+<p-dialog position="top" [(visible)]="mostrarLogin" [breakpoints]="{'960px': '75vw', '640px': '100vw'}"
+    [style]="{width: '30vw'}" [modal]="true">
+    <h2>Acesse sua conta Lérigo</h2>
+    <form #formLogin="ngForm" autocomplete="off">
+        <div class="p-grid">
+            <div class="p-col-12 p-lg-12 p-fluid">
+                <div class="p-field">
+                    <label>Login</label>
+                    <input pInputText type="text" name="login" [(ngModel)]="email" #login="ngModel"
+                        class="ng-required ng-dirty" required />
+                    <small class="p-error" *ngIf="login.hasError('required') && login.dirty">
+                        *Campo obrigatório</small>
+                </div>
+                <div class="p-field">
+                    <label>Senha</label>
+                    <p-password type="text" name="senha" [(ngModel)]="password" #senha="ngModel"
+                        class="ng-required ng-dirty" [toggleMask]="true" [feedback]="false" required>
+                    </p-password>
+                    <small class="p-error" *ngIf="senha.hasError('required') && senha.dirty">
+                        *Campo obrigatório</small>
+                </div>
+            </div>
+            <div>
+                <p-button icon="fas fa-sign-in-alt" (click)="acessar()" label="Acessar" styleClass="p-button-text">
+                </p-button>
+            </div>
+        </div>
+    </form>
+</p-dialog>

@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment';
 export class UsuarioService {
 
   urlUsuario = `${environment.urlApi}usuario`;
+  urlLogin = `${environment.urlApi}login`;
   usuario = [];
   constructor(private http: HttpClient) { }
 
@@ -33,11 +34,24 @@ export class UsuarioService {
   }
 
   cadRapido(user) {
-    return this.http.post<any>(`${this.urlUsuario}_rapido`, Object.assign({}, user))
+    return this.http.post<any>(`${this.urlLogin}`, Object.assign({}, user))
     .toPromise();
   }
 
   listarUser() {
     return this.usuario;
+  }
+
+  login(email: string, password: string) {
+    let acesso = {
+      email,
+      password
+    }
+    return this.http.post<any>(`${this.urlUsuario}_rapido`, acesso)
+    .toPromise();
+  }
+
+  logout() {
+
   }
 }

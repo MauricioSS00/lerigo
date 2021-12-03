@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { AppGlobals } from 'src/app/core/navbar/appGlobals';
 
 import { EventoService } from '../evento.service';
 
@@ -18,6 +19,8 @@ export class EventoListComponent implements OnInit {
     private router: Router,
     private eventoService: EventoService,
     private messageService: MessageService,
+    public appGlobals: AppGlobals
+
   ) { }
 
   ngOnInit(): void {
