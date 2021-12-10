@@ -1,6 +1,6 @@
 <div class="container">
     <h2>ESPAÇO - {{edicao? 'Ediçao' : 'Cadastro'}}</h2>
-    <form #formEspacoCad="ngForm" autocomplete="off" (ngSubmit)="gravar(formEspacoCad)">
+    <form #formEspacoCad="ngForm" autocomplete="off">
         <div class="form">
             <div class="cad">
                 <div class="p-grid">
@@ -110,9 +110,13 @@
                     </div>
                     <div class="p-col-12 p-lg-4">
                         <label>Logo</label>
-                        <p-fileUpload mode="basic" name="demo[]" accept="image/*"
-                            maxFileSize="1000000" (onUpload)="onBasicUpload($event)">
+                        <p-fileUpload [customUpload]="true" [auto]="true" mode="basic" name="logo"
+                            (uploadHandler)="uploadHandlerPerfil($event, uploadPerfil)" chooseLabel="adicionar"
+                            accept="image/*" maxFileSize="1000000" #uploadPerfil>
                         </p-fileUpload>
+                        <div *ngIf="espaco.logo" id="imgPerfil">
+                            <img [src]="espaco.logo" style="max-width: 9vh;">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -136,7 +140,8 @@
                         <div class="p-field">
                             <label>UF</label>
                             <p-dropdown [options]="uf" name="uf" [(ngModel)]="endereco.uf" optionLabel="name"
-                                optionValue="code" [filter]="true" [showClear]="true" placeholder="Selecione a UF">
+                                optionValue="code" [filter]="true" [showClear]="true" placeholder="Selecione a UF"
+                                (onChange)="mudouUF()">
                             </p-dropdown>
                         </div>
                     </div>
@@ -145,7 +150,7 @@
                             <label>Cidade</label>
                             <p-dropdown [options]="cities" name="cidade" [(ngModel)]="endereco.localidade"
                                 optionLabel="name" optionValue="code" [filter]="true" filterBy="name" [showClear]="true"
-                                placeholder="Select a Country">
+                                placeholder="Selecione a cidade">
                             </p-dropdown>
                         </div>
                     </div>
@@ -298,12 +303,15 @@
             <div class="p-grid">
                 <div class="p-col-12 p-fluid">
                     <h4>Fotos do Local</h4>
-                    <p-fileUpload name="myfile[]" url="./upload.php" multiple="multiple"></p-fileUpload>
+                    <p-fileUpload [customUpload]="true" accept="image/*" multiple="multiple"
+                        (uploadHandler)="uploadHandlerImgsEvt($event, uploadPerfil)" name="fotosEspaco"
+                        maxFileSize="1000000" chooseLabel="Adicionar" cancelLabel="Cancelar">
+                    </p-fileUpload>
                 </div>
             </div>
 
             <div>
-                <button class="button" pButton type="submit" label="Gravar"></button>
+                <button class="button" pButton (click)="gravar()" label="Gravar"></button>
                 <!-- [disabled]="formEspacoCad.invalid" -->
                 <button pButton class="p-button-danger" style="margin-left: 5pt;" label="cancelar"></button>
             </div>

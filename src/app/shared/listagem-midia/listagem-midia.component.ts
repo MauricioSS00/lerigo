@@ -26,7 +26,7 @@ export class ListagemMidiaComponent implements OnInit{
 
   constructor() { }
   ngOnInit() {
-    console.log(this.objeto[0].images);
+    console.log(this.objeto);
   }
 
 

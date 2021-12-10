@@ -18,10 +18,21 @@
         <div class="top2"></div>
         <h1>EVENTOS</h1>
         <p>Fique por dentro dos eventos que irão acontecer.</p>
-        <p-carousel [value]="cars" [numVisible]="2" [numScroll]="1" [responsiveOptions]="responsiveOptions">
+        <p-carousel [value]="eventos" [numVisible]="2" [numScroll]="1" [responsiveOptions]="responsiveOptions">
           <ng-template let-car pTemplate="item">
-            <div class="p-mb-3">
-              <img [src]="car" class="product-image" style="max-width: 300px;" />
+            <div class="p-mb-3" (click)="linkEvento()">
+              <img *ngIf="car.imagem_perfil" [src]="car.imagem_perfil" class="product-image" style="max-height: 300px;" />
+              <div *ngIf="!car.imagem_perfil" class="card-vazio">
+                <h3>
+                  {{car.nome}}
+                </h3>
+                <h4>
+                  Dia {{car.data | date}}
+                </h4>
+                <h4>
+                  Horário {{car.ini}}
+                </h4>
+              </div>
             </div>
           </ng-template>
         </p-carousel>

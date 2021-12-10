@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 
 import { FileUpload } from 'primeng/fileupload';
+import { ArtistaService } from '../../artista/artista.service';
+import { EspacoService } from '../../espaco/espaco.service';
 import { EventoService } from '../evento.service';
 
 @Component({
@@ -29,6 +31,8 @@ export class EventoCadComponent implements OnInit {
     private eventoService: EventoService,
     private router: Router,
     private messageService: MessageService,
+    private artistaService: ArtistaService,
+    private espacoService: EspacoService,
 
   ) {
     this.classificacoes = [
@@ -48,6 +52,8 @@ export class EventoCadComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.buscarArtista('');
+    this.buscarEspacos('');
   }
 
   addArtista() {
@@ -75,18 +81,20 @@ export class EventoCadComponent implements OnInit {
       .catch(error => console.log(error));
   }
 
-  buscarArtista(event) {
-    this.artistas = [
-      { label: 'Gabriel', tipo: 'Autoral', value: 10 },
-      { label: 'Gabriel II', tipo: 'Cover', value: 11 }
-    ]
+  buscarArtista($event) {
+    this.artistaService.listarResumo()
+      .then(art => {
+        this.artistas = art;
+      })
+      .catch(error => console.log(error));
   }
 
   buscarEspacos(event) {
-    this.espacos = [
-      { label: 'Parque Central', value: 10 },
-      { label: 'Mega Pizza',  value: 11 }
-    ]
+    this.espacoService.listarResumo()
+      .then(esp => {
+        this.espacos = esp;
+      })
+      .catch(error => console.log(error));
   }
 
   async uploadHandlerImgsEvt(imagens: any, uploader: FileUpload) {

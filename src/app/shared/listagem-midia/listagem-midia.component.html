@@ -1,23 +1,23 @@
-<div class="p-col-12 p-lg-12 p-fluid">
+<div class="p-col-12 p-lg-12 p-fluid" *ngIf="objeto.length > 0">
     <p-card *ngFor="let obj of objeto" class="card">
         <div class="top"></div>
         <div class="p-grid">
             <div class="p-col-12 p-lg-5 p-fluid">
                 <h1>{{obj.nome}}</h1>
                 <h3 style="margin-top: -10pt;">{{obj.tipo}}</h3>
-                <p style="margin-top: -5pt;" class="pi pi-map-marker"> {{obj.endereco.logradouro}}, {{obj.endereco.numero}} -
-                    {{obj.endereco.bairro}} - {{obj.endereco.localidade}}, {{obj.endereco.uf}}</p>
+                <p style="margin-top: -5pt;" class="pi pi-map-marker"> {{obj.logradouro}}, {{obj.numero}} -
+                    {{obj.bairro}} - {{obj.localidade}}, {{obj.uf}}</p>
                 <p style="margin-top: 0%;">{{obj.descricao}}</p>
             </div>
-            <div class="p-col-12 p-lg-7 p-fluid" *ngIf="obj.images">
+            <div class="p-col-12 p-lg-6 p-fluid" *ngIf="obj.images">
                 <p-galleria [value]="obj.images" [responsiveOptions]="responsiveOptions" [numVisible]="5">
                     <ng-template pTemplate="item" let-item>
-                        <img [src]="item.previewImageSrc" style="max-height: 250pt; display: block;" />
+                        <img [src]="item.foto" style="max-height: 200pt; display: block;" />
                     </ng-template>
                     <ng-template pTemplate="thumbnail" let-item>
                         <div class="p-grid p-nogutter">
-                            <img [src]="item.thumbnailImageSrc"
-                                style="max-height: 100pt; display: block; padding: 0, 5pt;" />
+                            <img [src]="item.foto"
+                                style="max-height: 40pt; padding: 0, 5pt;" />
                         </div>
                     </ng-template>
                 </p-galleria>

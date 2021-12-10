@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
+
+import { MessageService } from 'primeng/api';
+import { FileUpload } from 'primeng/fileupload';
 
 import { UsuarioService } from '../usuario.service';
 import { ValidacaoService } from 'src/app/shared/validacao.service';
-
-import { MessageService } from 'primeng/api';
+import { AppGlobals } from 'src/app/core/navbar/appGlobals';
 
 @Component({
   selector: 'app-usuario-cad',
@@ -25,18 +27,24 @@ export class UsuarioCadComponent implements OnInit {
   maskDoc = '';
   tpArte: any = [];
   generoArte: any = [];
-  artista: any = [];
-  produtor: any = [];
+  artista: any = {};
+  produtor: any = {};
 
 
   fieldObr = true;
   displayArtista = false;
+  fotoArtista = [];
+
   displayProdutor = false;
+  fotoProdutor = [];
+
 
   constructor(
     private messageService: MessageService,
     private userService: UsuarioService,
-    private validacaoService: ValidacaoService
+    private validacaoService: ValidacaoService,
+    public appGlobals: AppGlobals,
+    public router: Router
   ) {
     this.genero = [
       { name: 'Mulher cis', code: 'MC' },
@@ -46,19 +54,7 @@ export class UsuarioCadComponent implements OnInit {
       { name: 'Não Binário', code: 'NB' },
       { name: 'Gênero Fluído', code: 'GF' }
     ];
-    this.cidades = [
-      { name: 'Caçador', code: 'Caçador' },
-      { name: 'Rio de Janeiro', code: 'Rio de Janeiro' },
-      { name: 'São Paulo', code: 'São Paulo' }
-    ];
-    this.uf = [
-      { name: 'SC', code: 'SC' },
-      { name: 'SP', code: 'SP' },
-      { name: 'RJ', code: 'RJ' },
-      { name: 'DR', code: 'DR' },
-      { name: 'RS', code: 'RS' },
-      { name: 'AC', code: 'AC' }
-    ];
+
     this.tpArte = [
       { name: 'autoral', code: 'autoral' },
       { name: 'instrumental', code: 'autoral' },
@@ -92,16 +88,21 @@ export class UsuarioCadComponent implements OnInit {
     this.user = this.userService.listarUser();
     this.user.tipoP = 'cpf';
     this.tipoDocumento();
+    this.uf = this.appGlobals.getEstados();
   }
 
-  gravar(ngForm: NgForm) {
+  gravar() {
     this.user.endereco = this.endereco;
+    console.log(Object.assign({}, this.user));
     this.userService.gravar(this.user)
-      .then( res => {
-        console.log(res);
+      .then(res => {
+        this.messageService.add({ severity: 'sucess', summary: 'Sucess', detail: 'Usuário cadastrado!' })
+        this.router.navigate(['usuario-area']);
       })
       //TODO
-      .catch(error => console.log(error));
+      .catch(error => {
+        this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Não foi possível cadastrar seu usuário!' })
+      });
   }
 
   tipoDocumento() {
@@ -130,17 +131,17 @@ export class UsuarioCadComponent implements OnInit {
 
   }
 
-  buscaCep() {
-    this.userService.buscaCEP(this.endereco.cep)
-      .then(
-        data => {
+  async buscaCep() {
+    this.appGlobals.getCEP(this.endereco.cep)
+      .then(data => {
+        if (!data.erro) {
           console.log(data);
-          if (!data.erro) {
-            this.endereco = data;
-          } else {
-            this.messageService.add({ severity: 'warn', summary: 'Erro', detail: 'CEP não encontrato, verique os dados novamente!' });
-          }
+          this.endereco = data;
+          this.mudouUF();
+        } else {
+          this.messageService.add({ severity: 'warn', summary: 'Erro', detail: 'CEP não encontrato, verique os dados novamente!' });
         }
+      }
       )
       .catch(error => {
         this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Falha ao buscar o CEP informado!' });
@@ -148,13 +149,49 @@ export class UsuarioCadComponent implements OnInit {
       });
   }
 
+  async mudouUF() {
+    if (this.endereco.uf && this.endereco.uf != "") {
+      await this.appGlobals.getCidades(this.endereco.uf)
+        .then(value => {
+          this.cidades = value.map(v => {
+            return { name: v.nome, code: v.nome };
+          })
+        });
+    } else {
+      this.endereco.localidade = "";
+    }
+  }
+
+  async uploadHandlerImgs(imagens: any, uploader: FileUpload, tp: string) {
+    for (const img of imagens.files) {
+      console.log(img);
+      if (tp == 'a') {
+        this.fotoArtista.push(await this.blobToBase64(img));
+      } else if (tp == 'p') {
+        this.fotoProdutor.push(await this.blobToBase64(img));
+      }
+    }
+  }
+
+  blobToBase64(blob: any) {
+    return new Promise((resolve, _) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.readAsDataURL(blob);
+    });
+  }
+
   //Ações de artista
   gravarArtista() {
     this.displayArtista = false;
+    this.artista.fotos = this.fotoArtista;
+    this.user.artista = this.artista;
   }
 
   //Ações de produtor
   gravarProdutor() {
     this.displayProdutor = false;
+    this.produtor.fotos = this.fotoProdutor;
+    this.user.produtor = this.produtor;
   }
 }

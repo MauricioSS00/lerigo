@@ -1,11 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+
+import { MessageService } from 'primeng/api';
+
 import { EspacoService } from '../espaco.service';
 
 @Component({
   selector: 'app-espaco-list',
   templateUrl: './espaco-list.component.html',
-  styleUrls: ['./espaco-list.component.scss']
+  styleUrls: ['./espaco-list.component.scss'],
+  providers: [MessageService]
 })
 export class EspacoListComponent implements OnInit {
 
@@ -26,14 +30,24 @@ export class EspacoListComponent implements OnInit {
   ];
 
   constructor(
-    public espacoService: EspacoService
+    public espacoService: EspacoService,
+    private messageService: MessageService,
   ) { }
 
   ngOnInit(): void {
     this.carregarEspacos();
   }
 
-  carregarEspacos() {
-    this.espacos = this.espacoService.listarEspacos();
+  async carregarEspacos() {
+    await this.espacoService.listarEspacos()
+      .then(data => {
+        this.espacos = data;
+        this.espacos.forEach(e => {
+          return e.images = e.fotosEspaco;
+        });
+      })
+      .catch(error => {
+        this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Falha ao carregar a lista de espaços!' });
+      });
   }
 }

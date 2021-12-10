@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+
 import { MessageService } from 'primeng/api';
 import { AppGlobals } from 'src/app/core/navbar/appGlobals';
+import * as moment from 'moment';
 
 import { EventoService } from '../evento.service';
 
@@ -20,7 +22,6 @@ export class EventoListComponent implements OnInit {
     private eventoService: EventoService,
     private messageService: MessageService,
     public appGlobals: AppGlobals
-
   ) { }
 
   ngOnInit(): void {
@@ -32,7 +33,10 @@ export class EventoListComponent implements OnInit {
   }
 
   async listarEventos(){
-    await this.eventoService.listarEventos()
+   let dataIni = moment().format();
+   let dataFim = moment().add(30, 'd').format();
+
+    await this.eventoService.listarEventos(dataIni, dataFim)
       .then(ev => {
         this.eventos = ev;
       })

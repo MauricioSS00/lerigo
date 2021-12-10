@@ -1,6 +1,6 @@
 <div class="container">
     <h2>PERFIL DE USUÁRIo</h2>
-    <form #formEspacoCad="ngForm" autocomplete="off" (ngSubmit)="gravar(formEspacoCad)">
+    <form #formEspacoCad="ngForm" autocomplete="off">
         <div class="form">
             <div class="cad">
                 <div class="p-grid">
@@ -209,7 +209,7 @@
 
             <div class="p-grid">
                 <div class="p-col-4 p-lg-2 p-fluid">
-                    <button class="button" pButton type="submit" [disabled]="formEspacoCad.invalid"
+                    <button class="button" pButton [disabled]="formEspacoCad.invalid" (click)="gravar()"
                         label="Gravar"></button>
                 </div>
                 <div class="p-col-4 p-lg-2 p-fluid">
@@ -293,7 +293,10 @@
         </div>
         <div class="p-col-12">
             <label>Fotos</label>
-            <p-fileUpload name="artista.imgs[]" multiple="multiple"></p-fileUpload>
+            <p-fileUpload [customUpload]="true" accept="image/*" multiple="multiple"
+                (uploadHandler)="uploadHandlerImgs($event, uploadPerfil, 'a')" name="fotoArtista" maxFileSize="1000000"
+                chooseLabel="Adicionar" cancelLabel="Cancelar">
+            </p-fileUpload>
         </div>
     </ng-template>
     <ng-template pTemplate="footer">
@@ -333,7 +336,10 @@
         </div>
         <div class="p-col-12">
             <label>Fotos de Produções</label>
-            <p-fileUpload name="artista.imgs[]" multiple="multiple"></p-fileUpload>
+            <p-fileUpload [customUpload]="true" accept="image/*" multiple="multiple"
+                (uploadHandler)="uploadHandlerImgs($event, uploadPerfil, 'p')" name="fotoProdutor" maxFileSize="1000000"
+                chooseLabel="Adicionar" cancelLabel="Cancelar">
+            </p-fileUpload>
         </div>
     </ng-template>
     <ng-template pTemplate="footer">

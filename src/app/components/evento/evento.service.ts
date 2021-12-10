@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 import { environment } from 'src/environments/environment';
 
@@ -10,20 +10,19 @@ export class EventoService {
   urlEvento = `${environment.urlApi}evento`;
   constructor(private http: HttpClient) { }
 
-  httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json'
-    })
-  };
+
 
   gravar(evento: any): Promise<any> {
-    evento  = Object.assign({}, evento);
-    return this.http.post<any>(this.urlEvento, evento, this.httpOptions)
+    evento = Object.assign({}, evento);
+    return this.http.post<any>(this.urlEvento, evento)
       .toPromise();
   }
 
-  listarEventos(): Promise<any> {
-    return this.http.get<any>(`${this.urlEvento}s`, this.httpOptions)
+  listarEventos(dataIni = '', dataFim = ''): Promise<any> {
+    let op = { header: {}, params: {} };
+    dataIni != '' ? op.params['data1'] = dataIni : {};
+    dataIni != '' ? op.params['data2'] = dataFim : {};
+    return this.http.get<any>(`${this.urlEvento}s`, op)
       .toPromise();
   }
 
