@@ -17,6 +17,9 @@ import { DropdownModule } from 'primeng/dropdown';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { FileUploadModule } from 'primeng/fileupload';
 import { TableModule } from 'primeng/table';
+import {PanelModule} from 'primeng/panel';
+import { DialogModule } from 'primeng/dialog';
+
 
 @NgModule({
   declarations: [
@@ -39,7 +42,9 @@ import { TableModule } from 'primeng/table';
     CalendarModule,
     DropdownModule,
     FileUploadModule,
-    TableModule
+    TableModule,
+    PanelModule,
+    DialogModule
   ]
 })
 export class EventoModule { }

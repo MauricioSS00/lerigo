@@ -16,7 +16,7 @@
                         {{evt.descricao}}
                     </div>
                     <div>
-                        <button class="button" pButton label="Ver Detalhes"></button>
+                        <button class="button" pButton label="Ver Detalhes" (click)="detalhes(evt)"></button>
                     </div>
                 </div>
             </p-card>
@@ -28,3 +28,43 @@
         </button>
     </div>
 </div>
+
+
+<p-dialog *ngIf="evento" [(visible)]="showDetEvento" [breakpoints]="{'960px': '75vw', '640px': '100vw'}"
+    [style]="{width: '80vw'}">
+    <div class="p-grid">
+        <div class="p-col-12 p-fluid">
+            <h2>{{evento.nome}}</h2>
+        </div>
+        <div class="p-col-12">
+            <p-panel header="Redes Sociais">
+                <div class="p-col-12 p-lg-4 p-fluid">
+                    <label>Instagram: {{evento.instagram}}</label>
+                </div>
+                <div class="p-col-12 p-lg-4 p-fluid">
+                    <label>Facebook: {{evento.facebook}}</label>
+                </div>
+                <div class="p-col-12 p-lg-4 p-fluid">
+                    <label>Site: {{evento.site}}</label>
+                </div>
+            </p-panel>
+            <p-panel header="Local e Horário">
+
+                <div class="p-col-12 p-lg-6 p-fluid">
+                    <label>Local: {{evento.espaco}}</label>
+                </div>
+                <div class="p-col-12 p-lg-6 p-fluid">
+                    <label>Data: {{evento.data}}</label>
+
+                </div>
+                <div class="p-col-6 p-lg-3 p-fluid">
+                    <label>Horário Inicial: {{evento.hora_ini}}</label>
+                </div>
+                <div class="p-col-6 p-lg-3 p-fluid">
+                    <label>Horário Final: {{evento.hora_fim}}</label>
+                </div>
+            </p-panel>
+        </div>
+    </div>
+
+</p-dialog>

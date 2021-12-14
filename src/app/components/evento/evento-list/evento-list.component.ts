@@ -16,6 +16,8 @@ import { EventoService } from '../evento.service';
 export class EventoListComponent implements OnInit {
 
   eventos: any = [];
+  evento: any;
+  showDetEvento = false;
 
   constructor(
     private router: Router,
@@ -44,5 +46,8 @@ export class EventoListComponent implements OnInit {
         this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Não foi possível carragar os eventos!' });
       });
   }
-
+  detalhes(evt) {
+    this.showDetEvento = true;
+    this.evento = evt;
+  }
 }
