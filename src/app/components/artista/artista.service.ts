@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment';
 })
 export class ArtistaService {
 
-  urlArtista = `${environment.urlApi}artista`;
+  urlArtista = `${environment.urlApi}usuarios/artista`;
   urlArtistaDrop = `${environment.urlApi}dropdown/artista`;
 
   constructor(private http: HttpClient) { }
@@ -17,6 +17,12 @@ export class ArtistaService {
 
   listarResumo() {
     return this.http.get<any>(`${this.urlArtistaDrop}`)
+      .toPromise();
+  }
+
+  listarArtistas(filtro = "") {
+    let op = { params: { nome: filtro } }
+    return this.http.get<any>(`${this.urlArtista}`, op)
       .toPromise();
   }
 

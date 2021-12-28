@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment';
 })
 export class ProdutorService {
 
-  urlProdutor = `${environment.urlApi}produtor`;
+  urlProdutor = `${environment.urlApi}usuarios/produtor`;
   urlProdutorDrop = `${environment.urlApi}dropdown/produtor`;
 
   constructor(private http: HttpClient) { }
@@ -19,4 +19,12 @@ export class ProdutorService {
     return this.http.get<any>(`${this.urlProdutorDrop}`)
       .toPromise();
   }
+
+  
+  listar(filtro = "") {
+    let op = { params: { nome: filtro } }
+    return this.http.get<any>(`${this.urlProdutor}`, op)
+      .toPromise();
+  }
+
 }
