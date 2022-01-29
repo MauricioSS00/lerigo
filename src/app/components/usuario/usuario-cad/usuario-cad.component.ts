@@ -46,42 +46,9 @@ export class UsuarioCadComponent implements OnInit {
     public appGlobals: AppGlobals,
     public router: Router
   ) {
-    this.genero = [
-      { name: 'Mulher cis', code: 'MC' },
-      { name: 'Homem cis', code: 'HC' },
-      { name: 'Mulher Transsexual', code: 'MT' },
-      { name: 'Homem Transsexual', code: 'HT' },
-      { name: 'Não Binário', code: 'NB' },
-      { name: 'Gênero Fluído', code: 'GF' }
-    ];
-
-    this.tpArte = [
-      { name: 'autoral', code: 'autoral' },
-      { name: 'instrumental', code: 'autoral' },
-      { name: 'intérprete', code: 'autoral' },
-      { name: 'cover', code: 'autoral' }
-
-    ];
-    this.generoArte = [
-      { name: 'axé', code: 'axé' },
-      { name: 'blues', code: 'blues' },
-      { name: 'country', code: 'country' },
-      { name: 'eletrônica', code: 'eletrônica' },
-      { name: 'forró', code: 'forró' },
-      { name: 'funk', code: 'funk' },
-      { name: 'gospel', code: 'gospel' },
-      { name: 'hip hop', code: 'hip hop' },
-      { name: 'jazz', code: 'jazz' },
-      { name: 'mpb', code: 'mpb' },
-      { name: 'música clássica', code: 'música clássica' },
-      { name: 'pagode', code: 'pagode' },
-      { name: 'pop', code: 'pop' },
-      { name: 'rap', code: 'rap' },
-      { name: 'reggae', code: 'reggae' },
-      { name: 'rock', code: 'rock' },
-      { name: 'samba', code: 'samba' },
-      { name: 'sertanejo', code: 'sertanejo' }
-    ];
+    this.genero = this.userService.genero;
+    this.tpArte = this.userService.tpArte;
+    this.generoArte = this.userService.generoArte;
   }
 
   ngOnInit(): void {
@@ -96,7 +63,8 @@ export class UsuarioCadComponent implements OnInit {
     console.log(Object.assign({}, this.user));
     this.userService.gravar(this.user)
       .then(res => {
-        this.messageService.add({ severity: 'sucess', summary: 'Sucess', detail: 'Usuário cadastrado!' })
+        this.messageService.add({ severity: 'sucess', summary: 'Sucess', detail: 'Usuário cadastrado!' });
+        this.userService.usuario = this.user;
         this.router.navigate(['usuario-area']);
       })
       //TODO
@@ -123,7 +91,6 @@ export class UsuarioCadComponent implements OnInit {
       doc = 'CNPJ'
       result = this.validacaoService.validarCnpj(this.user.doc);
     }
-    console.log(result);
     if (!result) {
       this.messageService.add({ severity: 'error', summary: 'Aviso', detail: `${doc} inválido, informe um numeto válido!` });
       this.user.doc = '';

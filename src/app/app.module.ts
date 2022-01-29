@@ -2,7 +2,7 @@ import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { registerLocaleData } from '@angular/common';
-import ptBr from '@angular/common/locales/pt';
+import localeBr from '@angular/common/locales/pt';
 import { FormsModule } from '@angular/forms';
 
 import { MenubarModule } from 'primeng/menubar';
@@ -28,7 +28,7 @@ import { ProdutorModule } from './components/produtor/produtor.module';
 import { EventoModule } from './components/evento/evento.module';
 import { PasswordModule } from 'primeng/password';
 
-registerLocaleData(ptBr);
+registerLocaleData(localeBr, 'pt-br');
 @NgModule({
   declarations: [
     AppComponent,
@@ -59,7 +59,7 @@ registerLocaleData(ptBr);
     AppRoutingModule
     
   ],
-  providers: [{ provide: LOCALE_ID, useValue: 'pt-BR' }],
+  providers: [{ provide: LOCALE_ID, useValue: 'pt-br' }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

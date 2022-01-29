@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { FileUpload } from 'primeng/fileupload';
 import { AppGlobals } from 'src/app/core/navbar/appGlobals';
 import { ValidacaoService } from 'src/app/shared/validacao.service';
+import { UsuarioService } from '../usuario.service';
 
 @Component({
   selector: 'app-usuario-area',
@@ -16,24 +18,56 @@ export class UsuarioAreaComponent implements OnInit {
   disabledConta = true;
   maskDoc = '';
   fieldObr = true;
-  displayProdutor = false;
-  displayArtista = false;
   endereco: any = [];
   cidades: any;
   uf: any;
   selectedValue = ['Física', 'Juridica'];
+  genero: any = [];
+  tpArte: any = [];
+  generoArte: any = [];
+  bemVindo: string;
+
+  displayProdutor = false;
+  displayArtista = false;
+  artista: any = {};
+  produtor: any = {};
+  fotoArtista = [];
+  fotoProdutor = [];
+  
 
   constructor(
     private validacaoService: ValidacaoService,
     private messageService: MessageService,
     private router: Router,
+    private userService: UsuarioService,
     public appGlobals: AppGlobals
 
-  ) { }
+  ) {
+    this.genero = this.userService.genero;
+    this.tpArte = this.userService.tpArte;
+    this.generoArte = this.userService.generoArte;
+  }
 
   ngOnInit(): void {
     this.uf = this.appGlobals.getEstados();
-    this.user.tipoP = 'cpf'
+    this.user.tipoP = 'cpf';
+    this.user = this.userService.usuario;
+
+    this.carregarBemVindo();
+  }
+
+  carregarBemVindo() {
+    switch (this.user.genero) {
+      case 'MC' || 'MT':
+        this.bemVindo = 'Bem vinda à sua conta';
+        break;
+      case 'NB' || 'GF':
+        this.bemVindo = 'Bem vinde à sua conta';
+        break;
+      default:
+        this.bemVindo = 'Bem vindo à sua conta';
+        break;
+    }
   }
 
   changeConta() {
@@ -78,7 +112,6 @@ export class UsuarioAreaComponent implements OnInit {
   }
 
   novoCad(tipo: String) {
-    console.log(tipo);
     if (tipo === 'espaco') {
       this.router.navigate(['espaco-cad']);
     } else if (tipo === 'atista') {
@@ -92,9 +125,8 @@ export class UsuarioAreaComponent implements OnInit {
     this.appGlobals.getCEP(this.endereco.cep)
       .then(data => {
         if (!data.erro) {
-          console.log(data);
           this.endereco = data;
-          this.mudouUF(); 
+          this.mudouUF();
         } else {
           this.messageService.add({ severity: 'warn', summary: 'Erro', detail: 'CEP não encontrato, verique os dados novamente!' });
         }
@@ -117,4 +149,37 @@ export class UsuarioAreaComponent implements OnInit {
       this.endereco.localidade = "";
     }
   }
+
+  async uploadHandlerImgs(imagens: any, uploader: FileUpload, tp: string) {
+    for (const img of imagens.files) {
+      console.log(img);
+      if (tp == 'a') {
+        this.fotoArtista.push(await this.blobToBase64(img));
+      } else if (tp == 'p') {
+        this.fotoProdutor.push(await this.blobToBase64(img));
+      }
+    }
+  }
+
+  blobToBase64(blob: any) {
+    return new Promise((resolve, _) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.readAsDataURL(blob);
+    });
+  }
+
+    //Ações de artista
+    gravarArtista() {
+      this.displayArtista = false;
+      this.artista.fotos = this.fotoArtista;
+      this.user.artista = this.artista;
+    }
+  
+    //Ações de produtor
+    gravarProdutor() {
+      this.displayProdutor = false;
+      this.produtor.fotos = this.fotoProdutor;
+      this.user.produtor = this.produtor;
+    }
 }

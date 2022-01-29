@@ -116,7 +116,7 @@
                     <div class="p-col-6 p-lg-3 p-fluid">
                         <div class="p-field">
                             <label>Telefone</label>
-                            <p-inputMask mask="(99)9999-9999" name="fone" [(ngModel)]="user.fone" #fone="ngModel">
+                            <p-inputMask mask="(99)99999-9999" name="fone" [(ngModel)]="user.fone" #fone="ngModel">
                             </p-inputMask>
                         </div>
                     </div>
@@ -132,7 +132,7 @@
                     <div class="p-col-6 p-lg-3 p-fluid">
                         <div class="p-field">
                             <label>WhatsApp</label>
-                            <p-inputMask mask="(99)9999-9999" name="user_whats" [(ngModel)]="user.user_whats"
+                            <p-inputMask mask="(99)99999-9999" name="user_whats" [(ngModel)]="user.user_whats"
                                 #user_whats="ngModel">
                             </p-inputMask>
                         </div>
@@ -159,7 +159,8 @@
                         <div class="p-field">
                             <label>UF</label>
                             <p-dropdown [options]="uf" name="uf" [(ngModel)]="endereco.uf" [filter]="true"
-                                [showClear]="true" optionLabel="name" optionValue="code" placeholder="Selecione...">
+                                [showClear]="true" optionLabel="name" optionValue="code" placeholder="Selecione..."
+                                (onChange)="mudouUF()">
                             </p-dropdown>
                         </div>
                     </div>
@@ -232,6 +233,13 @@
     [resizable]="false">
     <ng-template pTemplate="body">
         <div class="p-grid">
+            <div class="p-col-12 p-fluid">
+                <label>Breve descrição</label>
+                <textarea pInputTextarea name="descricao" [(ngModel)]="artista.descricao" #descricao="ngModel"
+                    class="ng-required ng-dirty" maxlength="200" required></textarea>
+            </div>
+        </div>
+        <div class="p-grid">
             <div class="p-sm-12 p-md-4 p-fluid">
                 <label>Instagram</label>
                 <input pInputText type="text" name="instagram" [(ngModel)]="artista.instagram" #instagram="ngModel" />
@@ -284,18 +292,11 @@
                 </p-dropdown>
             </div>
         </div>
-        <div class="p-grid">
-            <div class="p-col-12 p-fluid">
-                <label>Breve descrição</label>
-                <textarea pInputTextarea name="descricao" [(ngModel)]="artista.descricao" #descricao="ngModel"
-                    class="ng-required ng-dirty" maxlength="200" required></textarea>
-            </div>
-        </div>
         <div class="p-col-12">
             <label>Fotos</label>
             <p-fileUpload [customUpload]="true" accept="image/*" multiple="multiple"
                 (uploadHandler)="uploadHandlerImgs($event, uploadPerfil, 'a')" name="fotoArtista" maxFileSize="1000000"
-                chooseLabel="Adicionar" cancelLabel="Cancelar">
+                chooseLabel="Adicionar" cancelLabel="Cancelar" #foto>
             </p-fileUpload>
         </div>
     </ng-template>
@@ -338,7 +339,7 @@
             <label>Fotos de Produções</label>
             <p-fileUpload [customUpload]="true" accept="image/*" multiple="multiple"
                 (uploadHandler)="uploadHandlerImgs($event, uploadPerfil, 'p')" name="fotoProdutor" maxFileSize="1000000"
-                chooseLabel="Adicionar" cancelLabel="Cancelar">
+                chooseLabel="Adicionar" cancelLabel="Cancelar" #fotoProducoes>
             </p-fileUpload>
         </div>
     </ng-template>

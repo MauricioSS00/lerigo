@@ -71,7 +71,7 @@ export class NavbarComponent implements OnInit {
         separator: true
       },
       {
-        label: 'Quit',
+        label: 'Sair',
         icon: 'pi pi-fw pi-power-off',
         command: () => this.minhaArea()
       }

@@ -2,7 +2,7 @@
     <h1>Minha Conta</h1>
     <div class="p-grid">
         <div class="p-col-12 p-lg-4">
-            <h2>Bem Vindo Gabriel</h2>
+            <h2>{{bemVindo}}</h2>
             <div class="p-grid">
                 <div class="p-col-10 p-lg-10 p-fluid">
                     <h3>Dados da Conta</h3>
@@ -14,7 +14,7 @@
             </div>
             <div class="p-grid">
                 <div class="p-col-12 p-fluid">
-                    <label>Nome Fantasia</label>
+                    <label>Nome fantasia ou como prefere ser chamado</label>
                     <input pInputText type="text" class="ng-required ng-dirty" name="user_soc_nome"
                         [(ngModel)]="user.user_soc_nome" #nick="ngModel" [disabled]="disabledConta" required
                         minlength="5" />
@@ -56,7 +56,7 @@
                                     <div class="p-grid">
                                         <div class="p-col-12 p-lg-12 p-fluid">
                                             <div class="p-field">
-                                                <label>Nome Completo</label>
+                                                <label>Nome Completo ou Razão Social</label>
                                                 <input pInputText type="text" name="user_nome_civ"
                                                     [(ngModel)]="user.user_nome_civ" #user_nome_civ="ngModel"
                                                     class="ng-required ng-dirty" required minlength="7" />
@@ -64,7 +64,7 @@
                                                     *ngIf="user_nome_civ.hasError('required') && user_nome_civ.dirty">
                                                     *Campo obrigatório</small>
                                                 <small class="p-error" *ngIf="user_nome_civ.hasError('minlength')">
-                                                    Informe o user_nome_civ por Completo!</small>
+                                                    Informe o nome Completo!</small>
                                             </div>
                                         </div>
                                     </div>
@@ -160,9 +160,10 @@
                                         <div class="p-col-6 p-lg-3 p-fluid">
                                             <div class="p-field">
                                                 <label>Data de Nascimento</label>
-                                                <p-calendar [monthNavigator]="true" [yearNavigator]="true"
-                                                    yearRange="1888:2050" name="dtNasc" [(ngModel)]="user.dtNasc"
-                                                    #dtNasc="ngModel" class="ng-required ng-dirty" required>
+                                                <p-calendar dateFormat="dd/mm/yy" [monthNavigator]="true"
+                                                    [yearNavigator]="true" yearRange="1888:2050" name="dtNasc"
+                                                    [(ngModel)]="user.dtNasc" #dtNasc="ngModel"
+                                                    class="ng-required ng-dirty" required>
                                                 </p-calendar>
                                                 <small class="p-error"
                                                     *ngIf="dtNasc.hasError('required') && dtNasc.dirty">
@@ -172,7 +173,7 @@
                                         <div class="p-col-6 p-lg-3 p-fluid">
                                             <div class="p-field">
                                                 <label>Telefone</label>
-                                                <p-inputMask mask="(99)9999-9999" name="fone" [(ngModel)]="user.fone"
+                                                <p-inputMask mask="(99)99999-9999" name="fone" [(ngModel)]="user.fone"
                                                     #fone="ngModel">
                                                 </p-inputMask>
                                             </div>
@@ -191,7 +192,7 @@
                                         <div class="p-col-6 p-lg-3 p-fluid">
                                             <div class="p-field">
                                                 <label>WhatsApp</label>
-                                                <p-inputMask mask="(99)9999-9999" name="user_whats"
+                                                <p-inputMask mask="(99)99999-9999" name="user_whats"
                                                     [(ngModel)]="user.user_whats" #user_whats="ngModel">
                                                 </p-inputMask>
                                             </div>
@@ -218,7 +219,8 @@
                                                     <label>UF</label>
                                                     <p-dropdown [options]="uf" name="uf" [(ngModel)]="endereco.uf"
                                                         [filter]="true" [showClear]="true" optionLabel="name"
-                                                        optionValue="code" placeholder="Selecione..." (onChange)="mudouUF()">
+                                                        optionValue="code" placeholder="Selecione..."
+                                                        (onChange)="mudouUF()">
                                                     </p-dropdown>
                                                 </div>
                                             </div>
@@ -228,7 +230,8 @@
                                                     <p-dropdown [options]="cidades" name="cidade"
                                                         [(ngModel)]="endereco.localidade" optionLabel="name"
                                                         optionValue="code" [filter]="true" filterBy="name"
-                                                        [showClear]="true" placeholder="Selecione..." [disabled]="!endereco.uf">
+                                                        [showClear]="true" placeholder="Selecione..."
+                                                        [disabled]="!endereco.uf">
                                                     </p-dropdown>
                                                 </div>
                                             </div>
@@ -302,10 +305,28 @@
                         </div>
                     </p-tabPanel>
                     <p-tabPanel header="Meus Artistas">
-                        <h3>Atistas</h3>
+                        <div class="p-grid">
+                            <div class="p-col-11 p-lg-11 p-fluid">
+                                <h3>Artistas</h3>
+                            </div>
+                            <div class="p-col-1 p-lg-1">
+                                <button pButton pRipple type="button" icon="pi pi-plus"
+                                    class="p-button-rounded p-button-text" (click)="novoCad('artista')"
+                                    style="color: #289ea0;"></button>
+                            </div>
+                        </div>
                     </p-tabPanel>
                     <p-tabPanel header="Meus Produtores">
-                        <h3>Produtores</h3>
+                        <div class="p-grid">
+                            <div class="p-col-11 p-lg-11 p-fluid">
+                                <h3>Produtores</h3>
+                            </div>
+                            <div class="p-col-1 p-lg-1">
+                                <button pButton pRipple type="button" icon="pi pi-plus"
+                                    class="p-button-rounded p-button-text" (click)="novoCad('produtor')"
+                                    style="color: #289ea0;"></button>
+                            </div>
+                        </div>
                     </p-tabPanel>
                 </p-tabView>
             </div>
@@ -315,9 +336,17 @@
 
 <p-toast></p-toast>
 <!-- Dados de Artista -->
+<!-- Dados de Artista -->
 <p-dialog [(visible)]="displayArtista" [modal]="true" [style]="{width: '80vw'}" [maximizable]="true" [draggable]="false"
     [resizable]="false">
     <ng-template pTemplate="body">
+        <div class="p-grid">
+            <div class="p-col-12 p-fluid">
+                <label>Breve descrição</label>
+                <textarea pInputTextarea name="descricao" [(ngModel)]="artista.descricao" #descricao="ngModel"
+                    class="ng-required ng-dirty" maxlength="200" required></textarea>
+            </div>
+        </div>
         <div class="p-grid">
             <div class="p-sm-12 p-md-4 p-fluid">
                 <label>Instagram</label>
@@ -371,16 +400,12 @@
                 </p-dropdown>
             </div>
         </div>
-        <div class="p-grid">
-            <div class="p-col-12 p-fluid">
-                <label>Breve descrição</label>
-                <textarea pInputTextarea name="descricao" [(ngModel)]="artista.descricao" #descricao="ngModel"
-                    class="ng-required ng-dirty" maxlength="200" required></textarea>
-            </div>
-        </div>
         <div class="p-col-12">
             <label>Fotos</label>
-            <p-fileUpload name="artista.imgs[]" multiple="multiple"></p-fileUpload>
+            <p-fileUpload [customUpload]="true" accept="image/*" multiple="multiple"
+                (uploadHandler)="uploadHandlerImgs($event, uploadPerfil, 'a')" name="fotoArtista" maxFileSize="1000000"
+                chooseLabel="Adicionar" cancelLabel="Cancelar" #foto>
+            </p-fileUpload>
         </div>
     </ng-template>
     <ng-template pTemplate="footer">
@@ -420,7 +445,10 @@
         </div>
         <div class="p-col-12">
             <label>Fotos de Produções</label>
-            <p-fileUpload name="artista.imgs[]" multiple="multiple"></p-fileUpload>
+            <p-fileUpload [customUpload]="true" accept="image/*" multiple="multiple"
+                (uploadHandler)="uploadHandlerImgs($event, uploadPerfil, 'p')" name="fotoProdutor" maxFileSize="1000000"
+                chooseLabel="Adicionar" cancelLabel="Cancelar" #fotoProducoes>
+            </p-fileUpload>
         </div>
     </ng-template>
     <ng-template pTemplate="footer">

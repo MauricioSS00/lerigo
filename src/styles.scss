@@ -35,6 +35,7 @@ $lerigo-theme: mat.define-light-theme((
 
 /* You can add global styles to this file, and also import other style files */
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300&family=Staatliches&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Staatliches&display=swap');
 @media (min-width: 1170px) {
     .container {
         margin-top: 10%;
@@ -71,6 +72,7 @@ h1,
 h2,
 h3 {
     font-family: "Staatliches", cursive;
+    font-weight: normal;
 }
 
 * {
