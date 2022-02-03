@@ -42,13 +42,13 @@
                             <label>Início das Atividades</label>
                             <p-calendar [monthNavigator]="true" [yearNavigator]="true" yearRange="1888:2050"
                                 name="abertura" [(ngModel)]="espaco.abertura" #abertura="ngModel"
-                                class="ng-required ng-dirty" required></p-calendar>
+                                class="ng-required ng-dirty" dateFormat="dd/mm/yy" required></p-calendar>
                         </div>
                     </div>
                     <div class="p-col-6 p-lg-4 p-fluid">
                         <div class="p-field">
                             <label>Telefone</label>
-                            <p-inputMask class="ng-required ng-dirty" mask="(99)9999-9999" name="fone"
+                            <p-inputMask class="ng-required ng-dirty" mask="(99)99999-9999" name="fone"
                                 [(ngModel)]="espaco.fone" #fone="ngModel" required>
                             </p-inputMask>
                             <small class="p-error" *ngIf="fone.hasError('required') && fone.dirty">

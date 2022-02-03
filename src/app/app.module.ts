@@ -4,7 +4,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { registerLocaleData } from '@angular/common';
 import localeBr from '@angular/common/locales/pt';
 import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MenubarModule } from 'primeng/menubar';
 import { MenuModule } from 'primeng/menu';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
@@ -29,6 +32,11 @@ import { EventoModule } from './components/evento/evento.module';
 import { PasswordModule } from 'primeng/password';
 
 registerLocaleData(localeBr, 'pt-br');
+
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
+}
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,7 +45,13 @@ registerLocaleData(localeBr, 'pt-br');
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: createTranslateLoader,
+        deps: [HttpClient]
+      }
+    }),
     FormsModule,
     NavbarModule,
     MenubarModule,

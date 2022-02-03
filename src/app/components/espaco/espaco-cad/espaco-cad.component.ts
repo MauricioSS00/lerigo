@@ -83,7 +83,6 @@ export class EspacoCadComponent implements OnInit {
     this.appGlobals.getCEP(this.endereco.cep)
       .then(data => {
         if (!data.erro) {
-          console.log(data);
           this.endereco = data;
           this.mudouUF();
         } else {
