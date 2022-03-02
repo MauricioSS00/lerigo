@@ -30,38 +30,56 @@
 </div>
 
 
-<p-dialog *ngIf="evento" [(visible)]="showDetEvento" [breakpoints]="{'960px': '75vw', '640px': '100vw'}"
-    [style]="{width: '80vw'}">
+<p-dialog *ngIf="evento" [(visible)]="showDetEvento" [style]="{width: '90vw'}">
+    <div class="p-col-12 p-fluid">
+        <h2>{{evento.nome}}</h2>
+    </div>
     <div class="p-grid">
-        <div class="p-col-12 p-fluid">
-            <h2>{{evento.nome}}</h2>
-        </div>
         <div class="p-col-12">
+            <p-panel header="Fotos do Evento" *ngIf="evento.fotosEvento">
+                <p-carousel [value]="evento.fotosEvento" [numVisible]="1" [numScroll]="1">
+                    <ng-template let-fotoEvento pTemplate="item">
+                        <div class="p-d-flex p-jc-center">
+                            <img [src]="fotoEvento.foto" style="max-height: 25vw" />
+                        </div>
+                    </ng-template>
+                </p-carousel>
+                <div class="p-col-12 p-lg-4 p-fluid" *ngIf="evento.resumo">
+                    <label>{{evento.resumo}}</label>
+                </div>
+            </p-panel>
             <p-panel header="Redes Sociais">
-                <div class="p-col-12 p-lg-4 p-fluid">
+                <div class="p-col-12 p-lg-4 p-fluid" *ngIf="evento.instagram">
                     <label>Instagram: {{evento.instagram}}</label>
                 </div>
-                <div class="p-col-12 p-lg-4 p-fluid">
+                <div class="p-col-12 p-lg-4 p-fluid" *ngIf="evento.facebook">
                     <label>Facebook: {{evento.facebook}}</label>
                 </div>
-                <div class="p-col-12 p-lg-4 p-fluid">
-                    <label>Site: {{evento.site}}</label>
+                <div class="p-col-12 p-lg-4 p-fluid" *ngIf="evento.site">
+                    <label>Site: <a [href]="evento.site" target="_blank">{{evento.site}}</a></label>
                 </div>
             </p-panel>
             <p-panel header="Local e Horário">
-
-                <div class="p-col-12 p-lg-6 p-fluid">
+                <div class="p-col-12 p-lg-6 p-fluid" *ngIf="evento.espaco">
                     <label>Local: {{evento.espaco}}</label>
                 </div>
-                <div class="p-col-12 p-lg-6 p-fluid">
-                    <label>Data: {{evento.data}}</label>
+                <div class="p-col-12 p-lg-6 p-fluid" *ngIf="evento.data">
+                    <label>Data: {{evento.data | date:'dd/MM/yyyy'}}</label>
 
                 </div>
-                <div class="p-col-6 p-lg-3 p-fluid">
+                <div class="p-col-6 p-lg-3 p-fluid" *ngIf="evento.hora_ini">
                     <label>Horário Inicial: {{evento.hora_ini}}</label>
                 </div>
-                <div class="p-col-6 p-lg-3 p-fluid">
+                <div class="p-col-6 p-lg-3 p-fluid" *ngIf="evento.hora_fim">
                     <label>Horário Final: {{evento.hora_fim}}</label>
+                </div>
+            </p-panel>
+            <p-panel header="Informações Gerais">
+                <div class="p-col-6 p-lg-3 p-fluid" *ngIf="evento.classificacao">
+                    <label>Classificação: {{evento.classificacao}}</label>
+                </div>
+                <div class="p-col-6 p-lg-3 p-fluid" *ngIf="evento.descricao">
+                    <label>Descrição: {{evento.descricao}}</label>
                 </div>
             </p-panel>
         </div>

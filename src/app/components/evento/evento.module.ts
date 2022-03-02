@@ -19,6 +19,7 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { TableModule } from 'primeng/table';
 import {PanelModule} from 'primeng/panel';
 import { DialogModule } from 'primeng/dialog';
+import { CarouselModule } from 'primeng/carousel';
 
 
 @NgModule({
@@ -44,7 +45,8 @@ import { DialogModule } from 'primeng/dialog';
     FileUploadModule,
     TableModule,
     PanelModule,
-    DialogModule
+    DialogModule,
+    CarouselModule
   ]
 })
 export class EventoModule { }

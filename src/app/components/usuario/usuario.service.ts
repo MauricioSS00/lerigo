@@ -77,7 +77,7 @@ export class UsuarioService {
       email,
       password
     }
-    return this.http.post<any>(`${this.urlUsuario}_rapido`, acesso)
+    return this.http.post<any>(`${this.urlLogin}`, acesso)
     .toPromise();
   }
 

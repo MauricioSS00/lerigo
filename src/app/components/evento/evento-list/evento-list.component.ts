@@ -18,6 +18,7 @@ export class EventoListComponent implements OnInit {
   eventos: any = [];
   evento: any;
   showDetEvento = false;
+  products: any;
 
   constructor(
     private router: Router,
@@ -34,9 +35,9 @@ export class EventoListComponent implements OnInit {
     this.router.navigate(["evento-cad"]);
   }
 
-  async listarEventos(){
-   let dataIni = moment().format();
-   let dataFim = moment().add(30, 'd').format();
+  async listarEventos() {
+    let dataIni = moment().format();
+    let dataFim = moment().add(30, 'y').format();
 
     await this.eventoService.listarEventos(dataIni, dataFim)
       .then(ev => {
