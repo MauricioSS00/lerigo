@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+
 import { MenuItem } from 'primeng/api';
+
+import { AuthService } from 'src/app/services/auth.service';
 import { UsuarioService } from 'src/app/components/usuario/usuario.service';
 import { AppGlobals } from './appGlobals';
 
@@ -21,7 +24,8 @@ export class NavbarComponent implements OnInit {
   constructor(
     private router: Router,
     public appGlobals: AppGlobals,
-    private userService: UsuarioService
+    private userService: UsuarioService,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -94,12 +98,14 @@ export class NavbarComponent implements OnInit {
   }
 
   acessar() {
-    this.appGlobals.logado = true;
-    this.userService.login(this.email, this.password)
+    this.authService.login(this.email, this.password)
       .then( rs =>{
-        console.log(rs);
+        if (rs.access_token != '') {
+          this.authService.setLogado(true, rs.token_type + rs.access_token);
+          this.mostrarLogin = false;
+          this.appGlobals.usuario = rs.user;
+        }
       });
 
-    this.mostrarLogin = false;
   }
 }

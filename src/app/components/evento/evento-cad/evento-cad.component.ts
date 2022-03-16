@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
-
 import { FileUpload } from 'primeng/fileupload';
+
+import { AppGlobals } from 'src/app/core/navbar/appGlobals';
+import { ErrorHandlerService } from 'src/app/services/errorHandler.service';
 import { ArtistaService } from '../../artista/artista.service';
 import { EspacoService } from '../../espaco/espaco.service';
 import { EventoService } from '../evento.service';
@@ -33,7 +35,8 @@ export class EventoCadComponent implements OnInit {
     private messageService: MessageService,
     private artistaService: ArtistaService,
     private espacoService: EspacoService,
-
+    public error: ErrorHandlerService,
+    public appGlobals: AppGlobals
   ) {
     this.classificacoes = [
       { nome: 'LIVRE PARA TODOS OS PÚBLICOS', code: 'livre', logo: 'assets/imgs/classificacao/l.png' },
@@ -72,13 +75,14 @@ export class EventoCadComponent implements OnInit {
   gravar() {
     this.evento.id = '';
     this.evento.fotosEvento = this.igmsEvento;
+    this.evento.usuarioCriador = this.appGlobals.usuario.id;
 
     this.eventoService.gravar(this.evento)
       .then(resp => {
         this.messageService.add({ severity: 'sucess', summary: 'sucess', detail: 'Evento Cadastrodo' });
         this.router.navigate(["evento-list"]);
       })
-      .catch(error => console.log(error));
+      .catch(error => this.error.errorHandler(error));
   }
 
   buscarArtista($event) {
@@ -86,7 +90,7 @@ export class EventoCadComponent implements OnInit {
       .then(art => {
         this.artistas = art;
       })
-      .catch(error => console.log(error));
+      .catch(err => this.error.errorHandler(err));
   }
 
   buscarEspacos(event) {
@@ -94,13 +98,12 @@ export class EventoCadComponent implements OnInit {
       .then(esp => {
         this.espacos = esp;
       })
-      .catch(error => console.log(error));
+      .catch(err => this.error.errorHandler(err));
   }
 
   async uploadHandlerImgsEvt(imagens: any, uploader: FileUpload) {
     console.log(imagens.files);
     for (const img of imagens.files) {
-      console.log(img);
       this.igmsEvento.push(await this.blobToBase64(img));
       uploader.clear();
     }

@@ -11,7 +11,6 @@ export class EventoService {
   constructor(private http: HttpClient) { }
 
 
-
   gravar(evento: any): Promise<any> {
     evento = Object.assign({}, evento);
     return this.http.post<any>(this.urlEvento, evento)
@@ -20,11 +19,15 @@ export class EventoService {
 
   listarEventos(dataIni = '', dataFim = ''): Promise<any> {
     let op = { header: {}, params: {} };
-    dataIni != '' ? op.params['data1'] = dataIni : {};
-    dataIni != '' ? op.params['data2'] = dataFim : {};
+    // dataIni != '' ? op.params['data1'] = dataIni : {};
+    // dataIni != '' ? op.params['data2'] = dataFim : {};
     return this.http.get<any>(`${this.urlEvento}s`, op)
       .toPromise();
   }
 
+  listarEventoId(id: number): Promise<any> {
+    return this.http.get<any>(`${this.urlEvento}/${id}`)
+      .toPromise();
+  }
 
 }

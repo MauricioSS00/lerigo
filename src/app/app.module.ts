@@ -4,7 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { registerLocaleData } from '@angular/common';
 import localeBr from '@angular/common/locales/pt';
 import { FormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -15,6 +15,7 @@ import { TieredMenuModule } from 'primeng/tieredmenu';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import {DialogModule} from 'primeng/dialog';
+import { PasswordModule } from 'primeng/password';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -29,7 +30,7 @@ import { PaginasModule } from './components/paginas/paginas.module';
 import { BlogModule } from './components/blog/blog.module';
 import { ProdutorModule } from './components/produtor/produtor.module';
 import { EventoModule } from './components/evento/evento.module';
-import { PasswordModule } from 'primeng/password';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 registerLocaleData(localeBr, 'pt-br');
 
@@ -73,7 +74,10 @@ export function createTranslateLoader(http: HttpClient) {
     AppRoutingModule
     
   ],
-  providers: [{ provide: LOCALE_ID, useValue: 'pt-br' }],
+  providers: [
+    { provide: LOCALE_ID, useValue: 'pt-br' },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

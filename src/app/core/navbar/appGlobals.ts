@@ -1,16 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppGlobals {
 
-  public logado: boolean = false;
   public usuario: any;
+  public logado = false;
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
   ) { }
 
   getEstados() {

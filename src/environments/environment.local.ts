@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  urlApi: 'http://localhost/api-lerigo/public/'
+  urlApi: 'https://localhost/api-lerigo/public/'
 };
 
 /*

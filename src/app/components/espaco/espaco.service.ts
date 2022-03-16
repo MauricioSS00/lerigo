@@ -31,4 +31,15 @@ export class EspacoService {
     return this.http.get<any>(`${this.urlEspacosDrop}`)
       .toPromise();
   }
+
+  async listarEspacoID(id) {
+    return await this.http.get<any>(`${this.urlEspaco}/${id}`)
+      .toPromise();
+  }
+
+  listarEspacosrelacionados(usuario) {
+    let op = { params: { usuario } }
+    return this.http.get<any>(`${this.urlEspacos}`, op)
+      .toPromise();
+  }
 }

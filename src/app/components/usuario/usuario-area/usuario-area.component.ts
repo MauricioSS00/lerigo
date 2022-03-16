@@ -1,9 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+
 import { MessageService } from 'primeng/api';
 import { FileUpload } from 'primeng/fileupload';
+
 import { AppGlobals } from 'src/app/core/navbar/appGlobals';
+import { ErrorHandlerService } from 'src/app/services/errorHandler.service';
 import { ValidacaoService } from 'src/app/shared/validacao.service';
+import { ArtistaService } from '../../artista/artista.service';
+import { EspacoService } from '../../espaco/espaco.service';
+import { ProdutorService } from '../../produtor/produtor.service';
 import { UsuarioService } from '../usuario.service';
 
 @Component({
@@ -33,14 +39,18 @@ export class UsuarioAreaComponent implements OnInit {
   produtor: any = {};
   fotoArtista = [];
   fotoProdutor = [];
-  
+
 
   constructor(
     private validacaoService: ValidacaoService,
     private messageService: MessageService,
     private router: Router,
     private userService: UsuarioService,
-    public appGlobals: AppGlobals
+    public appGlobals: AppGlobals,
+    private artistaSvc: ArtistaService,
+    private produtorSvc: ProdutorService,
+    private espacoSvc: EspacoService,
+    private errorSvc: ErrorHandlerService
 
   ) {
     this.genero = this.userService.genero;
@@ -48,12 +58,26 @@ export class UsuarioAreaComponent implements OnInit {
     this.generoArte = this.userService.generoArte;
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.uf = this.appGlobals.getEstados();
-    this.user.tipoP = 'cpf';
-    this.user = this.userService.usuario;
-
+    await this.carregarUsuario();
     this.carregarBemVindo();
+  }
+
+  async carregarUsuario() {
+    const idUser = this.appGlobals.usuario.id;
+    this.user = await this.userService.carregarUsuarioId(idUser);
+    this.user.tipo_pessoa = this.user.tipo_pessoa == 'F' ? 'cpf' : 'cnpj';
+    this.endereco.localidade = this.user.cidade;
+    this.endereco.uf = this.user.uf;
+    this.endereco.cep = this.user.cep;
+    this.endereco.logradouro = this.user.logradouro;
+    this.endereco.bairro = this.user.bairro;
+    this.endereco.numero = this.user.numero;
+    this.endereco.complmento = this.user.complmento;
+    this.mudouUF();
+    this.tipoDocumento();
+    console.log(this.user);
   }
 
   carregarBemVindo() {
@@ -86,7 +110,7 @@ export class UsuarioAreaComponent implements OnInit {
   }
 
   tipoDocumento() {
-    this.maskDoc = this.user.tipoP == 'cnpj' ? '99.999.999/9999-99' : '999.999.999-99';
+    this.maskDoc = this.user.tipo_pessoa == 'cnpj' ? '99.999.999/9999-99' : '999.999.999-99';
   }
 
   mudarObr() {
@@ -96,14 +120,13 @@ export class UsuarioAreaComponent implements OnInit {
   validaDoc() {
     let result: any;
     let doc = '';
-    if (this.user.tipoP === 'cpf') {
+    if (this.user.tipo_pessoa === 'cpf') {
       doc = 'CPF';
       result = this.validacaoService.validaCpf(this.user.doc);
     } else {
       doc = 'CNPJ'
       result = this.validacaoService.validarCnpj(this.user.doc);
     }
-    console.log(result);
     if (!result) {
       this.messageService.add({ severity: 'error', summary: 'Aviso', detail: `${doc} inválido, informe um numeto válido!` });
       this.user.doc = '';
@@ -150,6 +173,10 @@ export class UsuarioAreaComponent implements OnInit {
     }
   }
 
+  async uploadHandlerPerfil(foto: any, uploader: FileUpload) {
+    this.user.ftPerfil = await this.blobToBase64(foto.files[0]);
+    uploader.clear();
+  }
   async uploadHandlerImgs(imagens: any, uploader: FileUpload, tp: string) {
     for (const img of imagens.files) {
       console.log(img);
@@ -169,17 +196,83 @@ export class UsuarioAreaComponent implements OnInit {
     });
   }
 
-    //Ações de artista
-    gravarArtista() {
-      this.displayArtista = false;
-      this.artista.fotos = this.fotoArtista;
-      this.user.artista = this.artista;
+  //Ações de artista
+  gravarArtista() {
+    this.displayArtista = false;
+    this.artista.fotos = this.fotoArtista;
+    this.user.artista = this.artista;
+  }
+
+  //Ações de produtor
+  gravarProdutor() {
+    this.displayProdutor = false;
+    this.produtor.fotos = this.fotoProdutor;
+    this.user.produtor = this.produtor;
+  }
+
+  carregarArtista() {
+    this.artistaSvc.listarArtistaEmail(this.user.email)
+      .then(rs => {
+        console.log(rs);
+      })
+      .catch(err => this.errorSvc.errorHandler(err));
+  }
+
+  carregarProdutor() {
+    this.produtorSvc.listarProdEmail(this.user.email)
+      .then(rs => {
+        console.log(rs);
+      })
+      .catch(err => this.errorSvc.errorHandler(err));
+  }
+
+  carregarEspacosRelacionados() {
+    this.espacoSvc.listarEspacosrelacionados(this.user.id)
+      .then(rs => {
+        console.log(rs);
+      })
+      .catch(err => this.errorSvc.errorHandler(err));
+  }
+
+  carregarArtistasRelacionados() {
+    this.artistaSvc.listarRelacionados(this.user.id)
+      .then(rs => {
+        console.log(rs);
+      })
+      .catch(err => this.errorSvc.errorHandler(err));
+  }
+
+  carregarProdutoresRelacionados() {
+    this.produtorSvc.listarRelacionados(this.user.id)
+      .then(rs => {
+        console.log(rs);
+      })
+      .catch(err => this.errorSvc.errorHandler(err));
+  }
+
+  carregarSolicitacoes() {
+
+  }
+
+  controlaTabs(tab) {
+    switch (tab.index) {
+      case 0:
+        this.carregarUsuario();
+        break;
+      case 1:
+        this.carregarEspacosRelacionados();
+        break;
+      case 2:
+        this.carregarArtistasRelacionados();
+        break;
+      case 3:
+        this.carregarProdutoresRelacionados();
+        break;
+      case 4:
+        this.carregarSolicitacoes();
+        break;
+      default:
+        break;
     }
-  
-    //Ações de produtor
-    gravarProdutor() {
-      this.displayProdutor = false;
-      this.produtor.fotos = this.fotoProdutor;
-      this.user.produtor = this.produtor;
-    }
+  }
 }

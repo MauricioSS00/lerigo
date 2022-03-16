@@ -6,6 +6,7 @@ import { AppGlobals } from 'src/app/core/navbar/appGlobals';
 import * as moment from 'moment';
 
 import { EventoService } from '../evento.service';
+import { EspacoService } from '../../espaco/espaco.service';
 
 @Component({
   selector: 'app-evento-list',
@@ -23,6 +24,7 @@ export class EventoListComponent implements OnInit {
   constructor(
     private router: Router,
     private eventoService: EventoService,
+    private espacService: EspacoService,
     private messageService: MessageService,
     public appGlobals: AppGlobals
   ) { }
@@ -47,8 +49,16 @@ export class EventoListComponent implements OnInit {
         this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Não foi possível carragar os eventos!' });
       });
   }
-  detalhes(evt) {
-    this.showDetEvento = true;
-    this.evento = evt;
+  async detalhes(evt) {
+    console.log(evt);
+    this.eventoService.listarEventoId(evt.id)
+      .then(async rs => {
+        this.evento = await rs;
+        if (this.evento.espaco && this.evento.espaco > 0) {
+          this.evento.espaco = await this.espacService.listarEspacoID(this.evento.espaco);
+        }
+        this.showDetEvento = true;
+      })
+      .catch();
   }
 }

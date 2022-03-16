@@ -14,6 +14,11 @@ export class ArtistaService {
 
   constructor(private http: HttpClient) { }
 
+  listarArtistaEmail(email: string) {
+    let op = { params: { email } }
+    return this.http.get<any>(`${this.urlArtista}`, op)
+      .toPromise();
+  }
 
   listarResumo() {
     return this.http.get<any>(`${this.urlArtistaDrop}`)
@@ -21,7 +26,13 @@ export class ArtistaService {
   }
 
   listarArtistas(filtro = "") {
-    let op = { params: { nome: filtro } }
+    let op = { params: { nome: filtro, email: filtro } }
+    return this.http.get<any>(`${this.urlArtista}`, op)
+      .toPromise();
+  }
+
+  listarRelacionados(usuario: number) {
+    let op = { params: { usuario } }
     return this.http.get<any>(`${this.urlArtista}`, op)
       .toPromise();
   }

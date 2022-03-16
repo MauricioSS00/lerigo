@@ -20,6 +20,7 @@ import { TableModule } from 'primeng/table';
 import {PanelModule} from 'primeng/panel';
 import { DialogModule } from 'primeng/dialog';
 import { CarouselModule } from 'primeng/carousel';
+import {AvatarModule} from 'primeng/avatar';
 
 
 @NgModule({
@@ -46,7 +47,8 @@ import { CarouselModule } from 'primeng/carousel';
     TableModule,
     PanelModule,
     DialogModule,
-    CarouselModule
+    CarouselModule,
+    AvatarModule
   ]
 })
 export class EventoModule { }

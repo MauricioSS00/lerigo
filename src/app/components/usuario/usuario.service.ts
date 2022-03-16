@@ -9,7 +9,6 @@ export class UsuarioService {
 
   urlUsuario = `${environment.urlApi}usuario`;
   urlUserRap = `${environment.urlApi}usuario_rapido`;
-  urlLogin = `${environment.urlApi}login`;
   usuario = [];
 
   genero = [
@@ -58,30 +57,22 @@ export class UsuarioService {
   };
 
   gravar(user): Promise<any> {
-    user = Object.assign({}, user); 
+    user = Object.assign({}, user);
     return this.http.post<any>(this.urlUsuario, user)
       .toPromise();
   }
 
   cadRapido(user) {
     return this.http.post<any>(`${this.urlUserRap}`, Object.assign({}, user))
-    .toPromise();
+      .toPromise();
   }
 
   listarUser() {
     return this.usuario;
   }
 
-  login(email: string, password: string) {
-    let acesso = {
-      email,
-      password
-    }
-    return this.http.post<any>(`${this.urlLogin}`, acesso)
-    .toPromise();
-  }
-
-  logout() {
-
+  carregarUsuarioId(id) {
+    return this.http.get<any>(this.urlUsuario + '/' + id)
+      .toPromise();
   }
 }

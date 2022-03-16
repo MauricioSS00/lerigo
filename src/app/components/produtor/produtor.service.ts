@@ -20,9 +20,20 @@ export class ProdutorService {
       .toPromise();
   }
 
-  
   listar(filtro = "") {
-    let op = { params: { nome: filtro } }
+    let op = { params: { nome: filtro, email: filtro } }
+    return this.http.get<any>(`${this.urlProdutor}`, op)
+      .toPromise();
+  }
+
+  listarProdEmail(email: string) {
+    let op = { params: { email } }
+    return this.http.get<any>(`${this.urlProdutor}`, op)
+      .toPromise();
+  }
+
+  listarRelacionados(usuario: string) {
+    let op = { params: { usuario } }
     return this.http.get<any>(`${this.urlProdutor}`, op)
       .toPromise();
   }

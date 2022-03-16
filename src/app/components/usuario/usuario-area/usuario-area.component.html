@@ -1,7 +1,7 @@
 <div class="container">
     <h1>Minha Conta</h1>
     <div class="p-grid">
-        <div class="p-col-12 p-lg-4">
+        <div class="p-col-12 p-lg-3">
             <h2>{{bemVindo}}</h2>
             <div class="p-grid">
                 <div class="p-col-10 p-lg-10 p-fluid">
@@ -16,28 +16,28 @@
                 <div class="p-col-12 p-fluid">
                     <label>Nome fantasia ou como prefere ser chamado</label>
                     <input pInputText type="text" class="ng-required ng-dirty" name="user_soc_nome"
-                        [(ngModel)]="user.user_soc_nome" #nick="ngModel" [disabled]="disabledConta" required
+                        [(ngModel)]="user.nome_social" #nick="ngModel" [disabled]="disabledConta" required
                         minlength="5" />
                 </div>
                 <div class="p-col-12 p-fluid">
                     <label>E-mail</label>
-                    <input pInputText type="text" name="user_email" [(ngModel)]="user.user_email" #email="ngModel"
+                    <input pInputText type="text" name="user_email" [(ngModel)]="user.email" #email="ngModel"
                         [disabled]="disabledConta" required email />
                     <small id="username-help" class="p-error" *ngIf="email.hasError('email')">
                         Informe um e-mail válido!</small>
                 </div>
                 <div class="p-col-12 p-fluid">
                     <label>Senha</label>
-                    <input pInputText type="password" name="user_password" [(ngModel)]="user.user_password"
+                    <input pInputText type="password" name="user_password" [(ngModel)]="user.password"
                         [disabled]="disabledConta" #senha="ngModel" required />
                     <small id="username-help" class="p-error" *ngIf="senha.hasError('required') && senha.dirty">
                         *Campo obrigatório</small>
                 </div>
             </div>
         </div>
-        <div class="p-col-12 p-lg-8">
+        <div class="p-col-12 p-lg-9">
             <div>
-                <p-tabView class="painelHeader">
+                <p-tabView class="painelHeader" (onChange)="controlaTabs($event)">
                     <p-tabPanel header="Dados de Usuário">
                         <div class="p-grid">
                             <div class="p-col-11 p-lg-11 p-fluid">
@@ -58,7 +58,7 @@
                                             <div class="p-field">
                                                 <label>Nome Completo ou Razão Social</label>
                                                 <input pInputText type="text" name="user_nome_civ"
-                                                    [(ngModel)]="user.user_nome_civ" #user_nome_civ="ngModel"
+                                                    [(ngModel)]="user.nome" #user_nome_civ="ngModel"
                                                     class="ng-required ng-dirty" required minlength="7" />
                                                 <small class="p-error"
                                                     *ngIf="user_nome_civ.hasError('required') && user_nome_civ.dirty">
@@ -80,17 +80,17 @@
                                             <div class="p-field">
                                                 <label id="labelRadio">Tipo de Pessoa</label><br>
                                                 <p-radioButton class="radio" name="groupname" label="Física" value="cpf"
-                                                    [(ngModel)]="user.tipoP" (onClick)="tipoDocumento()">
+                                                    [(ngModel)]="user.tipo_pessoa" (onClick)="tipoDocumento()">
                                                 </p-radioButton>
                                                 <p-radioButton name="groupname" label="Juridica" value="cnpj"
-                                                    [(ngModel)]="user.tipoP" (onClick)="tipoDocumento()">
+                                                    [(ngModel)]="user.tipo_pessoa" (onClick)="tipoDocumento()">
                                                 </p-radioButton>
                                             </div>
                                         </div>
                                         <div class="p-col-6 p-lg-4 p-fluid">
                                             <div class="p-field">
-                                                <label>{{user.tipoP =='cnpj'? 'CNPJ' : 'CPF' }}</label>
-                                                <p-inputMask [mask]="maskDoc" name="doc" [(ngModel)]="user.doc"
+                                                <label>{{user.tipo_pessoa =='cnpj'? 'CNPJ' : 'CPF' }}</label>
+                                                <p-inputMask [mask]="maskDoc" name="doc" [(ngModel)]="user.documento"
                                                     #doc="ngModel" (onComplete)="validaDoc()"
                                                     class="ng-required ng-dirty" [required]="fieldObr">
                                                 </p-inputMask>
@@ -98,7 +98,7 @@
                                                     *Campo obrigatório</small>
                                             </div>
                                         </div>
-                                        <div class="p-col-6 p-lg-4 p-fluid" *ngIf="user.tipoP == 'cpf'">
+                                        <div class="p-col-6 p-lg-4 p-fluid" *ngIf="user.tipo_pessoa == 'cpf'">
                                             <div class="p-field">
                                                 <label>Gênero</label>
                                                 <p-dropdown [options]="genero" [(ngModel)]="user.genero"
@@ -107,7 +107,7 @@
                                                 </p-dropdown>
                                             </div>
                                         </div>
-                                        <div class="p-col-6 p-lg-4 p-fluid" *ngIf="user.tipoP == 'cnpj'">
+                                        <div class="p-col-6 p-lg-4 p-fluid" *ngIf="user.tipo_pessoa == 'cnpj'">
                                             <div class="p-field">
                                                 <label>Inscricao Estadual</label>
                                                 <input pInputText type="text" name="inscEstadual"
@@ -125,7 +125,7 @@
                                                 <div class="p-field">
                                                     <label>RG/Passaporte</label>
                                                     <input pInputText type="text" name="user_pic_id"
-                                                        [(ngModel)]="user.user_pic_id" #user_pic_id="ngModel"
+                                                        [(ngModel)]="user.rg_pass" #user_pic_id="ngModel"
                                                         class="ng-required ng-dirty" [required]="user.estrangeiro" />
                                                     <small class="p-error"
                                                         *ngIf="user_pic_id.hasError('required') && user_pic_id.dirty">
@@ -136,7 +136,7 @@
                                                 <div class="p-field">
                                                     <label>Órgão Expedidor</label>
                                                     <input pInputText type="text" name="user_id_doc"
-                                                        [(ngModel)]="user.user_id_doc" #user_id_doc="ngModel"
+                                                        [(ngModel)]="user.orgao_rg_pass" #user_id_doc="ngModel"
                                                         class="ng-required ng-dirty" [required]="user.estrangeiro" />
                                                     <small class="p-error"
                                                         *ngIf="user_id_doc.hasError('required') && user_id_doc.dirty">
@@ -147,7 +147,7 @@
                                                 <div class="p-field">
                                                     <label>UF/País Emissor Passaporte</label>
                                                     <input pInputText type="text" name="user_id_state"
-                                                        [(ngModel)]="user.user_id_state" #user_id_state="ngModel"
+                                                        [(ngModel)]="user.uf_rg_pass" #user_id_state="ngModel"
                                                         class="ng-required ng-dirty" [required]="user.estrangeiro" />
                                                     <small class="p-error"
                                                         *ngIf="user_id_state.hasError('required') && user_id_state.dirty">
@@ -162,7 +162,7 @@
                                                 <label>Data de Nascimento</label>
                                                 <p-calendar dateFormat="dd/mm/yy" [monthNavigator]="true"
                                                     [yearNavigator]="true" yearRange="1888:2050" name="dtNasc"
-                                                    [(ngModel)]="user.dtNasc" #dtNasc="ngModel"
+                                                    [(ngModel)]="user.data_nascimento" #dtNasc="ngModel"
                                                     class="ng-required ng-dirty" required>
                                                 </p-calendar>
                                                 <small class="p-error"
@@ -193,7 +193,7 @@
                                             <div class="p-field">
                                                 <label>WhatsApp</label>
                                                 <p-inputMask mask="(99)99999-9999" name="user_whats"
-                                                    [(ngModel)]="user.user_whats" #user_whats="ngModel">
+                                                    [(ngModel)]="user.whatsapp" #user_whats="ngModel">
                                                 </p-inputMask>
                                             </div>
                                         </div>
@@ -267,23 +267,31 @@
                                                         [(ngModel)]="endereco.complemento" #complemento="ngModel" />
                                                 </div>
                                             </div>
+                                            <div class="p-col-12">
+                                                <label>Foto Perfil</label>
+                                                <p-fileUpload [customUpload]="true" [auto]="true" mode="basic"
+                                                    name="ftPerfil"
+                                                    (uploadHandler)="uploadHandlerPerfil($event, uploadPerfil)"
+                                                    chooseLabel="adicionar" accept="image/*" maxFileSize="1000000"
+                                                    #uploadPerfil>
+                                                </p-fileUpload>
+                                                <div *ngIf="user.ftPerfil" id="imgPerfil">
+                                                    <img [src]="user.ftPerfil" style="max-width: 9vh;">
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
 
                                     <div class="p-grid">
-                                        <div class="p-col-4 p-lg-2 p-fluid">
-                                            <button class="button" pButton type="submit"
-                                                [disabled]="formEspacoCad.invalid" label="Gravar"></button>
-                                        </div>
-                                        <div class="p-col-4 p-lg-2 p-fluid">
+                                        <div class="p-col-6 p-lg-6 p-fluid">
                                             <button pButton type="button" label="Sou Artista" icon="fas fa-palette"
                                                 iconPos="left" class="p-button-text p-button-text"
-                                                (click)="displayArtista=true"></button>
+                                                (click)="carregarArtista()"></button>
                                         </div>
-                                        <div class="p-col-4 p-lg-2 p-fluid">
+                                        <div class="p-col-6 p-lg-6 p-fluid">
                                             <button pButton type="button" label="Sou Produtor" icon="fas fa-user-tie"
                                                 iconPos="left" class="p-button-text p-button-text"
-                                                (click)="displayProdutor=true"></button>
+                                                (click)="carregarProdutor"></button>
                                         </div>
                                         <!-- [disabled]="formEspacoCad.invalid" -->
                                         <!-- <button pButton class="p-button-danger" style="margin-left: 5pt;" label="cancelar"></button> -->
@@ -320,6 +328,18 @@
                         <div class="p-grid">
                             <div class="p-col-11 p-lg-11 p-fluid">
                                 <h3>Produtores</h3>
+                            </div>
+                            <div class="p-col-1 p-lg-1">
+                                <button pButton pRipple type="button" icon="pi pi-plus"
+                                    class="p-button-rounded p-button-text" (click)="novoCad('produtor')"
+                                    style="color: #289ea0;"></button>
+                            </div>
+                        </div>
+                    </p-tabPanel>
+                    <p-tabPanel header="Solicitaçôes">
+                        <div class="p-grid">
+                            <div class="p-col-11 p-lg-11 p-fluid">
+                                <h3>Solicitaçôes</h3>
                             </div>
                             <div class="p-col-1 p-lg-1">
                                 <button pButton pRipple type="button" icon="pi pi-plus"
