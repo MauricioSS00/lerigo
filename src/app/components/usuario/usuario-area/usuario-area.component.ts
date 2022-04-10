@@ -6,6 +6,7 @@ import { FileUpload } from 'primeng/fileupload';
 
 import { AppGlobals } from 'src/app/core/navbar/appGlobals';
 import { ErrorHandlerService } from 'src/app/services/errorHandler.service';
+import { GeralService } from 'src/app/services/geral.service';
 import { ValidacaoService } from 'src/app/shared/validacao.service';
 import { ArtistaService } from '../../artista/artista.service';
 import { EspacoService } from '../../espaco/espaco.service';
@@ -40,6 +41,8 @@ export class UsuarioAreaComponent implements OnInit {
   fotoArtista = [];
   fotoProdutor = [];
 
+  solicitacoes = [];
+
 
   constructor(
     private validacaoService: ValidacaoService,
@@ -50,7 +53,8 @@ export class UsuarioAreaComponent implements OnInit {
     private artistaSvc: ArtistaService,
     private produtorSvc: ProdutorService,
     private espacoSvc: EspacoService,
-    private errorSvc: ErrorHandlerService
+    private errorSvc: ErrorHandlerService,
+    private geralSvc: GeralService
 
   ) {
     this.genero = this.userService.genero;
@@ -250,10 +254,14 @@ export class UsuarioAreaComponent implements OnInit {
       .catch(err => this.errorSvc.errorHandler(err));
   }
 
-  carregarSolicitacoes() {
-
+  async carregarSolicitacoes() {
+    this.solicitacoes.push(await this.geralSvc.lstSolicitacaoesArt(this.user.id));
+    this.solicitacoes.push(await this.geralSvc.lstSolicitacaoesProd(this.user.id));
   }
 
+  carregarEventos() {
+
+  }
   controlaTabs(tab) {
     switch (tab.index) {
       case 0:
@@ -269,10 +277,19 @@ export class UsuarioAreaComponent implements OnInit {
         this.carregarProdutoresRelacionados();
         break;
       case 4:
+        this.carregarEventos();
+        break;
+      case 5:
         this.carregarSolicitacoes();
         break;
-      default:
-        break;
     }
+  }
+
+  atualizarSolic(solicitacao) {
+    this.geralSvc.alterarSolicitacoes(solicitacao)
+      .then(rs => {
+        console.log(rs);
+      })
+      .catch(er => console.log(er));
   }
 }

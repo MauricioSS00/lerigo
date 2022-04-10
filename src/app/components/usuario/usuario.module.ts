@@ -12,12 +12,14 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import { CalendarModule } from 'primeng/calendar';
-import {RadioButtonModule} from 'primeng/radiobutton';
-import {CheckboxModule} from 'primeng/checkbox';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { CheckboxModule } from 'primeng/checkbox';
 import { ToastModule } from 'primeng/toast';
-import {TabViewModule} from 'primeng/tabview';
-import {DialogModule} from 'primeng/dialog';
+import { TabViewModule } from 'primeng/tabview';
+import { DialogModule } from 'primeng/dialog';
 import { FileUploadModule } from 'primeng/fileupload';
+import { CardModule } from 'primeng/card';
+import { ButtonModule } from 'primeng/button';
 
 
 
@@ -43,7 +45,8 @@ import { FileUploadModule } from 'primeng/fileupload';
     ToastModule,
     DialogModule,
     FileUploadModule,
-
+    CardModule,
+    ButtonModule,
 
     TabViewModule
   ]

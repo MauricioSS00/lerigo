@@ -336,6 +336,18 @@
                             </div>
                         </div>
                     </p-tabPanel>
+                    <p-tabPanel header="Meus Eventos">
+                        <div class="p-grid">
+                            <div class="p-col-11 p-lg-11 p-fluid">
+                                <h3>Meus Eventos</h3>
+                            </div>
+                            <div class="p-col-1 p-lg-1">
+                                <button pButton pRipple type="button" icon="pi pi-plus"
+                                    class="p-button-rounded p-button-text" (click)="novoCad('evento')"
+                                    style="color: #289ea0;"></button>
+                            </div>
+                        </div>
+                    </p-tabPanel>
                     <p-tabPanel header="Solicitaçôes">
                         <div class="p-grid">
                             <div class="p-col-11 p-lg-11 p-fluid">
@@ -345,6 +357,28 @@
                                 <button pButton pRipple type="button" icon="pi pi-plus"
                                     class="p-button-rounded p-button-text" (click)="novoCad('produtor')"
                                     style="color: #289ea0;"></button>
+                            </div>
+                        </div>
+                        <div class="p-grid">
+                            <div class="p-col-11 p-lg-11 p-fluid" *ngFor="let sol of solicitacoes">
+                                <p-card>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed
+                                        consequuntur error repudiandae numquam deserunt
+                                        quisquam repellat libero asperiores earum nam nobis, culpa ratione quam
+                                        perferendis esse, cupiditate neque quas!</p>
+                                    <ng-template pTemplate="footer">
+                                        <div class="p-grid">
+                                            <div class="p-col-6">
+                                                <p-button label="Save" icon="pi pi-check"></p-button>
+                                            </div>
+                                            <div class="p-col-6">
+                                                <p-button label="Cancel" icon="pi pi-times"
+                                                    styleClass="p-button-secondary">
+                                                </p-button>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </p-card>
                             </div>
                         </div>
                     </p-tabPanel>
