@@ -3,11 +3,11 @@ import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
-  HttpInterceptor,
-  HttpResponse
+  HttpInterceptor
 } from '@angular/common/http';
-import { Observable, EMPTY } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { Observable, EMPTY, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import Swal from 'sweetalert2'
 
 import { environment } from 'src/environments/environment';
 import { AuthService } from '../services/auth.service';
@@ -61,7 +61,7 @@ export class AuthInterceptor implements HttpInterceptor {
     }
   }
 
-  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     this.request = request;
 
     if (this.isRequestUriToApi()) {
@@ -72,8 +72,19 @@ export class AuthInterceptor implements HttpInterceptor {
     }
 
     return next.handle(this.request).pipe(
-      finalize(() => {
-          console.log("Terminou a requisicao");
-        }));
+      catchError(error => {
+        console.log(error);
+        if (error.status = 401 && error.error?.status == "Authorization Token not found") {
+          this.router.navigate(['home']);
+          Swal.fire({
+            icon: 'info',
+            title: 'Poxa, sua sessão expirou',
+            text: 'Para continuar usando, basta logar novamente'
+        });
+        }
+        return throwError(error);
+      })
+    );
   }
+
 }
