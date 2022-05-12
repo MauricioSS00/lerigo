@@ -70,16 +70,23 @@ export class AuthInterceptor implements HttpInterceptor {
       }
       this.setAuthHeader();
     }
-
+    
     return next.handle(this.request).pipe(
       catchError(error => {
         console.log(error);
-        if (error.status = 401 && error.error?.status == "Authorization Token not found") {
+        if (error.status = 401 && error.error?.status == "Token is Expired") {
           this.router.navigate(['home']);
           Swal.fire({
             icon: 'info',
             title: 'Poxa, sua sessão expirou',
             text: 'Para continuar usando, basta logar novamente'
+        });
+        } else if (error.status = 401 && error.error?.status == "Authorization Token not found") {
+          this.router.navigate(['home']);
+          Swal.fire({
+            icon: 'info',
+            title: 'Acesso Restrito',
+            text: 'Para realizar esta operação é necessario realizar o login'
         });
         }
         return throwError(error);

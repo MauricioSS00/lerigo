@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment';
 export class UsuarioService {
 
   urlUsuario = `${environment.urlApi}usuario`;
+  urlEveUsuario = `${environment.urlApi}eventos/usuario`;
   urlUserRap = `${environment.urlApi}usuario_rapido`;
   usuario = [];
 
@@ -73,6 +74,17 @@ export class UsuarioService {
 
   carregarUsuarioId(id) {
     return this.http.get<any>(this.urlUsuario + '/' + id)
+      .toPromise();
+  }
+
+  listarUsuarios(filtro) {
+    let op = filtro != '' ? { params: { nome: filtro } } : {};
+    return this.http.get<any>(this.urlUsuario + 's', op)
+      .toPromise();
+  }
+
+  carregarEventos(id) {
+    return this.http.get<any>(this.urlEveUsuario + '/' + id)
       .toPromise();
   }
 }

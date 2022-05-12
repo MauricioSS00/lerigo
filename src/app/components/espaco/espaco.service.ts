@@ -22,6 +22,11 @@ export class EspacoService {
       .toPromise();
   }
 
+  gravarAdm(body: any) {
+    return this.http.post<any>(`${this.urlEspaco}/administradores`, [body])
+      .toPromise();
+  }
+
   async listarEspacos() {
     return await this.http.get<any>(this.urlEspacos)
       .toPromise();
@@ -32,7 +37,7 @@ export class EspacoService {
       .toPromise();
   }
 
-  async listarEspacoID(id) {
+  async listarEspacoID(id: number) {
     return await this.http.get<any>(`${this.urlEspaco}/${id}`)
       .toPromise();
   }

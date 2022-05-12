@@ -28,21 +28,34 @@ export class UsuarioAreaComponent implements OnInit {
   endereco: any = [];
   cidades: any;
   uf: any;
-  selectedValue = ['Física', 'Juridica'];
   genero: any = [];
   tpArte: any = [];
   generoArte: any = [];
   bemVindo: string;
 
-  displayProdutor = false;
-  displayArtista = false;
   artista: any = {};
   produtor: any = {};
   fotoArtista = [];
   fotoProdutor = [];
 
   solicitacoes = [];
+  eventosUser = [];
+  tabIndex = 0;
+  artistaRel = [];
+  usuariosCad = [];
 
+
+  // tab espacos
+  userSelTmp: any = [];
+  tpPermTmp = 0;
+  espacoTmp: any;
+  espacoRel = [];
+
+
+  // displays
+  displayProdutor = false;
+  displayArtista = false;
+  displayRelEspaco = false;
 
   constructor(
     private validacaoService: ValidacaoService,
@@ -71,7 +84,8 @@ export class UsuarioAreaComponent implements OnInit {
   async carregarUsuario() {
     const idUser = this.appGlobals.usuario.id;
     this.user = await this.userService.carregarUsuarioId(idUser);
-    this.user.tipo_pessoa = this.user.tipo_pessoa == 'F' ? 'cpf' : 'cnpj';
+    console.log(this.user);
+    this.user.tipo_pessoa = await this.user.tipo_pessoa == ('F' || 'cpf') ? 'cpf' : 'cnpj';
     this.endereco.localidade = this.user.cidade;
     this.endereco.uf = this.user.uf;
     this.endereco.cep = this.user.cep;
@@ -80,8 +94,7 @@ export class UsuarioAreaComponent implements OnInit {
     this.endereco.numero = this.user.numero;
     this.endereco.complmento = this.user.complmento;
     this.mudouUF();
-    this.tipoDocumento();
-    console.log(this.user);
+    await this.tipoDocumento();
   }
 
   carregarBemVindo() {
@@ -113,7 +126,7 @@ export class UsuarioAreaComponent implements OnInit {
     console.log('Gravar Dados Conta');
   }
 
-  tipoDocumento() {
+  async tipoDocumento() {
     this.maskDoc = this.user.tipo_pessoa == 'cnpj' ? '99.999.999/9999-99' : '999.999.999-99';
   }
 
@@ -145,6 +158,20 @@ export class UsuarioAreaComponent implements OnInit {
       this.router.navigate(['usuario-cad']);
     } else if (tipo === 'produtor') {
       this.router.navigate(['usuario-cad']);
+    } else if (tipo === 'evento') {
+      this.router.navigate(['evento-cad']);
+    }
+  }
+
+  editarCad(tipo: String, id: any) {
+    if (tipo === 'espaco') {
+      this.router.navigate([`espaco-cad/${id}`]);
+    } else if (tipo === 'atista') {
+      this.router.navigate([`usuario-cad/${id}`]);
+    } else if (tipo === 'produtor') {
+      this.router.navigate([`usuario-cad/${id}`]);
+    } else if (tipo === 'evento') {
+      this.router.navigate([`evento-cad/${id}`]);
     }
   }
 
@@ -233,7 +260,8 @@ export class UsuarioAreaComponent implements OnInit {
   carregarEspacosRelacionados() {
     this.espacoSvc.listarEspacosrelacionados(this.user.id)
       .then(rs => {
-        console.log(rs);
+        this.espacoRel = rs;
+        console.log(this.espacoRel);
       })
       .catch(err => this.errorSvc.errorHandler(err));
   }
@@ -255,15 +283,17 @@ export class UsuarioAreaComponent implements OnInit {
   }
 
   async carregarSolicitacoes() {
-    this.solicitacoes.push(await this.geralSvc.lstSolicitacaoesArt(this.user.id));
+    this.solicitacoes = await this.geralSvc.lstSolicitacaoesArt(this.user.id);
     this.solicitacoes.push(await this.geralSvc.lstSolicitacaoesProd(this.user.id));
   }
 
-  carregarEventos() {
-
+  async carregarEventos() {
+    this.eventosUser = await this.userService.carregarEventos(this.user.id);
+    console.log(this.eventosUser);
   }
   controlaTabs(tab) {
-    switch (tab.index) {
+    this.tabIndex = tab.index;
+    switch (this.tabIndex) {
       case 0:
         this.carregarUsuario();
         break;
@@ -291,5 +321,29 @@ export class UsuarioAreaComponent implements OnInit {
         console.log(rs);
       })
       .catch(er => console.log(er));
+  }
+
+  async relUserEspaco() {
+    let body = {
+      id: 0,
+      idEspaco: this.espacoTmp,
+      idUsuario: this.userSelTmp.id,
+      nivel: Number(this.tpPermTmp)
+    };
+
+    await this.espacoSvc.gravarAdm(body);
+
+    this.userSelTmp = [];
+    this.tpPermTmp = 0;
+    this.espacoTmp = [];
+    this.displayRelEspaco = false;
+  }
+
+  async carregarUsuarios(filtro: any) {
+    console.log(filtro.query);
+    this.usuariosCad = await this.userService.listarUsuarios(filtro.query);
+    this.usuariosCad = this.usuariosCad.filter(u => {
+      return u.id != this.appGlobals.usuario.id;
+    });
   }
 }

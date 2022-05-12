@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { MessageService } from 'primeng/api';
 import { FileUpload } from 'primeng/fileupload';
 
 import { AppGlobals } from 'src/app/core/navbar/appGlobals';
+import { ErrorHandlerService } from 'src/app/services/errorHandler.service';
+import { GeralService } from 'src/app/services/geral.service';
 import { EspacoService } from '../espaco.service';
 
 @Component({
@@ -29,9 +31,12 @@ export class EspacoCadComponent implements OnInit {
 
   constructor(
     private messageService: MessageService,
-    private espacoService: EspacoService,
+    public espacoService: EspacoService,
     private router: Router,
-    public appGlobals: AppGlobals
+    public appGlobals: AppGlobals,
+    public geralSvc: GeralService,
+    private error: ErrorHandlerService,
+    public route: ActivatedRoute
   ) {
 
     this.horario = [
@@ -59,16 +64,42 @@ export class EspacoCadComponent implements OnInit {
     ];
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    const id = this.route.snapshot.params['id'];
+    if (id) {
+      this.edicao = true;
+      await this.carregarEspaco(id);
+    }
     this.espaco.estac = true;
     this.espaco.acess = true;
     this.uf = this.appGlobals.getEstados();
+    this.buscarTipos('');
+  }
+
+  async carregarEspaco(id: number) {
+    this.espaco = await this.espacoService.listarEspacoID(id);
+    this.espaco.abertura = this.espaco.data_abertura;
+    this.espaco.fone = this.espaco.telefone;
+    this.espaco.space_whats = this.espaco.whatsapp;
+    this.horario = this.espaco.turnoEspaco;
+    this.espaco.lotMax = this.espaco.lotacao_maxima;
+
+    this.endereco.uf = this.espaco.uf;
+    this.mudouUF();
+    this.endereco.cep = this.espaco.cep;
+    this.endereco.bairro = this.espaco.bairro;
+    this.endereco.logradouro = this.espaco.logradouro;
+    this.endereco.cidade = this.espaco.cidade.toUpperCase();
+    this.endereco.complemento = this.espaco.complemento;
+    this.endereco.numero = this.espaco.numero_endereco;
+
   }
 
   gravar() {
     this.espaco.endereco = this.endereco;
     this.espaco.horario = this.horario;
     this.espaco.fotosEspaco = this.fotosEspaco;
+    this.espaco.adm = this.appGlobals.usuario.id;
 
     this.espacoService.gravarEspaco(this.espaco)
       .then(resp => {
@@ -84,6 +115,7 @@ export class EspacoCadComponent implements OnInit {
       .then(data => {
         if (!data.erro) {
           this.endereco = data;
+          this.endereco.localidade.toUpperCase();
           this.mudouUF();
         } else {
           this.messageService.add({ severity: 'warn', summary: 'Erro', detail: 'CEP não encontrato, verique os dados novamente!' });
@@ -107,6 +139,16 @@ export class EspacoCadComponent implements OnInit {
     } else {
       this.endereco.localidade = "";
     }
+  }
+
+  buscarTipos(event) {
+    console.log(event);
+    let filtro = event.query != undefined ? event.query : '';
+    this.geralSvc.listarTpsEspaco(filtro)
+      .then(esp => {
+        this.tipo = esp;
+      })
+      .catch(err => this.error.errorHandler(err));
   }
 
   async uploadHandlerImgsEvt(imagens: any, uploader: FileUpload) {

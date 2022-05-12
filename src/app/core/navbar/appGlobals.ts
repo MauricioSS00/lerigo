@@ -53,7 +53,7 @@ export class AppGlobals {
 
   async getCEP(cep: String) {
     let cepBusca = cep.replace('-', '');
-    return this.http.get<any>(`https://viacep.com.br/ws/${cepBusca}/json/unicode/`)
+    return this.http.get<any>(`https://viacep.com.br/ws/${cepBusca}/json/`)
       .toPromise()
       .then(data => {
         return data;

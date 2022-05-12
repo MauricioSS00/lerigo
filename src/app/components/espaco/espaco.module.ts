@@ -22,6 +22,7 @@ import { EspacoListComponent } from './espaco-list/espaco-list.component';
 import { EspacoCadComponent } from './espaco-cad/espaco-cad.component';
 import { EspacoRoutingModule } from './espaco-routing.module';
 import { ShareModule } from '../../shared/share.module';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 
 
 @NgModule({
@@ -48,6 +49,7 @@ import { ShareModule } from '../../shared/share.module';
     ToastModule,
     CalendarModule,
     TableModule,
+    AutoCompleteModule,
     
     ShareModule
   ]

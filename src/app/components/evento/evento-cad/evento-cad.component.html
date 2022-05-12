@@ -1,5 +1,5 @@
 <div class="container">
-    <h1>Novo Evento</h1>
+    <h1>{{editando  ? 'Editar' : 'Novo'}} Evento</h1>
     <form #formEvtCad="ngForm" autocomplete="off">
         <div class="form p-grid">
             <div class="p-col-12 p-fluid">
@@ -71,8 +71,11 @@
             </div>
             <div class="p-col-12 p-lg-10 p-fluid">
                 <label>Tipo</label>
-                <p-dropdown [options]="tipos" name="tipo" [(ngModel)]="evento.tipo" optionLabel="nome"
-                    placeholder="Selecione"></p-dropdown>
+                <!-- <p-dropdown [options]="tipos" name="tipo" [(ngModel)]="evento.tipo" optionLabel="nome"
+                    placeholder="Selecione" ></p-dropdown> -->
+                <p-autoComplete name="tipo" [suggestions]="tipos" [(ngModel)]="evento.tipo" [dropdown]="true"
+                    (completeMethod)="buscarTipos($event)" field="descricao">
+                </p-autoComplete>
             </div>
         </div>
         <div class="p-grid">

@@ -31,7 +31,7 @@
                     <div class="p-col-12 p-lg-4 p-fluid">
                         <div class="p-field">
                             <label>CNPJ</label>
-                            <p-inputMask mask="99.999.999/9999-99" name="cnpj" [(ngModel)]="espaco.CNPJ" #cnpj="ngModel"
+                            <p-inputMask mask="99.999.999/9999-99" name="cnpj" [(ngModel)]="espaco.cnpj" #cnpj="ngModel"
                                 class="ng-required ng-dirty" required></p-inputMask>
                             <small class="p-error" *ngIf="cnpj.hasError('required') && cnpj.dirty">
                                 *Campo obrigatório</small>
@@ -212,8 +212,11 @@
                     <div class="p-col-6 p-lg-3 p-fluid">
                         <div class="p-field">
                             <label>Tipo</label>
-                            <p-dropdown [options]="tipo" name="tipo" [(ngModel)]="espaco.tipo" optionLabel="name"
-                                optionValue="code" placeholder="Selecione um Tipo"></p-dropdown>
+                            <!-- <p-dropdown [options]="tipo" name="tipo" [(ngModel)]="espaco.tipo" optionLabel="name"
+                                optionValue="code" placeholder="Selecione um Tipo"></p-dropdown> -->
+                            <p-autoComplete name="tipo" [suggestions]="tipo" [(ngModel)]="espaco.tipo"
+                                [dropdown]="true" (completeMethod)="buscarTipos($event)" field="descricao">
+                            </p-autoComplete>
                         </div>
                     </div>
                     <div class="p-col-6 p-lg-3 p-fluid">

@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { UsuarioCadComponent } from './usuario-cad/usuario-cad.component';
 import { UsuarioAreaComponent } from './usuario-area/usuario-area.component';
 
+import { AuthGuard } from 'src/app/guard/auth.guard';
+
 
 
 const routes: Routes = [
@@ -13,6 +15,7 @@ const routes: Routes = [
     {
         path: 'usuario-area',
         component: UsuarioAreaComponent,
+        canActivate: [AuthGuard]
     },
 ];
 

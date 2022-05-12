@@ -311,6 +311,33 @@
                                     style="color: #289ea0;"></button>
                             </div>
                         </div>
+                        <div class="p-grid" *ngIf="this.tabIndex == 1">
+                            <p-table [value]="espacoRel">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Razão Social</th>
+                                        <th>Nome</th>
+                                        <th style="width: 20%;">Acão</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-espc>
+                                    <tr>
+                                        <td>{{espc.id_espaco}}</td>
+                                        <td>{{espc.razao}}</td>
+                                        <td>{{espc.nome}}</td>
+                                        <td style="width: 20%;">
+                                            <button pButton type="button" icon="pi pi-pencil"
+                                                (click)="editarCad('espaco', espc.id_espaco)" pTooltip="Editar Espaço"
+                                                life="3000"></button>
+                                            <button pButton type="button" icon="pi pi-users"
+                                                (click)="displayRelEspaco = true; espacoTmp = espc.id" pTooltip="Relacionar Usuário"
+                                                life="3000"></button>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
                     </p-tabPanel>
                     <p-tabPanel header="Meus Artistas">
                         <div class="p-grid">
@@ -322,6 +349,9 @@
                                     class="p-button-rounded p-button-text" (click)="novoCad('artista')"
                                     style="color: #289ea0;"></button>
                             </div>
+                        </div>
+                        <div class="p-grid" *ngIf="this.tabIndex == 2">
+
                         </div>
                     </p-tabPanel>
                     <p-tabPanel header="Meus Produtores">
@@ -335,6 +365,9 @@
                                     style="color: #289ea0;"></button>
                             </div>
                         </div>
+                        <div class="p-grid" *ngIf="this.tabIndex == 3">
+
+                        </div>
                     </p-tabPanel>
                     <p-tabPanel header="Meus Eventos">
                         <div class="p-grid">
@@ -344,8 +377,41 @@
                             <div class="p-col-1 p-lg-1">
                                 <button pButton pRipple type="button" icon="pi pi-plus"
                                     class="p-button-rounded p-button-text" (click)="novoCad('evento')"
-                                    style="color: #289ea0;"></button>
+                                    style="color: #289ea0;" pTooltip="Novo Evento" life="3000"></button>
                             </div>
+                        </div>
+                        <div class="p-grid" *ngIf="this.tabIndex == 4">
+                            <p-table [value]="eventosUser">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Image</th>
+                                        <th>Titulo</th>
+                                        <th>Data</th>
+                                        <th>Espaco</th>
+                                        <th>Produtor</th>
+                                        <th style="width: 10%;">Acão</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-evt>
+                                    <tr>
+                                        <td>{{evt.id}}</td>
+                                        <td>
+                                            <img [src]="evt.imagem_perfil" [alt]="evt.nome" width="100"
+                                                *ngIf="evt.imagem_perfil != ''" />
+                                        </td>
+                                        <td>{{evt.nome}}</td>
+                                        <td>{{evt.data | date:'dd/MM/yyyy'}}</td>
+                                        <td>{{evt.espaco.nome}}</td>
+                                        <td>{{evt.produtor.nome}}</td>
+                                        <td style="width: 10%;">
+                                            <button pButton type="button" icon="pi pi-pencil"
+                                                (click)="editarCad('evento', evt.id)" pTooltip="Editar Evento"
+                                                life="3000"></button>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
                         </div>
                     </p-tabPanel>
                     <p-tabPanel header="Solicitaçôes">
@@ -359,20 +425,17 @@
                                     style="color: #289ea0;"></button>
                             </div>
                         </div>
-                        <div class="p-grid">
+                        <div class="p-grid" *ngIf="this.tabIndex == 5">
                             <div class="p-col-11 p-lg-11 p-fluid" *ngFor="let sol of solicitacoes">
                                 <p-card>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed
-                                        consequuntur error repudiandae numquam deserunt
-                                        quisquam repellat libero asperiores earum nam nobis, culpa ratione quam
-                                        perferendis esse, cupiditate neque quas!</p>
+                                    <p>Você recebeu uma solicitacoes</p>
                                     <ng-template pTemplate="footer">
                                         <div class="p-grid">
                                             <div class="p-col-6">
-                                                <p-button label="Save" icon="pi pi-check"></p-button>
+                                                <p-button label="Aceitar" icon="pi pi-check"></p-button>
                                             </div>
                                             <div class="p-col-6">
-                                                <p-button label="Cancel" icon="pi pi-times"
+                                                <p-button label="Recusar" icon="pi pi-times"
                                                     styleClass="p-button-secondary">
                                                 </p-button>
                                             </div>
@@ -508,5 +571,36 @@
     <ng-template pTemplate="footer">
         <p-button icon="pi pi-save" (click)="gravarProdutor()" label="Gravar" styleClass="p-button-text">
         </p-button>
+    </ng-template>
+</p-dialog>
+
+<!-- relacionar usuarios ao espaco -->
+<p-dialog header="{{ 'Relacionar Usuários' }}" [(visible)]="displayRelEspaco" [modal]="true" [maximizable]="true"
+    [draggable]="false" [resizable]="false" [style]="{width: '80vw'}">
+    <ng-template pTemplate="body">
+        <div class="p-grid">
+            <div class="p-col-8 p-fluid">
+                <label>Usuários</label>
+                <p-autoComplete name="users" [suggestions]="usuariosCad" [(ngModel)]="userSelTmp" [dropdown]="true"
+                    (completeMethod)="carregarUsuarios($event)" field="nome" appendTo="body">
+                </p-autoComplete>
+            </div>
+            <div class="p-col-4 p-fluid">
+                <label>Permissão</label>
+                <div class="field-radiobutton">
+                    <p-radioButton name="tpPerm" value="1" [(ngModel)]="tpPermTmp" inputId="tp1"></p-radioButton>
+                    <label for="tp1">Gerenciar</label>
+                </div>
+                <div class="field-radiobutton">
+                    <p-radioButton name="tpPerm" value="0" [(ngModel)]="tpPermTmp" inputId="tp2"></p-radioButton>
+                    <label for="tp2">Visualizar</label>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <button pButton type="button" icon="fa fa-check" iconPos="left" label="Gravar" (click)="relUserEspaco()"></button>
+        <button pButton type="button" icon="pi pi-times-circle" label="Cancelar" (click)="displayRelEspaco = false"
+            pTooltip="Relacionar Usuário" life="3000"></button>
     </ng-template>
 </p-dialog>

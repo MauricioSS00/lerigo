@@ -20,6 +20,8 @@ import { DialogModule } from 'primeng/dialog';
 import { FileUploadModule } from 'primeng/fileupload';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
+import {TableModule} from 'primeng/table';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 
 
 
@@ -47,8 +49,9 @@ import { ButtonModule } from 'primeng/button';
     FileUploadModule,
     CardModule,
     ButtonModule,
-
-    TabViewModule
+    TabViewModule,
+    TableModule,
+    AutoCompleteModule,
   ]
 })
 export class UsuarioModule { }

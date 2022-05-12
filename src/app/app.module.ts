@@ -16,7 +16,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import {DialogModule} from 'primeng/dialog';
 import { PasswordModule } from 'primeng/password';
-
+import {TooltipModule} from 'primeng/tooltip';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -63,6 +63,7 @@ export function createTranslateLoader(http: HttpClient) {
     DialogModule,
     OverlayPanelModule,
     TieredMenuModule,
+    TooltipModule,
     HomeModule,
     UsuarioModule,
     ArtistaModule,

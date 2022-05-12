@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { FileUpload } from 'primeng/fileupload';
 
 import { AppGlobals } from 'src/app/core/navbar/appGlobals';
 import { ErrorHandlerService } from 'src/app/services/errorHandler.service';
+import { GeralService } from 'src/app/services/geral.service';
 import { ArtistaService } from '../../artista/artista.service';
 import { EspacoService } from '../../espaco/espaco.service';
 import { EventoService } from '../evento.service';
@@ -26,17 +27,19 @@ export class EventoCadComponent implements OnInit {
   arttSelecionado: Array<any> = [];
   classificacoes: any = [];
   tipos: any = [];
-
+  editando = false;
   igmsEvento = [];
 
   constructor(
     private eventoService: EventoService,
     private router: Router,
+    private route: ActivatedRoute,
     private messageService: MessageService,
     private artistaService: ArtistaService,
     private espacoService: EspacoService,
     public error: ErrorHandlerService,
-    public appGlobals: AppGlobals
+    public appGlobals: AppGlobals,
+    public geralSvc: GeralService
   ) {
     this.classificacoes = [
       { nome: 'LIVRE PARA TODOS OS PÚBLICOS', code: 'livre', logo: 'assets/imgs/classificacao/l.png' },
@@ -46,17 +49,26 @@ export class EventoCadComponent implements OnInit {
       { nome: 'NÃO RECOMENDADO PARA MENORES DE 16 ANOS', code: '16', logo: 'assets/imgs/classificacao/16.png' },
       { nome: 'NÃO RECOMENDADO PARA MENORES DE 18 ANOS', code: '18', logo: 'assets/imgs/classificacao/18.png' },
     ];
-    this.tipos = [
-      { nome: 'Autoral', value: 'autoral' },
-      { nome: 'Instrumental', value: 'instrumental' },
-      { nome: 'Intérprete', value: 'interprete' },
-      { nome: 'Cover', value: 'cover' },
-    ];
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
+    const id = this.route.snapshot.params['id'];
+    if (id) {
+      this.editando = true;
+      this.carregarEvento(id);
+    }
+    this.buscarTipos('');
     this.buscarArtista('');
     this.buscarEspacos('');
+  }
+
+  carregarEvento(id) {
+    this.eventoService.listarEventoId(id)
+    .then(resp => {
+      console.log(resp);
+      this.evento = resp;
+    })
+    .catch(error => this.error.errorHandler(error));
   }
 
   addArtista() {
@@ -73,9 +85,11 @@ export class EventoCadComponent implements OnInit {
   }
 
   gravar() {
-    this.evento.id = '';
+    if (!this.editando) {
+      this.evento.id = '';
+      this.evento.usuarioCriador = this.appGlobals.usuario.id;
+    }
     this.evento.fotosEvento = this.igmsEvento;
-    this.evento.usuarioCriador = this.appGlobals.usuario.id;
 
     this.eventoService.gravar(this.evento)
       .then(resp => {
@@ -85,7 +99,9 @@ export class EventoCadComponent implements OnInit {
       .catch(error => this.error.errorHandler(error));
   }
 
-  buscarArtista($event) {
+  // BUSCAS //
+
+  buscarArtista(event) {
     this.artistaService.listarResumo()
       .then(art => {
         this.artistas = art;
@@ -100,6 +116,17 @@ export class EventoCadComponent implements OnInit {
       })
       .catch(err => this.error.errorHandler(err));
   }
+
+  buscarTipos(event) {
+    let filtro = event.query != undefined ? event.query : '';
+    this.geralSvc.listarTpsEvento(filtro)
+      .then(esp => {
+        this.tipos = esp;
+      })
+      .catch(err => this.error.errorHandler(err));
+  }
+
+  // UPLOAD //
 
   async uploadHandlerImgsEvt(imagens: any, uploader: FileUpload) {
     console.log(imagens.files);
