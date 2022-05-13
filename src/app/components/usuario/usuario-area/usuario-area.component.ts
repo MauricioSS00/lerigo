@@ -51,11 +51,22 @@ export class UsuarioAreaComponent implements OnInit {
   espacoTmp: any;
   espacoRel = [];
 
+  //tab artistas
+  artistasRel = [];
+  artistaSelTmp: any = [];
+  artistasCad = [];
+
+  //tab produtores
+  produtoresRel = [];
+  produtorTmp: any = [];
+  produtoresCad = [];
 
   // displays
   displayProdutor = false;
   displayArtista = false;
   displayRelEspaco = false;
+  displayRelArtista = false;
+  displayRelProd = false;
 
   constructor(
     private validacaoService: ValidacaoService,
@@ -84,7 +95,6 @@ export class UsuarioAreaComponent implements OnInit {
   async carregarUsuario() {
     const idUser = this.appGlobals.usuario.id;
     this.user = await this.userService.carregarUsuarioId(idUser);
-    console.log(this.user);
     this.user.tipo_pessoa = await this.user.tipo_pessoa == ('F' || 'cpf') ? 'cpf' : 'cnpj';
     this.endereco.localidade = this.user.cidade;
     this.endereco.uf = this.user.uf;
@@ -154,7 +164,7 @@ export class UsuarioAreaComponent implements OnInit {
   novoCad(tipo: String) {
     if (tipo === 'espaco') {
       this.router.navigate(['espaco-cad']);
-    } else if (tipo === 'atista') {
+    } else if (tipo === 'artista') {
       this.router.navigate(['usuario-cad']);
     } else if (tipo === 'produtor') {
       this.router.navigate(['usuario-cad']);
@@ -188,7 +198,6 @@ export class UsuarioAreaComponent implements OnInit {
       )
       .catch(error => {
         this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Falha ao buscar o CEP informado!' });
-        console.log("Erro:", error)
       });
   }
   async mudouUF() {
@@ -210,7 +219,6 @@ export class UsuarioAreaComponent implements OnInit {
   }
   async uploadHandlerImgs(imagens: any, uploader: FileUpload, tp: string) {
     for (const img of imagens.files) {
-      console.log(img);
       if (tp == 'a') {
         this.fotoArtista.push(await this.blobToBase64(img));
       } else if (tp == 'p') {
@@ -242,20 +250,19 @@ export class UsuarioAreaComponent implements OnInit {
   }
 
   carregarArtista() {
-    this.artistaSvc.listarArtistaEmail(this.user.email)
-      .then(rs => {
-        console.log(rs);
-      })
-      .catch(err => this.errorSvc.errorHandler(err));
+    this.artista = this.user?.artista;
+    this.displayArtista = true;
   }
 
-  carregarProdutor() {
-    this.produtorSvc.listarProdEmail(this.user.email)
-      .then(rs => {
-        console.log(rs);
-      })
-      .catch(err => this.errorSvc.errorHandler(err));
+  async carregarProdutor() {
+    this.produtor = await this.user?.produtor
+    this.displayProdutor = true;
   }
+
+  removeImg(pos: any) {
+    this.artista.fotos.splice(pos, 1);
+  }
+
 
   carregarEspacosRelacionados() {
     this.espacoSvc.listarEspacosrelacionados(this.user.id)
@@ -268,7 +275,7 @@ export class UsuarioAreaComponent implements OnInit {
   carregarArtistasRelacionados() {
     this.artistaSvc.listarRelacionados(this.user.id)
       .then(rs => {
-        console.log(rs);
+        this.artistasRel = rs;
       })
       .catch(err => this.errorSvc.errorHandler(err));
   }
@@ -276,7 +283,7 @@ export class UsuarioAreaComponent implements OnInit {
   carregarProdutoresRelacionados() {
     this.produtorSvc.listarRelacionados(this.user.id)
       .then(rs => {
-        console.log(rs);
+        this.produtoresRel = rs;
       })
       .catch(err => this.errorSvc.errorHandler(err));
   }
@@ -288,7 +295,6 @@ export class UsuarioAreaComponent implements OnInit {
 
   async carregarEventos() {
     this.eventosUser = await this.userService.carregarEventos(this.user.id);
-    console.log(this.eventosUser);
   }
   controlaTabs(tab) {
     this.tabIndex = tab.index;
@@ -301,9 +307,11 @@ export class UsuarioAreaComponent implements OnInit {
         break;
       case 2:
         this.carregarArtistasRelacionados();
+        this.carregarArtistas('');
         break;
       case 3:
         this.carregarProdutoresRelacionados();
+        this.carregarProdutores('');
         break;
       case 4:
         this.carregarEventos();
@@ -314,12 +322,13 @@ export class UsuarioAreaComponent implements OnInit {
     }
   }
 
-  atualizarSolic(solicitacao) {
-    this.geralSvc.alterarSolicitacoes(solicitacao)
-      .then(rs => {
-        console.log(rs);
-      })
-      .catch(er => console.log(er));
+  async atualizarSolic(solicitacao, aceite) {
+    let solic = {
+      idPermissao: solicitacao.id,
+      tipo: solicitacao.tipo,
+      status: aceite ? 'S' : 'R'
+    }
+    await this.geralSvc.alterarSolicitacoes(solic);
   }
 
   async relUserEspaco() {
@@ -338,11 +347,40 @@ export class UsuarioAreaComponent implements OnInit {
     this.displayRelEspaco = false;
   }
 
-  async carregarUsuarios(filtro: any) {
-    console.log(filtro.query);
-    this.usuariosCad = await this.userService.listarUsuarios(filtro.query);
+  async carregarUsuarios(event: any) {
+    let filtro = event.query != undefined ? event.query : '';
+    this.usuariosCad = await this.userService.listarUsuarios(filtro);
     this.usuariosCad = this.usuariosCad.filter(u => {
       return u.id != this.appGlobals.usuario.id;
     });
+  }
+
+  async carregarArtistas(event: any) {
+    let filtro = event.query != undefined ? event.query : '';
+    this.artistasCad = await this.artistaSvc.listarArtistas(filtro);
+    this.artistasCad = this.artistasCad.filter(u => {
+      return u.id != this.appGlobals.usuario.id;
+    });
+  }
+
+  async carregarProdutores(event: any) {
+    let filtro = event.query != undefined ? event.query : '';
+    this.produtoresCad = await this.produtorSvc.listar(filtro);
+    // this.produtoresCad = this.produtoresCad.filter(u => {
+    //   return u.id != this.appGlobals.usuario.id;
+    // });
+  }
+
+  async enviarSolicitacao(tipo: string) {
+    let solicitacao = {
+      artista: this.artistaSelTmp.id,
+      produtor: this.appGlobals.usuario.id,
+      solicitante: tipo
+    };
+    await this.geralSvc.enviarSolicitacao(solicitacao);
+    this.artistaSelTmp = [];
+    this.produtorTmp;
+    this.displayRelArtista = false;
+    this.displayRelProd = false;
   }
 }

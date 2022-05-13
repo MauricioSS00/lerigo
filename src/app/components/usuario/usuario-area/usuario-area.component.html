@@ -291,7 +291,7 @@
                                         <div class="p-col-6 p-lg-6 p-fluid">
                                             <button pButton type="button" label="Sou Produtor" icon="fas fa-user-tie"
                                                 iconPos="left" class="p-button-text p-button-text"
-                                                (click)="carregarProdutor"></button>
+                                                (click)="carregarProdutor()"></button>
                                         </div>
                                         <!-- [disabled]="formEspacoCad.invalid" -->
                                         <!-- <button pButton class="p-button-danger" style="margin-left: 5pt;" label="cancelar"></button> -->
@@ -342,7 +342,7 @@
                     </p-tabPanel>
                     <p-tabPanel header="Meus Artistas">
                         <div class="p-grid">
-                            <div class="p-col-11 p-lg-11 p-fluid">
+                            <div class="p-col-10 p-lg-10 p-fluid">
                                 <h3>Artistas</h3>
                             </div>
                             <div class="p-col-1 p-lg-1">
@@ -350,14 +350,34 @@
                                     class="p-button-rounded p-button-text" (click)="novoCad('artista')"
                                     style="color: #289ea0;"></button>
                             </div>
+                            <div class="p-col-1 p-lg-1">
+                                <button pButton pRipple type="button" icon="pi pi-search"
+                                    class="p-button-rounded p-button-text" (click)="displayRelArtista = true"
+                                    style="color: #289ea0;"></button>
+                            </div>
                         </div>
                         <div class="p-grid" *ngIf="this.tabIndex == 2">
-
+                            <p-table [value]="artistasRel">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th>Nome</th>
+                                        <th>Nome Fantasia</th>
+                                        <th>E-mail</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-espc>
+                                    <tr>
+                                        <td>{{espc.nome}}</td>
+                                        <td>{{espc.nome_social}}</td>
+                                        <td>{{espc.email}}</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
                         </div>
                     </p-tabPanel>
                     <p-tabPanel header="Meus Produtores">
                         <div class="p-grid">
-                            <div class="p-col-11 p-lg-11 p-fluid">
+                            <div class="p-col-10 p-lg-10 p-fluid">
                                 <h3>Produtores</h3>
                             </div>
                             <div class="p-col-1 p-lg-1">
@@ -365,9 +385,29 @@
                                     class="p-button-rounded p-button-text" (click)="novoCad('produtor')"
                                     style="color: #289ea0;"></button>
                             </div>
+                            <div class="p-col-1 p-lg-1">
+                                <button pButton pRipple type="button" icon="pi pi-search"
+                                    class="p-button-rounded p-button-text" (click)="displayRelProd = true"
+                                    style="color: #289ea0;"></button>
+                            </div>
                         </div>
                         <div class="p-grid" *ngIf="this.tabIndex == 3">
-
+                            <p-table [value]="produtoresRel">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th>Nome</th>
+                                        <th>Nome Fantasia</th>
+                                        <th>E-mail</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-espc>
+                                    <tr>
+                                        <td>{{espc.nome}}</td>
+                                        <td>{{espc.nome_social}}</td>
+                                        <td>{{espc.email}}</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
                         </div>
                     </p-tabPanel>
                     <p-tabPanel header="Meus Eventos">
@@ -429,15 +469,17 @@
                         <div class="p-grid" *ngIf="this.tabIndex == 5">
                             <div class="p-col-11 p-lg-11 p-fluid" *ngFor="let sol of solicitacoes">
                                 <p-card>
-                                    <p>Você recebeu uma solicitacoes</p>
+                                    <p>{{sol.msg}}</p>
                                     <ng-template pTemplate="footer">
                                         <div class="p-grid">
                                             <div class="p-col-6">
-                                                <p-button label="Aceitar" icon="pi pi-check"></p-button>
+                                                <p-button label="Aceitar" icon="pi pi-check"
+                                                    (click)="atualizarSolic(sol, true)"></p-button>
                                             </div>
                                             <div class="p-col-6">
                                                 <p-button label="Recusar" icon="pi pi-times"
-                                                    styleClass="p-button-secondary">
+                                                    styleClass="p-button-secondary"
+                                                    (click)="atualizarSolic(sol, false)">
                                                 </p-button>
                                             </div>
                                         </div>
@@ -525,6 +567,15 @@
                 chooseLabel="Adicionar" cancelLabel="Cancelar" #foto>
             </p-fileUpload>
         </div>
+        <div class="p-grid" *ngIf="artista.fotos.length > 1">
+            <label>Fotos</label>
+            <div class="p-col-2 p-fluid" *ngFor="let fts of artista.fotos; let pos=index;">
+                <div style="max-height: 150px;min-height: 150px;">
+                    <img [src]="fts.foto" />
+                </div>
+                <button class="p-button-danger" pButton label="Remover" (click)="removeImg(pos)"></button>
+            </div>
+        </div>
     </ng-template>
     <ng-template pTemplate="footer">
         <p-button icon="pi pi-save" (click)="gravarArtista()" label="Gravar" styleClass="p-button-text">
@@ -604,5 +655,53 @@
             (click)="relUserEspaco()"></button>
         <button pButton type="button" icon="pi pi-times-circle" label="Cancelar" (click)="displayRelEspaco = false"
             pTooltip="Relacionar Usuário" life="3000"></button>
+    </ng-template>
+</p-dialog>
+
+<!-- solicitar novos artistas -->
+<p-dialog header="{{ 'Buscar Artistas' }}" [(visible)]="displayRelArtista" [modal]="true" [draggable]="false"
+    [resizable]="false" [style]="{width: '80vw'}">
+    <ng-template pTemplate="body">
+        <div class="p-grid">
+            <div class="p-col-8 p-fluid">
+                <label>Artistas</label>
+                <p-autoComplete name="users" [suggestions]="artistasCad" [(ngModel)]="artistaSelTmp" [dropdown]="true"
+                    (completeMethod)="carregarArtistas($event)" field="nome_social" appendTo="body">
+                </p-autoComplete>
+            </div>
+            <div class="p-col-4 p-fluid">
+                <label>&nbsp;</label>
+                <button pButton type="button" icon="fa fa-check" iconPos="left" label="Enviar Solicitação"
+                    (click)="enviarSolicitacao('produtor')"></button>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <button pButton type="button" icon="pi pi-times-circle" label="Cancelar" (click)="displayRelArtista = false"
+            pTooltip="Cancelar Operação" life="3000"></button>
+    </ng-template>
+</p-dialog>
+
+<!-- solicitar novos produtores -->
+<p-dialog header="{{ 'Buscar Produtores' }}" [(visible)]="displayRelProd" [modal]="true" [draggable]="false"
+    [resizable]="false" [style]="{width: '80vw'}">
+    <ng-template pTemplate="body">
+        <div class="p-grid">
+            <div class="p-col-8 p-fluid">
+                <label>Produtores</label>
+                <p-autoComplete name="users" [suggestions]="produtoresCad" [(ngModel)]="produtorTmp" [dropdown]="true"
+                    (completeMethod)="carregarProdutores($event)" field="nome_social" appendTo="body">
+                </p-autoComplete>
+            </div>
+            <div class="p-col-4 p-fluid">
+                <label>&nbsp;</label>
+                <button pButton type="button" icon="fa fa-check" iconPos="left" label="Enviar Solicitação"
+                    (click)="enviarSolicitacao('artista')"></button>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <button pButton type="button" icon="pi pi-times-circle" label="Cancelar" (click)="displayRelProd = false"
+            pTooltip="Cancelar Operação" life="3000"></button>
     </ng-template>
 </p-dialog>

@@ -56,6 +56,7 @@ export class AppGlobals {
     return this.http.get<any>(`https://viacep.com.br/ws/${cepBusca}/json/`)
       .toPromise()
       .then(data => {
+        data.localidade = data.localidade.toUpperCase();
         return data;
       });
   }

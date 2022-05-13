@@ -33,7 +33,7 @@ export class GeralService {
     }
 
     listarTpsEvento(filtro) {
-        let op = { params: { filtro , status: 'A'} }
+        let op = { params: { filtro, status: 'A' } }
         return this.http.get<any>(`${this.urlTpEvento}`, op)
             .toPromise();
     }
@@ -41,6 +41,12 @@ export class GeralService {
     listarTpsEspaco(filtro) {
         let op = { params: { filtro, statu: 'A' } }
         return this.http.get<any>(`${this.urlTpEspaco}`, op)
+            .toPromise();
+    }
+
+    enviarSolicitacao(solicitacao) {
+        solicitacao = Object.assign({}, solicitacao);
+        return this.http.post<any>(`${this.urlSolic}solicitar/produtor/artista`, solicitacao)
             .toPromise();
     }
 }
