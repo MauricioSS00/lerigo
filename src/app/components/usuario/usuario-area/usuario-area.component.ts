@@ -261,7 +261,6 @@ export class UsuarioAreaComponent implements OnInit {
     this.espacoSvc.listarEspacosrelacionados(this.user.id)
       .then(rs => {
         this.espacoRel = rs;
-        console.log(this.espacoRel);
       })
       .catch(err => this.errorSvc.errorHandler(err));
   }

@@ -214,8 +214,8 @@
                             <label>Tipo</label>
                             <!-- <p-dropdown [options]="tipo" name="tipo" [(ngModel)]="espaco.tipo" optionLabel="name"
                                 optionValue="code" placeholder="Selecione um Tipo"></p-dropdown> -->
-                            <p-autoComplete name="tipo" [suggestions]="tipo" [(ngModel)]="espaco.tipo"
-                                [dropdown]="true" (completeMethod)="buscarTipos($event)" field="descricao">
+                            <p-autoComplete name="tipo" [suggestions]="tipo" [(ngModel)]="espaco.tipo" [dropdown]="true"
+                                (completeMethod)="buscarTipos($event)" field="descricao">
                             </p-autoComplete>
                         </div>
                     </div>
@@ -304,8 +304,19 @@
                 </div>
             </div>
             <div class="p-grid">
-                <div class="p-col-12 p-fluid">
+                <div class="p-col-12 p-fluid" *ngIf="edicao">
                     <h4>Fotos do Local</h4>
+                    <div class="p-grid">
+                        <div class="p-col-2 p-fluid" *ngFor="let fts of fotosEspaco; let pos=index;">
+                            <div style="max-height: 150px;min-height: 150px;">
+                                <img [src]="fts.foto" />
+                            </div>
+                            <button class="p-button-danger" pButton label="Remover" (click)="removeImg(pos)"></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-col-12 p-fluid">
+                    <h4>Upload de Fotos do Local</h4>
                     <p-fileUpload [customUpload]="true" accept="image/*" multiple="multiple"
                         (uploadHandler)="uploadHandlerImgsEvt($event, uploadPerfil)" name="fotosEspaco"
                         maxFileSize="1000000" chooseLabel="Adicionar" cancelLabel="Cancelar">

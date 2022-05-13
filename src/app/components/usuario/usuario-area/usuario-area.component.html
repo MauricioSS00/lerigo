@@ -329,10 +329,11 @@
                                         <td style="width: 20%;">
                                             <button pButton type="button" icon="pi pi-pencil"
                                                 (click)="editarCad('espaco', espc.id_espaco)" pTooltip="Editar Espaço"
-                                                life="3000"></button>
+                                                life="3000" [disabled]="espc.nivel != '1'"></button>
                                             <button pButton type="button" icon="pi pi-users"
-                                                (click)="displayRelEspaco = true; espacoTmp = espc.id" pTooltip="Relacionar Usuário"
-                                                life="3000"></button>
+                                                (click)="displayRelEspaco = true; espacoTmp = espc.id"
+                                                pTooltip="Relacionar Usuário" life="3000"
+                                                [disabled]="espc.nivel != '1'"></button>
                                         </td>
                                     </tr>
                                 </ng-template>
@@ -599,7 +600,8 @@
         </div>
     </ng-template>
     <ng-template pTemplate="footer">
-        <button pButton type="button" icon="fa fa-check" iconPos="left" label="Gravar" (click)="relUserEspaco()"></button>
+        <button pButton type="button" icon="fa fa-check" iconPos="left" label="Gravar"
+            (click)="relUserEspaco()"></button>
         <button pButton type="button" icon="pi pi-times-circle" label="Cancelar" (click)="displayRelEspaco = false"
             pTooltip="Relacionar Usuário" life="3000"></button>
     </ng-template>

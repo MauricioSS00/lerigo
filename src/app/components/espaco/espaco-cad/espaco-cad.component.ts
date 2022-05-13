@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { MessageService } from 'primeng/api';
 import { FileUpload } from 'primeng/fileupload';
+import * as moment from 'moment';
 
 import { AppGlobals } from 'src/app/core/navbar/appGlobals';
 import { ErrorHandlerService } from 'src/app/services/errorHandler.service';
@@ -78,12 +79,11 @@ export class EspacoCadComponent implements OnInit {
 
   async carregarEspaco(id: number) {
     this.espaco = await this.espacoService.listarEspacoID(id);
-    this.espaco.abertura = this.espaco.data_abertura;
+    this.espaco.abertura = moment(this.espaco.data_abertura).format("DD/MM/YYYY");
     this.espaco.fone = this.espaco.telefone;
     this.espaco.space_whats = this.espaco.whatsapp;
-    this.horario = this.espaco.turnoEspaco;
     this.espaco.lotMax = this.espaco.lotacao_maxima;
-
+    this.fotosEspaco = this.espaco.fotosEspaco;
     this.endereco.uf = this.espaco.uf;
     this.mudouUF();
     this.endereco.cep = this.espaco.cep;
@@ -92,6 +92,10 @@ export class EspacoCadComponent implements OnInit {
     this.endereco.cidade = this.espaco.cidade.toUpperCase();
     this.endereco.complemento = this.espaco.complemento;
     this.endereco.numero = this.espaco.numero_endereco;
+
+    if (this.espaco.horario.length > 0) {
+      this.horario = this.espaco.turnoEspaco;
+    }
 
   }
 
@@ -115,7 +119,7 @@ export class EspacoCadComponent implements OnInit {
       .then(data => {
         if (!data.erro) {
           this.endereco = data;
-          this.endereco.localidade.toUpperCase();
+          this.endereco.localidade = this.endereco.localidade.toUpperCase();
           this.mudouUF();
         } else {
           this.messageService.add({ severity: 'warn', summary: 'Erro', detail: 'CEP não encontrato, verique os dados novamente!' });
@@ -139,16 +143,22 @@ export class EspacoCadComponent implements OnInit {
     } else {
       this.endereco.localidade = "";
     }
+    console.log(this.endereco);
   }
 
   buscarTipos(event) {
-    console.log(event);
+
     let filtro = event.query != undefined ? event.query : '';
     this.geralSvc.listarTpsEspaco(filtro)
       .then(esp => {
         this.tipo = esp;
       })
       .catch(err => this.error.errorHandler(err));
+  }
+
+  removeImg(pos: any) {
+    this.fotosEspaco.splice(pos, 1);
+
   }
 
   async uploadHandlerImgsEvt(imagens: any, uploader: FileUpload) {
