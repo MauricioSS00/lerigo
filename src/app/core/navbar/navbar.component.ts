@@ -56,8 +56,7 @@ export class NavbarComponent implements OnInit {
         routerLink: ['about']
       },
       {
-        label: 'BLOG',
-        routerLink: ['blog-list']
+        label: 'BLOG'
       },
       {
         label: 'CONTATO',
@@ -77,7 +76,7 @@ export class NavbarComponent implements OnInit {
       {
         label: 'Sair',
         icon: 'pi pi-fw pi-power-off',
-        command: () => this.minhaArea()
+        command: () => this.logout()
       }
     ];
 
@@ -89,8 +88,13 @@ export class NavbarComponent implements OnInit {
       }
     ]
   }
-  minhaArea() {
-    console.log("Pediu para sair");
+  logout() {
+    this.authService.logout()
+    .then( () => {
+      this.mostrarLogin = true;
+      this.appGlobals.usuario = [];
+      this.router.navigate(['/home']);
+    });
   }
 
   fazerLogin() {

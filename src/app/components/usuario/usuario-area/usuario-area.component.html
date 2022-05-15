@@ -22,7 +22,7 @@
                 <div class="p-col-12 p-fluid">
                     <label>E-mail</label>
                     <input pInputText type="text" name="user_email" [(ngModel)]="user.email" #email="ngModel"
-                        [disabled]="disabledConta" required email />
+                        [disabled]="true" required email />
                     <small id="username-help" class="p-error" *ngIf="email.hasError('email')">
                         Informe um e-mail válido!</small>
                 </div>
@@ -45,8 +45,8 @@
                             </div>
                             <div class="p-col-1 p-lg-1" style="margin-top: 0.5rem;">
                                 <button pButton pRipple type="button"
-                                    [icon]="disabledConta ? 'pi pi-user-edit' : 'pi pi-save'"
-                                    class="p-button-rounded p-button-text" (click)="changeConta()"
+                                    icon="pi pi-save"
+                                    class="p-button-rounded p-button-text" (click)="atualizarUsuario()"
                                     style="color: #289ea0;"></button>
                             </div>
                         </div>
@@ -567,13 +567,13 @@
                 chooseLabel="Adicionar" cancelLabel="Cancelar" #foto>
             </p-fileUpload>
         </div>
-        <div class="p-grid" *ngIf="artista.fotos.length > 1">
+        <div class="p-grid" *ngIf="artista?.fotos">
             <label>Fotos</label>
             <div class="p-col-2 p-fluid" *ngFor="let fts of artista.fotos; let pos=index;">
                 <div style="max-height: 150px;min-height: 150px;">
                     <img [src]="fts.foto" />
                 </div>
-                <button class="p-button-danger" pButton label="Remover" (click)="removeImg(pos)"></button>
+                <button class="p-button-danger" pButton label="Remover" (click)="removeImg(pos, 'artista')"></button>
             </div>
         </div>
     </ng-template>
@@ -590,25 +590,25 @@
         <div class="p-grid">
             <div class="p-sm-12 p-md-4 p-fluid">
                 <label>Instagram</label>
-                <input pInputText type="text" name="instagram" [(ngModel)]="produtor.instagram" #instagram="ngModel" />
+                <input pInputText type="text" name="pInstagram" [(ngModel)]="produtor.instagram" #instagram="ngModel" />
             </div>
             <div class="p-sm-12 p-md-4 p-fluid">
                 <label>Facebook</label>
-                <input pInputText type="text" name="facebook" [(ngModel)]="produtor.facebook" #facebook="ngModel" />
+                <input pInputText type="text" name="pFacebook" [(ngModel)]="produtor.facebook" #facebook="ngModel" />
             </div>
             <div class="p-sm-12 p-md-4 p-fluid">
                 <label>Twitter</label>
-                <input pInputText type="text" name="twitter" [(ngModel)]="produtor.twitter" #twitter="ngModel" />
+                <input pInputText type="text" name="pTwitter" [(ngModel)]="produtor.twitter" #twitter="ngModel" />
             </div>
             <div class="p-sm-12 p-fluid">
                 <label>Site</label>
-                <input pInputText type="text" name="site" [(ngModel)]="produtor.site" #site="ngModel" />
+                <input pInputText type="text" name="pSite" [(ngModel)]="produtor.site" #site="ngModel" />
             </div>
         </div>
         <div class="p-grid">
             <div class="p-col-12 p-fluid">
                 <label>Breve descrição</label>
-                <textarea pInputTextarea name="descricao" [(ngModel)]="produtor.descricao" #descricao="ngModel"
+                <textarea pInputTextarea name="pDescricao" [(ngModel)]="produtor.descricao" #descricao="ngModel"
                     class="ng-required ng-dirty" maxlength="200" required></textarea>
             </div>
         </div>
@@ -618,6 +618,15 @@
                 (uploadHandler)="uploadHandlerImgs($event, uploadPerfil, 'p')" name="fotoProdutor" maxFileSize="1000000"
                 chooseLabel="Adicionar" cancelLabel="Cancelar" #fotoProducoes>
             </p-fileUpload>
+        </div>
+        <div class="p-grid" *ngIf="produtor?.fotos">
+            <label>Fotos</label>
+            <div class="p-col-2 p-fluid" *ngFor="let fts of produtor.fotos; let pos=index;">
+                <div style="max-height: 150px;min-height: 150px;">
+                    <img [src]="fts.foto" />
+                </div>
+                <button class="p-button-danger" pButton label="Remover" (click)="removeImg(pos, 'produtor')"></button>
+            </div>
         </div>
     </ng-template>
     <ng-template pTemplate="footer">

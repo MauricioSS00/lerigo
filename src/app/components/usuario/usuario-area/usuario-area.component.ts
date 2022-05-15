@@ -96,6 +96,7 @@ export class UsuarioAreaComponent implements OnInit {
     const idUser = this.appGlobals.usuario.id;
     this.user = await this.userService.carregarUsuarioId(idUser);
     this.user.tipo_pessoa = await this.user.tipo_pessoa == ('F' || 'cpf') ? 'cpf' : 'cnpj';
+    await this.tipoDocumento();
     this.endereco.localidade = this.user.cidade;
     this.endereco.uf = this.user.uf;
     this.endereco.cep = this.user.cep;
@@ -104,7 +105,6 @@ export class UsuarioAreaComponent implements OnInit {
     this.endereco.numero = this.user.numero;
     this.endereco.complmento = this.user.complmento;
     this.mudouUF();
-    await this.tipoDocumento();
   }
 
   carregarBemVindo() {
@@ -123,12 +123,10 @@ export class UsuarioAreaComponent implements OnInit {
 
   changeConta() {
     if (!this.disabledConta) {
-      console.log('Bloquia os campos');
       this.gravarAlterConta();
       this.disabledConta = true;
     } else {
       this.disabledConta = false;
-      console.log('Libera os campos');
     }
   }
 
@@ -250,17 +248,25 @@ export class UsuarioAreaComponent implements OnInit {
   }
 
   carregarArtista() {
-    this.artista = this.user?.artista;
+    if (this.user?.artista) {
+      this.artista = this.user?.artista;
+    }
     this.displayArtista = true;
   }
 
   async carregarProdutor() {
-    this.produtor = await this.user?.produtor
+    if (this.user?.produtor) {
+      this.produtor = await this.user?.produtor
+    }
     this.displayProdutor = true;
   }
 
-  removeImg(pos: any) {
-    this.artista.fotos.splice(pos, 1);
+  removeImg(pos: any, tp: string) {
+    if (tp == "artista") {
+      this.artista.fotos.splice(pos, 1);
+    } else if (tp == "produtor") {
+      this.produtor.fotos.splice(pos,1);
+    }
   }
 
 
@@ -382,5 +388,16 @@ export class UsuarioAreaComponent implements OnInit {
     this.produtorTmp;
     this.displayRelArtista = false;
     this.displayRelProd = false;
+  }
+
+  atualizarUsuario() {
+    this.user.endereco = this.endereco;
+    console.log(Object.assign({}, this.user));
+    this.userService.gravar(this.user)
+      .then(res => {
+        this.messageService.add({ severity: 'sucess', summary: 'Sucess', detail: 'Cadastrado Atualizado!' });
+        this.userService.usuario = this.user;
+        this.router.navigate(['usuario-area']);
+      });
   }
 }

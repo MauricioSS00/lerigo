@@ -14,6 +14,7 @@ export interface DadosAcesso {
 export class AuthService {
 
   urlLogin = `${environment.urlApi}login`;
+  urlLogout = `${environment.urlApi}logout`;
   public usuarioLogado = false;
 
   constructor(
@@ -44,5 +45,6 @@ export class AuthService {
   logout() {
     this.usuarioLogado = false;
     this.tokenSvc.revoke();
+    return this.http.get<any>(this.urlLogout).toPromise();
   }
 }
