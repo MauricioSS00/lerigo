@@ -38,10 +38,7 @@ export class EventoListComponent implements OnInit {
   }
 
   async listarEventos() {
-    let dataIni = moment().format();
-    let dataFim = moment().add(30, 'y').format();
-
-    await this.eventoService.listarEventos(dataIni, dataFim)
+    await this.eventoService.listarEventos('', '')
       .then(ev => {
         this.eventos = ev;
       })
