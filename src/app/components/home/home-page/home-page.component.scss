@@ -5,10 +5,15 @@
   background-color: #289ea0;
 }
 
+.home {
+  max-width: 100%;
+}
+
 @media screen and (max-width: 991px) {
   .home {
-    width: 100%;
+    max-width: 90%;
     display: block;
+    margin: 5px auto 0 auto;
   }
 }
 .center {
@@ -43,6 +48,7 @@ a {
   background: #3E4042 0% 0% no-repeat padding-box;
   opacity: 1;
   color: #fff;
+  text-align: justify;
 }
 
 .card-vazio{
@@ -51,4 +57,26 @@ a {
   background-color: #fff;
   color: #000;
   padding: 10pt 20pt;
+}
+@media screen and (max-width: 1200px) {
+  #saibaMais {
+    padding-left: 8px;
+  }
+}
+
+#imgRodapa {
+  max-width: 90%;
+  display: block;
+  margin: 0 auto 0 auto;
+}
+
+
+#cardRodapa {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#cardImgRodape {
+  padding: 2rem;
 }

@@ -21,7 +21,8 @@
         <p-carousel [value]="eventos" [numVisible]="2" [numScroll]="1" [responsiveOptions]="responsiveOptions">
           <ng-template let-car pTemplate="item">
             <div class="p-mb-3" (click)="linkEvento()">
-              <img *ngIf="car.imagem_perfil" [src]="car.imagem_perfil" class="product-image" style="max-height: 300px;" />
+              <img *ngIf="car.imagem_perfil" [src]="car.imagem_perfil" class="product-image"
+                style="max-height: 300px;" />
               <div *ngIf="!car.imagem_perfil" class="card-vazio">
                 <h3>
                   {{car.nome}}
@@ -41,72 +42,76 @@
   </div>
 </div>
 <div class="container">
-  <!-- Bloco 4 -->
   <div id="saibaMais">
     <div class="top"></div>
-    <h1>LÉRIGO</h1>
+    <h1 style="margin-bottom:0">LÉRIGO</h1>
     <div class="p-grid">
       <div class="p-col-12 p-lg-6">
         <div>
-          <p>Precisa de um artista? Quer divulgar seu evento? Quer encontrar um produtor para fazer seu
-            evento? Este é o lugar certo!</p>
-          <p>Não deixe para depois, crie seu perfil no lérigo e ajudaremos você a ter Sucesso no seu
-            evento.</p>
-          <h3>Cadastro Fácil</h3>
-          <form #formUserCad="ngForm" autocomplete="off" (ngSubmit)="gravar(formUserCad)">
-            <div class="p-grid">
-              <div class="p-col-12 p-fluid">
-                <input pInputText type="text" name="user_nome_civ" [(ngModel)]="user.user_nome_civ" #nome="ngModel"
-                  placeholder="Nome Completo" required minlength="5" />
-                <small id="username-help" class="p-error" *ngIf="nome.hasError('required') && nome.dirty">
-                  *Campo obrigatório</small>
-                <small id="username-help" class="p-error" *ngIf="nome.hasError('minlength')">
-                  Informe seu nome completo!</small>
-                <!-- <p-message severity="error" text="Field is required" *ngIf="nome.hasError('required') && nome.dirty"></p-message> -->
-              </div>
-              <div class="p-col-12 p-fluid">
-                <input pInputText type="text" name="user_soc_nome" [(ngModel)]="user.user_soc_nome" #nick="ngModel"
-                  placeholder="Nome Fantasia" required minlength="5" />
-                <small id="username-help" class="p-error" *ngIf="nick.hasError('required') && nick.dirty">
-                  *Campo obrigatório</small>
-                <small id="username-help" class="p-error" *ngIf="nick.hasError('minlength')">
-                  Informe seu nome completo!</small>
-                <!-- <p-message severity="error" text="Field is required" *ngIf="nome.hasError('required') && nome.dirty"></p-message> -->
-              </div>
-            </div>
-            <div class="p-grid">
-              <div class="p-col-12 p-fluid">
-                <input pInputText type="text" name="user_email" [(ngModel)]="user.user_email" #email="ngModel"
-                  placeholder="E-mail" required email />
-                <small id="username-help" class="p-error" *ngIf="email.hasError('required') && email.dirty">
-                  *Campo obrigatório</small>
-                <small id="username-help" class="p-error" *ngIf="email.hasError('email')">
-                  Informe um e-mail válido!</small>
-              </div>
-            </div>
-            <div class="p-grid">
-              <div class="p-col-12 p-fluid">
-                <input pInputText type="password" name="user_password" [(ngModel)]="user.user_password" #senha="ngModel"
-                  placeholder="Senha" required />
-                <small id="username-help" class="p-error" *ngIf="senha.hasError('required') && senha.dirty">
-                  *Campo obrigatório</small>
-              </div>
-            </div>
-            <div>
-              <button class="button" pButton type="submit" label="Cadastrar já" icon="pi pi-chevron-circle-right"
-                iconPos="right" [disabled]="formUserCad.invalid"></button>
-            </div>
-          </form>
+          <p>Procurando um evento em sua cidade? <br>
+            Quer saber onde e quando seu artista preferido vai se apresentar? <br>
+            Pretende divulgar um evento para mais pessoas?
+            <br><br>
+            Este é o lugar certo!
+            <br><br>
+          </p>
+          <p>Não deixe para depois, crie seu perfil no lérigo! que ajudaremos você a saber o que está acontecendo em sua
+            cidade e a ter sucesso em seu evento.</p>
+          <!--Voltar form aqui-->
         </div>
       </div>
       <div class="p-col-12 p-lg-6">
-        <video style="width: 100%;" controls="controls" autoplay="autoplay">
+        <!-- <video style="width: 100%;" controls="controls" autoplay="autoplay">
           <source
             src="https://firebasestorage.googleapis.com/v0/b/appfilmes-90d94.appspot.com/o/video.mp4?alt=media&token=2a26c14c-3a4a-4d5c-8e72-8aa6f169b0f9"
             type="video/mp4" />
-          <!--Suportado em IE9, Chrome 6 e Safari 5 -->
           O seu navegador não suporta a tag vídeo
-        </video>
+        </video> -->
+        <h3>Cadastro Fácil</h3>
+        <form #formUserCad="ngForm" autocomplete="off" (ngSubmit)="gravar(formUserCad)" class="form">
+          <div class="p-grid">
+            <div class="p-col-12 p-fluid">
+              <input pInputText type="text" name="user_nome_civ" [(ngModel)]="user.user_nome_civ" #nome="ngModel"
+                placeholder="Nome Completo" required minlength="5" />
+              <small id="username-help" class="p-error" *ngIf="nome.hasError('required') && nome.dirty">
+                *Campo obrigatório</small>
+              <small id="username-help" class="p-error" *ngIf="nome.hasError('minlength')">
+                Informe seu nome completo!</small>
+              <!-- <p-message severity="error" text="Field is required" *ngIf="nome.hasError('required') && nome.dirty"></p-message> -->
+            </div>
+            <div class="p-col-12 p-fluid">
+              <input pInputText type="text" name="user_soc_nome" [(ngModel)]="user.user_soc_nome" #nick="ngModel"
+                placeholder="Nome Fantasia" required minlength="5" />
+              <small id="username-help" class="p-error" *ngIf="nick.hasError('required') && nick.dirty">
+                *Campo obrigatório</small>
+              <small id="username-help" class="p-error" *ngIf="nick.hasError('minlength')">
+                Informe seu nome completo!</small>
+              <!-- <p-message severity="error" text="Field is required" *ngIf="nome.hasError('required') && nome.dirty"></p-message> -->
+            </div>
+          </div>
+          <div class="p-grid">
+            <div class="p-col-12 p-fluid">
+              <input pInputText type="text" name="user_email" [(ngModel)]="user.user_email" #email="ngModel"
+                placeholder="E-mail" required email />
+              <small id="username-help" class="p-error" *ngIf="email.hasError('required') && email.dirty">
+                *Campo obrigatório</small>
+              <small id="username-help" class="p-error" *ngIf="email.hasError('email')">
+                Informe um e-mail válido!</small>
+            </div>
+          </div>
+          <div class="p-grid">
+            <div class="p-col-12 p-fluid">
+              <input pInputText type="password" name="user_password" [(ngModel)]="user.user_password" #senha="ngModel"
+                placeholder="Senha" required />
+              <small id="username-help" class="p-error" *ngIf="senha.hasError('required') && senha.dirty">
+                *Campo obrigatório</small>
+            </div>
+          </div>
+          <div>
+            <button class="button" pButton type="submit" label="Cadastrar já" icon="pi pi-chevron-circle-right"
+              iconPos="right" [disabled]="formUserCad.invalid"></button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -115,43 +120,39 @@
 <div class="rodape">
   <div class="container">
     <div class="p-grid">
-      <div class="p-col-12 p-lg-4" style="padding:4rem 0 0 0;">
-        <img src="./assets/imgs/logoB.png">
+      <div class="p-col-8 p-md-4" id="cardImgRodape">
+        <img src="./assets/imgs/logoB.png" id="imgRodapa">
         <p>
           Uma autêntica e inovadora plataforma de produção cultural.</p>
         <p>Feita nos mínimos detalhes ficando o fácil acesso por produtores, artistas e agentes culturais.</p>
         <div class="p-col-12" style="text-align: center;">
-          <a href="https://www.instagram.com/"><i class="fab fa-instagram button2"
+          <a href="https://www.instagram.com/lerigo.guia" target="_blank"><i class="fab fa-instagram button2"
               [style]="{'font-size': '1.5rem'}"></i></a>
-          <a href="https://www.facebook.com/"><i class="pi pi-facebook button2"
-              [style]="{'font-size': '1.5rem', 'padding-left': '20pt'}"></i></a>
-          <a href="https://www.tiktok.com/"><i class="fab fa-tiktok button2"
-              [style]="{'font-size': '1.5rem', 'padding-left': '20pt'}"></i></a>
-          <a href="https://www.youtube.com/"><i class="pi pi-youtube button2"
+          <a href="https://www.facebook.com/lerigoguia" target="_blank"><i class="pi pi-facebook button2"
               [style]="{'font-size': '1.5rem', 'padding-left': '20pt'}"></i></a>
         </div>
       </div>
-      <div class="p-col-12 p-lg-4" style="padding: 6rem">
+      <div class="p-col-4 p-md-4" id="cardRodapa">
+      <div>
         <h3>ENTRE EM CONTATO</h3>
         <div class="p-text-normal">
-          <i class="fab fa-whatsapp button2"></i> (99) 99999-9999
+          <i class="fab fa-whatsapp button2"></i> (49) 98825-2655
         </div>
         <br>
         <div class="p-text-normal">
-          <i class="pi pi-envelope button2"></i> email@email.com
+          <i class="pi pi-envelope button2"></i> contato@lerigo.art.br
         </div>
+      </div>
         <!-- <div style="margin-top: 20pt">
           <button class="button" pButton type="submit" label="Envie uma mensagem" icon="pi pi-chevron-circle-right"
             iconPos="right"></button>
         </div> -->
 
       </div>
-      <div class="p-col-12 p-lg-4" style="padding: 6rem">
-        <h3>NOSSOS SERVIÇOS</h3>
-        <p>Produção de Eventos</p>
-        <p>Material de Divulgação</p>
-        <p>Curadoria</p>
-        <p>Consultoria</p>
+      <div class="p-col-12 p-md-4" id="cardRodapa">
+        <div>
+          <img src="./assets/imgs/ALDIRBLANK.png" id="imgRodapa">
+        </div>
       </div>
     </div>
   </div>
